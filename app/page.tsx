@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,6 +23,7 @@ ChartJS.register(
 
 const options: any = {
   responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: {
       position: 'bottom' as const,
@@ -45,21 +46,21 @@ const labels = dataset1.map((item: any) => item.name)
 
 export default function Home() {
 
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'yesterday',
-        data: labels.map((nomen: string) => dataset1.filter((item: any) => { return item.name === nomen})[0].oldScore),
-        backgroundColor: 'rgba(255, 99, 132, 0.5)'
-      },
-      {
-        label: 'today',
-        data: labels.map((nomen: string) => dataset1.filter((item: any) => { return item.name === nomen})[0].score),
-        backgroundColor: 'rgba(53, 162, 235, 0.5)'
-      }
-    ]
-  }
+  // const data = {
+  //   labels,
+  //   datasets: [
+  //     {
+  //       label: 'yesterday',
+  //       data: labels.map((nomen: string) => dataset1.filter((item: any) => { return item.name === nomen})[0].oldScore),
+  //       backgroundColor: 'rgba(255, 99, 132, 0.5)'
+  //     },
+  //     {
+  //       label: 'today',
+  //       data: labels.map((nomen: string) => dataset1.filter((item: any) => { return item.name === nomen})[0].score),
+  //       backgroundColor: 'rgba(53, 162, 235, 0.5)'
+  //     }
+  //   ]
+  // }
 
   const data2 = {
     labels,
@@ -86,10 +87,13 @@ export default function Home() {
   let dataOption = data1
 
   const chartRef: any = useRef<ChartJS>(null)
+  const chart: any = chartRef.current
 
+  // useEffect(chartRef.resize('100vw', '100vh'))
+  
+  
 
   const onClick = (event: any) => {
-    const chart: any = chartRef.current
     // console.log(getElementsAtEvent(chart, event))
 
     // if (dataOption === data1) {
@@ -112,7 +116,9 @@ export default function Home() {
 
   return (
     <main>
-      <Bar ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onMouseUp={onMouseUp} onTouchStart={onClick} onTouchEnd={onMouseUp} />
+      <div style={{ height: '100vh', width: '100vw' }}>
+        <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onMouseUp={onMouseUp} onTouchStart={onClick} onTouchEnd={onMouseUp} />
+      </div>
     </main>
   )
 }
