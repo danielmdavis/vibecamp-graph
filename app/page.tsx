@@ -24,6 +24,7 @@ ChartJS.register(
 const options: any = {
   responsive: true,
   maintainAspectRatio: false,
+  events: [], // hides tooltip
   plugins: {
     legend: {
       position: 'bottom' as const,
