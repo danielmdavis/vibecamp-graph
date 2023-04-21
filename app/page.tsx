@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useEffect } from 'react'
+import React, { useRef } from 'react'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -87,13 +87,10 @@ export default function Home() {
   let dataOption = data1
 
   const chartRef: any = useRef<ChartJS>(null)
-  const chart: any = chartRef.current
 
-  // useEffect(chartRef.resize('100vw', '100vh'))
-  
-  
 
   const onClick = (event: any) => {
+    const chart: any = chartRef.current
     // console.log(getElementsAtEvent(chart, event))
 
     // if (dataOption === data1) {
