@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Doug the Slug",
+        "score": 77,
+        "oldScore": 44
+    },
+    {
+        "name": "John the Baptist",
+        "score": 42,
+        "oldScore": 50
+    },
+    {
+        "name": "Napoleon Bonaparte",
+        "score": 71,
+        "oldScore": 60
+    },
+    {
+        "name": "David Lynch",
+        "score": 67,
+        "oldScore": 60
+    },
+    {
+        "name": "Human Centipede",
+        "score": 94,
+        "oldScore": 99
+    }
+]
