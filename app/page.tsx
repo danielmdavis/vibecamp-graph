@@ -7,7 +7,7 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend,
+  Legend
 } from 'chart.js'
 import { Bar, getElementsAtEvent } from 'react-chartjs-2'
 
@@ -25,15 +25,53 @@ const options: any = {
   responsive: true,
   maintainAspectRatio: false,
   events: [], // hides tooltip
+  indexAxis: 'y',
+  animations: {
+    tension: {
+      duration: 1000,
+      easing: 'linear',
+      from: 1,
+      to: 0,
+      loop: true
+    }
+  },
+  scales: {
+    y: {
+      ticks: {
+        font: {
+          family: 'Ultra'
+        },
+        color: 'rgb(46,36,37)' //black
+      },
+      grid: {
+        color: 'rgb(75,182,203)' //blue2
+      },
+    },
+    x: {
+      ticks: {
+        display: false
+      },
+      grid: {
+        color: 'rgb(75,182,203)' //blue2
+      }
+    }
+  },
   plugins: {
     legend: {
       position: 'bottom' as const,
+      labels: {
+        color: 'rgb(230,227,120)', //yellow
+        font: {
+          family: 'Ultra'
+        }, 
+      }
     },
-    title: {
-      display: true,
-      text: 'Most Desired',
-      position: 'bottom'
-    }
+    
+    // title: {
+    //   display: true,
+    //   text: 'Most Desired',
+    //   position: 'bottom'
+    // }
   }
 }
 
@@ -63,59 +101,75 @@ export default function Home() {
   //   ]
   // }
 
-  const data2 = {
+  const dataOld = {
     labels,
     datasets: [
       {
         label: 'yesterday',
         data: labels.map((nomen: string) => dataset1.filter((item: any) => { return item.name === nomen})[0].oldScore),
-        backgroundColor: 'rgba(255, 99, 132, 0.5)'
+        pointStyle: 'rectRounded',
+        backgroundColor: 'rgb(239,103,69)', // orange
+        borderWidth: 1.25,
+        borderColor: 'rgb(75,182,203)' //blue2
       }
     ]
   }
 
-  const data1 = {
+  const dataNew = {
     labels,
     datasets: [
       {
         label: 'today',
+        color: 'yellow',
         data: labels.map((nomen: string) => dataset1.filter((item: any) => { return item.name === nomen})[0].score),
-        backgroundColor: 'rgba(53, 162, 235, 0.5)'
+        pointStyle: 'rectRounded',
+        backgroundColor: 'rgb(233,102,170)', // pink
+        borderWidth: 1.25,
+        borderColor: 'rgb(75,182,203)' //blue2
       }
     ]
   }
 
-  let dataOption = data1
+  const dataOldArr = labels.map((nomen: string) => dataset1.filter((item: any) => { return item.name === nomen})[0].oldScore)
+  const dataNewArr = labels.map((nomen: string) => dataset1.filter((item: any) => { return item.name === nomen})[0].score)
 
+  const adjustData = (updateData: any, prevData: any, chart: any) => {
+    
+    for (let i = 0; i < chart.data.datasets[0].data.length; i += 1) {
+      let diff = updateData[i] - prevData[i]
+      chart.data.datasets[0].data[i] += diff
+      console.log(diff, chart.data.datasets[0].data[i])
+    }
+
+  }
+  
+  let dataOption: any = dataNew
+  
   const chartRef: any = useRef<ChartJS>(null)
-
-
+  
+  
   const onClick = (event: any) => {
     const chart: any = chartRef.current
-    // console.log(getElementsAtEvent(chart, event))
-
-    // if (dataOption === data1) {
-    //   dataOption = data2
-    // } else {
-    //   dataOption = data1
-    // }
-    dataOption = data2
-    chart.data = dataOption
-    chart.update('resize')
+    adjustData(dataOldArr, dataNewArr, chart)
+    chart.data.datasets[0].backgroundColor = 'rgb(239,103,69)' // orange
+    chart.clear()
+    chart.update()
   }
-
-  const onMouseUp = (event: any) => {
+  
+  const onDeclick = (event: any) => {
     const chart: any = chartRef.current
-    dataOption = data1
-    chart.data = dataOption
-    chart.update('resize')
-
+    adjustData(dataNewArr, dataOldArr, chart)
+    chart.data.datasets[0].backgroundColor = 'rgb(233,102,170)' // pink
+    chart.clear()
+    chart.update()
   }
+
+
 
   return (
     <main>
       <div style={{ height: '100vh', width: '100vw' }}>
-        <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onMouseUp={onMouseUp} onTouchStart={onClick} onTouchEnd={onMouseUp} />
+        <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onMouseUp={onDeclick} onTouchStart={onClick} onTouchEnd={onDeclick} />
       </div>
     </main>
   )

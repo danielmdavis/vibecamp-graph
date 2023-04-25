@@ -1,9 +1,22 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Ultra&display=swap');
+
+
+
 :root {
+  --blue1: rgb(16,84,164);
+  --blue2: rgb(75,182,203);
+  --orange: rgb(239,103,69);
+  --pink: rgb(233,102,170);
+  --yellow: rgb(230,227,120);
+  --black: rgb(46,36,37);
 }
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  background-color: var(--blue1);
+  color: var(--black) !important;
 }
 
 html,
@@ -17,6 +30,6 @@ body {
 }
 
 .bar {
-  
+
 }
 
