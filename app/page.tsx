@@ -26,21 +26,15 @@ const options: any = {
   maintainAspectRatio: false,
   events: [], // hides tooltip
   indexAxis: 'y',
-  animations: {
-    tension: {
-      duration: 1000,
-      easing: 'linear',
-      from: 1,
-      to: 0,
-      loop: true
-    }
-  },
   scales: {
     y: {
       ticks: {
         font: {
-          family: 'Ultra'
+          family: 'Ultra',
+          size: 9
         },
+        maxRotation: 45,
+        minRotation: 45,
         color: 'rgb(46,36,37)' //black
       },
       grid: {
@@ -66,6 +60,13 @@ const options: any = {
         }, 
       }
     },
+    beforeInit: (chart: any) => {
+        chart.data.labels.forEach((e: any, i: any, a: any) => {
+          if (/\n/.test(e)) {
+              a[i] = e.split(/\n/);
+          }
+        });
+    }
     
     // title: {
     //   display: true,
