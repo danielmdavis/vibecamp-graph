@@ -60,7 +60,8 @@ const options: any = {
     x: {
       max: 100,
       ticks: {
-        display: false
+        display: false,
+        beginAtZero: true
       },
       grid: {
         color: colors.blue2
