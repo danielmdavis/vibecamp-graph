@@ -1,27 +1,58 @@
 [
     {
         "name": "Doug\n the Slug",
-        "score": 77,
-        "oldScore": 44
+        "current": 77,
+        "initial": 44,
+        "history": [
+            44,
+            39,
+            43,
+            56
+        ]
     },
     {
         "name": "John\n the Baptist",
-        "score": 42,
-        "oldScore": 50
+        "current": 42,
+        "initial": 50,
+        "history": [
+            50,
+            48,
+            40,
+            43
+        ]
     },
     {
         "name": "Napoleon\n Bonaparte",
-        "score": 71,
-        "oldScore": 60
+        "current": 71,
+        "initial": 60,
+        "history": [
+            60,
+            61,
+            62,
+            64
+        ]
     },
     {
         "name": "David\n Lynch",
-        "score": 67,
-        "oldScore": 60
+        "current": 67,
+        "initial": 25,
+        "history": [
+            25,
+            93,
+            11,
+            88
+
+        ]
     },
     {
         "name": "Human\n Centipede",
-        "score": 94,
-        "oldScore": 99
+        "current": 95,
+        "initial": 96,
+        "history": [
+            96,
+            98,
+            89,
+            93
+        ]
     }
 ]

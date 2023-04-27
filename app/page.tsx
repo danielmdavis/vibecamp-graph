@@ -76,10 +76,13 @@ const options: any = {
   }
 }
 
-let dataset1 = require('./dataset1.json')
-dataset1 = dataset1.sort((a: any, b: any) => a.score - b.score)
+// current, intial, history
+// initial === history[0]. push current to history upon get
 
-const labels = dataset1.map((item: any) => item.name)
+let dataset = require('./dataset1.json')
+dataset = dataset.sort((a: any, b: any) => a.current - b.current)
+
+const labels = dataset.map((item: any) => item.name)
 
 
 
@@ -102,27 +105,27 @@ export default function Home() {
   //   ]
   // }
 
-  const dataOld = {
-    labels,
-    datasets: [
-      {
-        label: 'yesterday',
-        data: labels.map((nomen: string) => dataset1.filter((item: any) => { return item.name === nomen})[0].oldScore),
-        pointStyle: 'rectRounded',
-        backgroundColor: 'rgb(239,103,69)', // orange
-        borderWidth: 1.25,
-        borderColor: 'rgb(75,182,203)' //blue2
-      }
-    ]
-  }
+  // const dataOld = {
+  //   labels,
+  //   datasets: [
+  //     {
+  //       label: 'yesterday',
+  //       data: labels.map((nomen: string) => dataset.filter((item: any) => { return item.name === nomen})[0].oldScore),
+  //       pointStyle: 'rectRounded',
+  //       backgroundColor: 'rgb(239,103,69)', // orange
+  //       borderWidth: 1.25,
+  //       borderColor: 'rgb(75,182,203)' //blue2
+  //     }
+  //   ]
+  // }
 
-  const dataNew = {
+  const componentData = {
     labels,
     datasets: [
       {
         label: 'today',
         color: 'yellow',
-        data: labels.map((nomen: string) => dataset1.filter((item: any) => { return item.name === nomen})[0].score),
+        data: labels.map((nomen: string) => dataset.filter((item: any) => { return item.name === nomen})[0].current),
         pointStyle: 'rectRounded',
         backgroundColor: 'rgb(233,102,170)', // pink
         borderWidth: 1.25,
@@ -131,27 +134,64 @@ export default function Home() {
     ]
   }
 
-  const dataOldArr = labels.map((nomen: string) => dataset1.filter((item: any) => { return item.name === nomen})[0].oldScore)
-  const dataNewArr = labels.map((nomen: string) => dataset1.filter((item: any) => { return item.name === nomen})[0].score)
+  const historyArr = labels.map((nomen: string) => dataset.filter((item: any) => { return item.name === nomen})[0].history)
+  const currentArr = labels.map((nomen: string) => dataset.filter((item: any) => { return item.name === nomen})[0].current)
 
-  const adjustData = (updateData: any, prevData: any, chart: any) => {
-    
+
+
+  const calcDataOffsetSequence = (current: number, history: any) => {
+
+    let dataOffsetSequence: any = []
+    dataOffsetSequence.push(history[0] - current)
+    for (let i = 1; i < history.length; i += 1) {
+      dataOffsetSequence.push(history[i] - history[i - 1])
+    }
+    return dataOffsetSequence
+  }
+
+  const calcAllDOS = (current: any, history: any) => {
+
+    let allDOS: any = []
+    for (let i = 0; i < current.length; i += 1) {
+      allDOS.push(calcDataOffsetSequence(current[i], history[i]))
+    }
+    return allDOS
+  }
+  
+  const allDOS = calcAllDOS(currentArr, historyArr)
+  // console.log(allDOS)
+
+  const adjustDataOneStep = (currentArr: any, stepArr: any, chart: any) => {
     for (let i = 0; i < chart.data.datasets[0].data.length; i += 1) {
-      let diff = updateData[i] - prevData[i]
-      chart.data.datasets[0].data[i] += diff
-      console.log(diff, chart.data.datasets[0].data[i])
+      chart.data.datasets[0].data[i] += stepArr[i]
+      chart.update()
+      console.log(stepArr[i], chart.data.datasets[0].data[i]) 
     }
 
   }
+
+  const animateAll = (currentArr: any, DOSArrs: any, chart: any) => {
+   
+    let delayOffset = 250
+    for (let i = 0; i < DOSArrs[0].length; i += 1) {
+      setTimeout(() => {
+        const step = DOSArrs.map((n: any) => n = n[i])
+        // console.log(currentArr, step)
+        adjustDataOneStep(currentArr, step, chart)
+        currentArr = currentArr.map((n: number, j: number) => n += step[j])
+      }, delayOffset)
+      delayOffset += 750
+    }
+  }
   
-  let dataOption: any = dataNew
+  let dataOption: any = componentData
   
   const chartRef: any = useRef<ChartJS>(null)
   
   
   const onClick = (event: any) => {
     const chart: any = chartRef.current
-    adjustData(dataOldArr, dataNewArr, chart)
+    animateAll(currentArr, allDOS, chart)
     chart.data.datasets[0].backgroundColor = 'rgb(239,103,69)' // orange
     chart.clear()
     chart.update()
@@ -159,7 +199,7 @@ export default function Home() {
   
   const onDeclick = (event: any) => {
     const chart: any = chartRef.current
-    adjustData(dataNewArr, dataOldArr, chart)
+    adjustData(currentArr, historyArr, chart)
     chart.data.datasets[0].backgroundColor = 'rgb(233,102,170)' // pink
     chart.clear()
     chart.update()
