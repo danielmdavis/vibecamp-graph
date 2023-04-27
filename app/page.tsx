@@ -20,6 +20,16 @@ ChartJS.register(
   Legend
 )
 
+const colors = {
+  orange: 'rgb(239,103,69)',
+  green: 'rgb(53,124,94)',
+  blue1: 'rgb(16,84,164)',
+  blue2: 'rgb(75,182,203)',
+  black: 'rgb(46,36,37)',
+  yellow: 'rgb(230,227,120)',
+  pink: 'rgb(233,102,170)'
+}
+
 
 const options: any = {
   responsive: true,
@@ -41,18 +51,19 @@ const options: any = {
         },
         maxRotation: 45,
         minRotation: 45,
-        color: 'rgb(46,36,37)' //black
+        color: colors.black
       },
       grid: {
-        color: 'rgb(75,182,203)' //blue2
+        color: colors.blue2
       },
     },
     x: {
+      max: 100,
       ticks: {
         display: false
       },
       grid: {
-        color: 'rgb(75,182,203)' //blue2
+        color: colors.blue2
       }
     }
   },
@@ -60,7 +71,7 @@ const options: any = {
     legend: {
       position: 'bottom' as const,
       labels: {
-        color: 'rgb(230,227,120)', //yellow
+        color: colors.yellow,
         font: {
           family: 'Ultra'
         }, 
@@ -133,9 +144,9 @@ export default function Home() {
         color: 'yellow',
         data: labels.map((nomen: string) => dataset.filter((item: any) => { return item.name === nomen})[0].current),
         pointStyle: 'rectRounded',
-        backgroundColor: 'rgb(233,102,170)', // pink
+        backgroundColor: colors.pink,
         borderWidth: 1.25,
-        borderColor: 'rgb(75,182,203)' //blue2
+        borderColor: colors.blue2
       }
     ]
   }
@@ -152,6 +163,7 @@ export default function Home() {
     for (let i = 1; i < history.length; i += 1) {
       dataOffsetSequence.push(history[i] - history[i - 1])
     }
+    dataOffsetSequence.push(current - history[history.length - 1])
     return dataOffsetSequence
   }
 
@@ -163,21 +175,31 @@ export default function Home() {
     }
     return allDOS
   }
-  
   const allDOS = calcAllDOS(currentArr, historyArr)
-  // console.log(allDOS)
+
+  const checkAndSetWinner = (chartData: any, chart: any, currentArr: any) => {
+    let colorArr = new Array(currentArr.length - 1).fill(colors.orange)
+    for (let i = 0; i < chartData.length; i += 1) {
+      if (chartData[i] > chartData[currentArr.length - 1]) {
+        colorArr[i] = colors.green
+      } else {
+        colorArr[i] = colors.orange
+      }
+    }
+    chart.data.datasets[0].backgroundColor = colorArr
+    chart.update()
+  }
 
   const adjustDataOneStep = (currentArr: any, stepArr: any, chart: any) => {
     for (let i = 0; i < chart.data.datasets[0].data.length; i += 1) {
       chart.data.datasets[0].data[i] += stepArr[i]
       chart.update()
-      console.log(stepArr[i], chart.data.datasets[0].data[i]) 
     }
-
+    checkAndSetWinner(chart.data.datasets[0].data, chart, currentArr)
   }
-
+  
   const animateAll = (currentArr: any, DOSArrs: any, chart: any) => {
-   
+    
     let delayOffset = 250
     for (let i = 0; i < DOSArrs[0].length; i += 1) {
       setTimeout(() => {
@@ -185,6 +207,11 @@ export default function Home() {
         // console.log(currentArr, step)
         adjustDataOneStep(currentArr, step, chart)
         currentArr = currentArr.map((n: number, j: number) => n += step[j])
+        if (i === DOSArrs[0].length - 1) {
+          const colorArr = new Array(currentArr.length - 1).fill(colors.pink)
+          chart.data.datasets[0].backgroundColor = colorArr
+          chart.update()
+        }
       }, delayOffset)
       delayOffset += 1000
     }
@@ -198,25 +225,15 @@ export default function Home() {
   const onClick = (event: any) => {
     const chart: any = chartRef.current
     animateAll(currentArr, allDOS, chart)
-    chart.data.datasets[0].backgroundColor = 'rgb(239,103,69)' // orange
     chart.clear()
     chart.update()
   }
   
-  const onDeclick = (event: any) => {
-    const chart: any = chartRef.current
-    // resetToCurrent(currentArr, historyArr, chart)
-    chart.data.datasets[0].backgroundColor = 'rgb(233,102,170)' // pink
-    chart.clear()
-    chart.update()
-  }
-
 
 
   return (
     <main>
-      <div style={{ height: '100vh', width: '100vw' }}>
-        {/* <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onMouseUp={onDeclick} onTouchStart={onClick} onTouchEnd={onDeclick} /> */}
+      <div style={{ height: '100vh', width: '99vw' }}>
         <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
       </div>
     </main>

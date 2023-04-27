@@ -24,9 +24,9 @@
     {
         "name": "Napoleon\n Bonaparte",
         "current": 71,
-        "initial": 60,
+        "initial": 80,
         "history": [
-            60,
+            80,
             61,
             62,
             64
@@ -39,8 +39,8 @@
         "history": [
             25,
             53,
-            31,
-            59
+            85,
+            86
 
         ]
     },
@@ -49,10 +49,10 @@
         "current": 95,
         "initial": 96,
         "history": [
-            96,
+            74,
             98,
-            89,
-            93
+            84,
+            82
         ]
     }
 ]
