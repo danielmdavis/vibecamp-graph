@@ -26,6 +26,12 @@ const options: any = {
   maintainAspectRatio: false,
   events: [], // hides tooltip
   indexAxis: 'y',
+  animations: {
+    tension: {
+      duration: 5500,
+      easing: 'easeOutBounce'
+    }
+  },
   scales: {
     y: {
       ticks: {
@@ -180,7 +186,7 @@ export default function Home() {
         adjustDataOneStep(currentArr, step, chart)
         currentArr = currentArr.map((n: number, j: number) => n += step[j])
       }, delayOffset)
-      delayOffset += 750
+      delayOffset += 1000
     }
   }
   
@@ -199,7 +205,7 @@ export default function Home() {
   
   const onDeclick = (event: any) => {
     const chart: any = chartRef.current
-    adjustData(currentArr, historyArr, chart)
+    // resetToCurrent(currentArr, historyArr, chart)
     chart.data.datasets[0].backgroundColor = 'rgb(233,102,170)' // pink
     chart.clear()
     chart.update()
@@ -210,7 +216,8 @@ export default function Home() {
   return (
     <main>
       <div style={{ height: '100vh', width: '100vw' }}>
-        <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onMouseUp={onDeclick} onTouchStart={onClick} onTouchEnd={onDeclick} />
+        {/* <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onMouseUp={onDeclick} onTouchStart={onClick} onTouchEnd={onDeclick} /> */}
+        <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
       </div>
     </main>
   )
