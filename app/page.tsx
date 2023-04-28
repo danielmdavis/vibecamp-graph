@@ -24,7 +24,6 @@ ChartJS.register(
   
 import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs, setDoc, doc } from 'firebase/firestore'
-// import { useCollection } from 'react-firebase-hooks/firestore'
 
 const firebaseApp = initializeApp({
   apiKey: "AIzaSyD7iFzuRFa_ZKqw3OYSe5U7Q7APmTffv7s",
@@ -65,7 +64,7 @@ const options: any = {
         beginAtZero: true,
         font: {
           family: 'Space Grotesk',
-          size: 12
+          size: 14
         },
         maxRotation: 22.5,
         minRotation: 22.5,
@@ -95,17 +94,25 @@ const options: any = {
           family: 'Space Grotesk'
         }, 
       }
-    } 
-    // title: {
-    //   display: true,
-    //   text: 'Most Desired',
-    //   position: 'bottom'
-    // }
+    },
+    title: {
+      display: true,
+      text: 'Click to see the full history of romantic acclaim',
+      color: colors.black,
+      font: {
+        family: 'Space Grotesk',
+        size: 18
+      }, 
+      position: 'bottom'
+    }
   }
 }
 
-
-
+// TO DO
+// make speed of animation inversely proportional to number of generations
+// if scores aren't capped, refactor scale as percentage of leader
+// unfuck mobile. why are the values themselves different?
+// implement pull from external api and write to db
 
 export default function Home() {
   
@@ -115,11 +122,10 @@ export default function Home() {
     const usersCollection = collection(db, 'users')
     const query = await getDocs(usersCollection)
     const usersList = query.docs.map((doc: any) => doc.data())
-    console.log(usersList)
     setUsers(usersList)
   }
   
-  const postNewUserScores =  () => {
+  const postNewUserScores =  () => { // pending implementation
     const fetchIt = 69
     users.forEach((user: any) => {
       user.history = user.history.push(user.current)
@@ -135,7 +141,6 @@ export default function Home() {
   useEffect(() => {
     getAllUserData()
   }, [])
-  console.log(users)
   
   const userData = users.sort((a: any, b: any) => a.current - b.current)
   const labels = userData.map((item: any) => item.name)
