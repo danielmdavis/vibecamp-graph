@@ -62,12 +62,13 @@ const options: any = {
   scales: {
     y: {
       ticks: {
+        beginAtZero: true,
         font: {
-          family: 'Ultra',
-          size: 9
+          family: 'Space Grotesk',
+          size: 12
         },
-        maxRotation: 45,
-        minRotation: 45,
+        maxRotation: 22.5,
+        minRotation: 22.5,
         color: colors.black
       },
       grid: {
@@ -78,7 +79,6 @@ const options: any = {
       max: 100,
       ticks: {
         display: false,
-        beginAtZero: true
       },
       grid: {
         color: colors.blue2
@@ -87,22 +87,15 @@ const options: any = {
   },
   plugins: {
     legend: {
+      display: false,
       position: 'bottom' as const,
       labels: {
         color: colors.yellow,
         font: {
-          family: 'Ultra'
+          family: 'Space Grotesk'
         }, 
       }
-    },
-    beforeInit: (chart: any) => {
-        chart.data.labels.forEach((e: any, i: any, a: any) => {
-          if (/\n/.test(e)) {
-              a[i] = e.split(/\n/);
-          }
-        });
-    }
-    
+    } 
     // title: {
     //   display: true,
     //   text: 'Most Desired',
@@ -146,14 +139,18 @@ export default function Home() {
   
   const userData = users.sort((a: any, b: any) => a.current - b.current)
   const labels = userData.map((item: any) => item.name)
+  const splitLabels = userData.map((item: any) => item.name.split(' '))
+
+  const historyArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].history)
+  const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
 
   const componentData = {
-    labels,
+    labels: splitLabels,
     datasets: [
       {
-        label: 'today',
-        color: 'yellow',
-        data: labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current),
+        // label: 'today',
+        // color: 'yellow',
+        data: currentArr,
         pointStyle: 'rectRounded',
         backgroundColor: colors.pink,
         borderWidth: 1.25,
@@ -161,9 +158,6 @@ export default function Home() {
       }
     ]
   }
-
-  const historyArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].history)
-  const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
 
   const calcDataOffsetSequence = (current: number, history: any) => {
 
