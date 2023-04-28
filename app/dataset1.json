@@ -2,7 +2,6 @@
     {
         "name": "Doug\n the Slug",
         "current": 77,
-        "initial": 44,
         "history": [
             44,
             39,
@@ -13,7 +12,6 @@
     {
         "name": "John\n the Baptist",
         "current": 42,
-        "initial": 50,
         "history": [
             50,
             48,
@@ -24,7 +22,6 @@
     {
         "name": "Napoleon\n Bonaparte",
         "current": 71,
-        "initial": 80,
         "history": [
             80,
             61,
@@ -35,7 +32,6 @@
     {
         "name": "David\n Lynch",
         "current": 67,
-        "initial": 25,
         "history": [
             25,
             53,
@@ -47,7 +43,6 @@
     {
         "name": "Human\n Centipede",
         "current": 95,
-        "initial": 96,
         "history": [
             74,
             98,

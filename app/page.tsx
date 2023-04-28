@@ -1,5 +1,7 @@
 'use client'
-import React, { useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -19,6 +21,22 @@ ChartJS.register(
   Tooltip,
   Legend
 )
+  
+import { initializeApp } from 'firebase/app'
+import { getFirestore, collection, getDocs, setDoc, doc } from 'firebase/firestore'
+// import { useCollection } from 'react-firebase-hooks/firestore'
+
+const firebaseApp = initializeApp({
+  apiKey: "AIzaSyD7iFzuRFa_ZKqw3OYSe5U7Q7APmTffv7s",
+  authDomain: "vibecamp-graph.firebaseapp.com",
+  projectId: "vibecamp-graph",
+  storageBucket: "vibecamp-graph.appspot.com",
+  messagingSenderId: "747092492674",
+  appId: "1:747092492674:web:85e78a3b46e68575858f9b",
+  measurementId: "G-Q9JVJ1J9GM"
+})
+const db = getFirestore(firebaseApp)
+
 
 const colors = {
   orange: 'rgb(239,103,69)',
@@ -29,7 +47,6 @@ const colors = {
   yellow: 'rgb(230,227,120)',
   pink: 'rgb(233,102,170)'
 }
-
 
 const options: any = {
   responsive: true,
@@ -94,48 +111,41 @@ const options: any = {
   }
 }
 
-// current, intial, history
-// initial === history[0]. push current to history upon get
-
-let dataset = require('./dataset1.json')
-dataset = dataset.sort((a: any, b: any) => a.current - b.current)
-
-const labels = dataset.map((item: any) => item.name)
-
 
 
 
 export default function Home() {
-
-  // const data = {
-  //   labels,
-  //   datasets: [
-  //     {
-  //       label: 'yesterday',
-  //       data: labels.map((nomen: string) => dataset1.filter((item: any) => { return item.name === nomen})[0].oldScore),
-  //       backgroundColor: 'rgba(255, 99, 132, 0.5)'
-  //     },
-  //     {
-  //       label: 'today',
-  //       data: labels.map((nomen: string) => dataset1.filter((item: any) => { return item.name === nomen})[0].score),
-  //       backgroundColor: 'rgba(53, 162, 235, 0.5)'
-  //     }
-  //   ]
-  // }
-
-  // const dataOld = {
-  //   labels,
-  //   datasets: [
-  //     {
-  //       label: 'yesterday',
-  //       data: labels.map((nomen: string) => dataset.filter((item: any) => { return item.name === nomen})[0].oldScore),
-  //       pointStyle: 'rectRounded',
-  //       backgroundColor: 'rgb(239,103,69)', // orange
-  //       borderWidth: 1.25,
-  //       borderColor: 'rgb(75,182,203)' //blue2
-  //     }
-  //   ]
-  // }
+  
+  let [users, setUsers]: any[] = useState([])
+  
+  const getAllUserData = async () => {
+    const usersCollection = collection(db, 'users')
+    const query = await getDocs(usersCollection)
+    const usersList = query.docs.map((doc: any) => doc.data())
+    console.log(usersList)
+    setUsers(usersList)
+  }
+  
+  const postNewUserScores =  () => {
+    const fetchIt = 69
+    users.forEach((user: any) => {
+      user.history = user.history.push(user.current)
+      setDoc(doc(db, 'names'), {
+        name: user.name,
+        history: user.history,
+        current: fetchIt
+      })
+    })
+    getAllUserData()
+  }
+  
+  useEffect(() => {
+    getAllUserData()
+  }, [])
+  console.log(users)
+  
+  const userData = users.sort((a: any, b: any) => a.current - b.current)
+  const labels = userData.map((item: any) => item.name)
 
   const componentData = {
     labels,
@@ -143,7 +153,7 @@ export default function Home() {
       {
         label: 'today',
         color: 'yellow',
-        data: labels.map((nomen: string) => dataset.filter((item: any) => { return item.name === nomen})[0].current),
+        data: labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current),
         pointStyle: 'rectRounded',
         backgroundColor: colors.pink,
         borderWidth: 1.25,
@@ -152,10 +162,8 @@ export default function Home() {
     ]
   }
 
-  const historyArr = labels.map((nomen: string) => dataset.filter((item: any) => { return item.name === nomen})[0].history)
-  const currentArr = labels.map((nomen: string) => dataset.filter((item: any) => { return item.name === nomen})[0].current)
-
-
+  const historyArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].history)
+  const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
 
   const calcDataOffsetSequence = (current: number, history: any) => {
 
@@ -179,6 +187,7 @@ export default function Home() {
   const allDOS = calcAllDOS(currentArr, historyArr)
 
   const checkAndSetWinner = (chartData: any, chart: any, currentArr: any) => {
+
     let colorArr = new Array(currentArr.length - 1).fill(colors.orange)
     for (let i = 0; i < chartData.length; i += 1) {
       if (chartData[i] > chartData[currentArr.length - 1]) {
@@ -192,6 +201,7 @@ export default function Home() {
   }
 
   const adjustDataOneStep = (currentArr: any, stepArr: any, chart: any) => {
+
     for (let i = 0; i < chart.data.datasets[0].data.length; i += 1) {
       chart.data.datasets[0].data[i] += stepArr[i]
       chart.update()
@@ -205,7 +215,6 @@ export default function Home() {
     for (let i = 0; i < DOSArrs[0].length; i += 1) {
       setTimeout(() => {
         const step = DOSArrs.map((n: any) => n = n[i])
-        // console.log(currentArr, step)
         adjustDataOneStep(currentArr, step, chart)
         currentArr = currentArr.map((n: number, j: number) => n += step[j])
         if (i === DOSArrs[0].length - 1) {
