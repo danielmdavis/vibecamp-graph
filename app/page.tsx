@@ -78,7 +78,7 @@ const options: any = {
     x: {
       max: 100,
       ticks: {
-        display: false,
+        // display: false,
       },
       grid: {
         color: colors.blue2
