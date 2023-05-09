@@ -1,6 +1,11 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
+import HttpsProxyAgent from 'https-proxy-agent'
+import https from 'https'
+import url from 'url'
 
+// type CSVData = string | null
+// import csvData from './ranked-choice-vote.csv'
 
 import {
   Chart as ChartJS,
@@ -52,6 +57,9 @@ const options: any = {
   maintainAspectRatio: false,
   events: [], // hides tooltip
   indexAxis: 'y',
+  shadowBlur: 3,
+  shadowOffsetX: 3,
+  shadowOffsetY: 10,
   animations: {
     tension: {
       duration: 5500,
@@ -77,7 +85,8 @@ const options: any = {
     x: {
       max: 100,
       ticks: {
-        display: false,
+        // display: false,
+        color: colors.yellow
       },
       grid: {
         color: colors.blue2
@@ -108,16 +117,71 @@ const options: any = {
   }
 }
 
+
 // TO DO
-// make speed of animation inversely proportional to number of generations
 // if scores aren't capped, refactor scale as percentage of leader
 // unfuck mobile. why are the values themselves different?
 // implement pull from external api and write to db
 
 export default function Home() {
   
-  let [users, setUsers]: any[] = useState([])
+  // const csvData = require('./ranked-choice-vote.csv')
+  // console.log(csvData)
   
+  let [users, setUsers]: any[] = useState([])
+  let [raw, setRaw]: any = useState('')
+  
+  // curl -o gtdata.csv -u "alicemottola@gmail.com:nervous6nelly4" "https://www.guidedtrack.com/programs/22568/csv"
+
+// const getUpdates = async () => {
+
+//   interface UrlWithStringQuery {
+//     agent: any
+//   }
+
+//   let options = url.parse('https://www.guidedtrack.com/programs/22568/csv')
+
+//   // create an instance of the `HttpsProxyAgent` class with the proxy server information
+//   let agent = new (HttpsProxyAgent as any)('https://cors-anywhere.herokuapp.com/')
+//   options.agent = agent;
+  
+//   https.get(options, function (res) {
+//     console.log('"response" event!', res.headers);
+//     res.pipe(process.stdout);
+//   })
+// }
+
+
+  // const getUpdates = async () => {
+
+  //   const myHeaders = new Headers()
+  //   // myHeaders.append('Authorization', 'Basic YWxpY2Vtb3R0b2xhQGdtYWlsLmNvbTpuZXJ2b3VzNm5lbGx5NA==')
+  //   myHeaders.append('Authorization', 'Basic alicemottola@gmail.com:nervous6nelly4')
+  //   // myHeaders.append("Cookie", '_gt_persistent_session=6cddfb372bde63acc544298746360656')
+
+  //   const requestOptions = {
+  //     method: 'GET',
+  //     mode: 'cors' as RequestMode,
+  //     redirect: 'follow' as RequestRedirect,
+  //     headers: myHeaders
+  //   }
+
+  //   fetch('https://www.guidedtrack.com/programs/22568/csv', requestOptions)
+  //     // .then(response => response.text())
+  //     .then((response) => { return response })
+  //     .then(response => console.log(response))
+  //     .then(request => console.log(request))
+  //     .then(result => console.log(result))
+  //     // .then(response => setRaw(response))
+  //     .catch(error => console.log('error', error))
+
+  // }
+
+  // useEffect(() => {
+  //   getUpdates()
+  // }, [])
+
+
   const getAllUserData = async () => {
     const usersCollection = collection(db, 'users')
     const query = await getDocs(usersCollection)
@@ -208,6 +272,13 @@ export default function Home() {
     checkAndSetWinner(chart.data.datasets[0].data, chart, currentArr)
   }
   
+  const calcAnimationSpeed = () => {
+    
+    const stepCount = historyArr[0].length + 1
+    const timePerStep = 4500 / stepCount
+    return timePerStep
+  }
+
   const animateAll = (currentArr: any, DOSArrs: any, chart: any) => {
     
     let delayOffset = 250
@@ -222,7 +293,7 @@ export default function Home() {
           chart.update()
         }
       }, delayOffset)
-      delayOffset += 1000
+      delayOffset += calcAnimationSpeed()
     }
   }
   
