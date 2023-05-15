@@ -2,7 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Ultra&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap');
 
-
+@font-face {
+  font-family: 'Tan Buster';
+  src: url('./TAN-BUSTER.otf');
+  /* font-weight: 400; */
+}
 
 :root {
   --blue1: rgb(16,84,164);
@@ -35,3 +39,13 @@ body {
   /* box-shadow: 1px 2px 3px 0px rgb(46,36,37,1) !important; */
 }
 
+.header {
+  font-family: 'Tan Buster';
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: -8px;
+  font-size: 1.5em;
+  color: var(--orange) !important;
+  /* -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: var(--green); */
+}
