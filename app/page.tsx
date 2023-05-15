@@ -109,14 +109,6 @@ const options: any = {
   }
 }
 
-declare global {
-  interface Window {
-      opera: any;
-  }
-}
-
-let opera = window.opera
-
 // TO DO
 // if scores aren't capped, refactor scale as percentage of leader
 // unfuck mobile. why are the values themselves different?
@@ -201,6 +193,14 @@ export default function Home() {
   useEffect(() => {
     getAllUserData()
   }, [])
+
+// declare global {
+//   interface Window {
+//       opera: any;
+//   }
+// }
+
+// let opera = window.opera
   
   const userData = users.sort((a: any, b: any) => a.current - b.current)
   const labels = userData.map((item: any) => item.name)
