@@ -1,11 +1,6 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
-import HttpsProxyAgent from 'https-proxy-agent'
-import https from 'https'
-import url from 'url'
-
-// type CSVData = string | null
-// import csvData from './ranked-choice-vote.csv'
+// import Curl from './curl'
 
 import {
   Chart as ChartJS,
@@ -114,7 +109,6 @@ const options: any = {
   }
 }
 
-
 // TO DO
 // if scores aren't capped, refactor scale as percentage of leader
 // unfuck mobile. why are the values themselves different?
@@ -122,35 +116,10 @@ const options: any = {
 
 export default function Home() {
   
-  // const csvData = require('./ranked-choice-vote.csv')
-  // console.log(csvData)
-  
   let [users, setUsers]: any[] = useState([])
   let [raw, setRaw]: any = useState('')
   
-  // curl -o gtdata.csv -u "alicemottola@gmail.com:nervous6nelly4" "https://www.guidedtrack.com/programs/22568/csv"
 
-// const getUpdates = async () => {
-
-//   interface UrlWithStringQuery {
-//     agent: any
-//   }
-
-//   let options = url.parse('https://www.guidedtrack.com/programs/22568/csv')
-
-//   // create an instance of the `HttpsProxyAgent` class with the proxy server information
-//   let agent = new (HttpsProxyAgent as any)('https://cors-anywhere.herokuapp.com/')
-//   options.agent = agent;
-  
-//   https.get(options, function (res) {
-//     console.log('"response" event!', res.headers);
-//     res.pipe(process.stdout);
-//   })
-// }
-
-
-
-  // look at curl library - for request as subprocess
   const getUpdates = async () => {
 
     const myHeaders = new Headers()
@@ -171,14 +140,36 @@ export default function Home() {
       .then(response => console.log(response))
       .then(request => console.log(request))
       .then(result => console.log(result))
-      // .then(response => setRaw(response))
       .catch(error => console.log('error', error))
 
   }
-
+  
   useEffect(() => {
     getUpdates()
   }, [])
+
+  // const getUpdates = async () => {
+
+  //   const curl = new Curl();
+  //   const terminate = curl.close.bind(curl);
+
+  //   curl.setOpt(Curl.option.URL, 'https://www.guidedtrack.com/programs/22568/csv')
+  //   curl.setOpt(Curl.option.HTTPHEADER, ['Authorization: Basic alicemottola@gmail.com:nervous6nelly4'])
+   
+    
+  //   curl.on("end", function (statusCode:any, data: any, headers: any) {
+  //     console.info("Status code " + statusCode);
+  //     console.info("***");
+  //     console.info("Our response: " + data);
+    
+  //     this.close();
+  //   });
+  //   curl.on("error", terminate);
+    
+  //   curl.perform();
+
+  // }
+
 
 
   const getAllUserData = async () => {
