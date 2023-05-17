@@ -1,9 +1,12 @@
+import { GetStaticProps } from 'next'
+
 import Graph from './graphComponent'
 import getData from './fetch.jsx'
 
 // TO DO
 // if scores aren't capped, refactor scale as percentage of leader
 // implement pull from external api and write to db
+
 
 export default async function Home() {
   
@@ -13,11 +16,13 @@ export default async function Home() {
     data = await getData()
     console.log(data)
   })()
+
   
-    return (
-      <main>
-        <Graph data={data}/>
-      </main>
-    )
+  
+  return (
+    <main>
+      <Graph data={data}/>
+    </main>
+  )
   
 }

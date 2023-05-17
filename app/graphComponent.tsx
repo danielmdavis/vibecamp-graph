@@ -24,19 +24,15 @@ ChartJS.register(
 import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs, setDoc, doc } from 'firebase/firestore'
 
-interface GraphProps {
-  data: any
-}
-
 // **********
 // ******
 // **********
 // ******
 // **********
 
-export default function Graph(props: GraphProps) {
+export default function Graph(props: { data: any }) {
   
-  console.log(props.data)
+  console.log(props)
 
   let [users, setUsers]: any[] = useState([])
   let [raw, setRaw]: any = useState('')
