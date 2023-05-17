@@ -24,9 +24,12 @@
     "fs": "^0.0.1-security",
     "https": "^1.0.0",
     "https-proxy-agent": "^5.0.1",
+    "i": "^0.3.7",
     "net": "^1.0.2",
     "next": "13.3.0",
+    "node-fetch": "^2.6.1",
     "node-libcurl": "^3.0.0-0",
+    "npm": "^9.6.6",
     "papaparse": "^5.4.1",
     "querystring": "^0.2.1",
     "react": "18.2.0",
@@ -37,6 +40,7 @@
     "url": "^0.11.0"
   },
   "devDependencies": {
+    "@types/node-fetch": "^2.6.4",
     "@types/papaparse": "^5.3.7",
     "@webpack-cli/generators": "^3.0.2",
     "css-loader": "^6.7.3",
