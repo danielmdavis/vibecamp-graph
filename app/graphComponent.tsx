@@ -24,12 +24,20 @@ ChartJS.register(
 import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs, setDoc, doc } from 'firebase/firestore'
 
-// TO DO
-// if scores aren't capped, refactor scale as percentage of leader
-// implement pull from external api and write to db
+interface GraphProps {
+  data: any
+}
 
-export default function Graph() {
+// **********
+// ******
+// **********
+// ******
+// **********
+
+export default function Graph(props: GraphProps) {
   
+  console.log(props.data)
+
   let [users, setUsers]: any[] = useState([])
   let [raw, setRaw]: any = useState('')
 
