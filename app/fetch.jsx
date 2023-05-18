@@ -9,7 +9,8 @@ export default function getData() {
   const requestOptions = {
     method: 'GET',
     headers: myHeaders,
-    redirect: 'follow'
+    redirect: 'follow',
+    cache: 'no-store'
   };
 
   return fetch("https://www.guidedtrack.com/programs/22568/csv", requestOptions)

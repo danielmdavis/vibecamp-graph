@@ -29,7 +29,7 @@ import { getFirestore, collection, getDocs, setDoc, doc } from 'firebase/firesto
 // **********
 
 export default function Graph(props: { data: any }) {
-  
+
   console.log(props)
 
   let [users, setUsers]: any[] = useState([])
@@ -143,6 +143,7 @@ export default function Graph(props: { data: any }) {
   
   useEffect(() => {
     getAllUserData()
+    console.log(props)
   }, [])
 
   // parses for mapping
@@ -236,7 +237,6 @@ export default function Graph(props: { data: any }) {
   const isRunning = (delayOffset: number, delayCount: number) => {
     setRunning(true)
     const disableDuration = delayOffset + calcAnimationSpeed() * (delayCount + 0.5)
-    console.log(disableDuration)
     setTimeout(() => {
       setRunning(false)
     }, disableDuration)
