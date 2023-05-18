@@ -16,7 +16,6 @@ export default function getData() {
   return fetch("https://www.guidedtrack.com/programs/22568/csv", requestOptions)
     .then(response => response.text())
     .then(result => { return result })
-    // .then(result => console.log(result))
     .catch(error => console.log('error', error));
 
 }

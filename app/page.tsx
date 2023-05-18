@@ -9,16 +9,9 @@ import getData from './fetch.jsx'
 export default async function Home() {
   
   let data: any
-  (async () => {
-    data = await getData()
-    console.log(data)
-  })()
-
   do {
     data = await getData()
-    console.log(data)
   } while (data === undefined) 
-
 
   return (
     <main>

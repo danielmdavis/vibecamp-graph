@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
+import Papa from 'papaparse'
 
 import {
   Chart as ChartJS,
@@ -30,11 +31,10 @@ import { getFirestore, collection, getDocs, setDoc, doc } from 'firebase/firesto
 
 export default function Graph(props: { data: any }) {
 
-  console.log(props)
 
   let [users, setUsers]: any[] = useState([])
   let [running, setRunning]: any = useState(false)
-  let [raw, setRaw]: any = useState('')
+  let [data, setData]: any[] = useState([])
 
   const firebaseApp = initializeApp({
     apiKey: "AIzaSyD7iFzuRFa_ZKqw3OYSe5U7Q7APmTffv7s",
@@ -121,6 +121,16 @@ export default function Graph(props: { data: any }) {
   }  
 
   // getter / setter
+
+  // api get
+  useEffect(() => {
+    setData(Papa.parse(props.data, {
+      header: true
+    }))
+  },[props.data])
+  console.log(data)
+
+  // db get
   const getAllUserData = async () => {
     const usersCollection = collection(db, 'users')
     const query = await getDocs(usersCollection)
@@ -143,7 +153,6 @@ export default function Graph(props: { data: any }) {
   
   useEffect(() => {
     getAllUserData()
-    console.log(props)
   }, [])
 
   // parses for mapping
