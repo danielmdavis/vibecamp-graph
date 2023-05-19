@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Papa from 'papaparse'
 import { getAllUserData, setNewUserData } from './fetch'
 import { calcDataOffsetSequence, calcMobileDataOffsetSequence, calcAllDOS, animateAll, isMobile, whichDOS } from './animation'
+import { chartConfig } from './chartConfig'
 
 import {
   Chart as ChartJS,
@@ -59,69 +60,6 @@ export default function Graph(props: { data: any }) {
     pink: 'rgb(233,102,170)'
   }
 
-  // static chart config
-  const options: any = {
-    responsive: true,
-    maintainAspectRatio: false,
-    events: [], // hides tooltip
-    indexAxis: 'y',
-    animations: {
-      tension: {
-        duration: 5500,
-        easing: 'easeOutBounce'
-      }
-    },
-    scales: {
-      y: {
-        ticks: {
-          beginAtZero: true,
-          font: {
-            family: 'Space Grotesk',
-            size: 14
-          },
-          maxRotation: 22.5,
-          minRotation: 22.5,
-          color: colors.black
-        },
-        grid: {
-          color: colors.blue2
-        },
-      },
-      x: {
-        max: 100,
-        ticks: {
-          // display: false,
-          color: colors.yellow
-        },
-        grid: {
-          color: colors.blue2
-        }
-      }
-    },
-    plugins: {
-      legend: {
-        display: false,
-        position: 'bottom' as const,
-        labels: {
-          color: colors.yellow,
-          font: {
-            family: 'Space Grotesk'
-          }, 
-        }
-      },
-      title: {
-        display: true,
-        text: 'Click to see the full history of romantic acclaim',
-        color: colors.black,
-        font: {
-          family: 'Space Grotesk',
-          size: 18
-        }, 
-        position: 'bottom'
-      }
-    }
-  }  
-
   // api get
   useEffect(() => {
     setData(Papa.parse(props.data, {
@@ -132,6 +70,9 @@ export default function Graph(props: { data: any }) {
 
   // setNewUserData(users, setDoc, doc, db)
   
+  const options: any = chartConfig
+
+  // db get
   useEffect(() => {
     getAllUserData(collection(db, 'users'), getDocs, setUsers)
   }, [])

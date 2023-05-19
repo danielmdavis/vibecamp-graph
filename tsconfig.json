@@ -34,7 +34,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "app/fetch.jsx"  ],
+, "app/fetch.jsx", "app/chartConfig.js"  ],
   "exclude": [
     "node_modules"
   ]
