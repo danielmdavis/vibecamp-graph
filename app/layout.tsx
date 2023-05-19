@@ -1,5 +1,4 @@
 import './globals.css'
-import getData from './fetch.jsx'
 
 export const metadata = {
   title: 'LoveBot 3000 Graph',
@@ -7,10 +6,7 @@ export const metadata = {
 }
 
 export default async function RootLayout(props: any) {
-
-  props.params.data = await getData()
-  props.params.foo = 'bar'
-
+  
   return (
     <html lang="en">
       <body suppressHydrationWarning={true}>{props.children}</body>
