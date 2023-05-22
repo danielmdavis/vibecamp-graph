@@ -66,7 +66,15 @@ export default function Graph(props: { data: any }) {
       header: true
     }))
   },[props.data])
-  // console.log(data)
+  
+  const rankedRaw = data.data?.map((each: any) => { return each.out_itemsInSelectedOrder })
+  console.log(rankedRaw)
+
+  // const rankedClean = rankedRaw?.map((each: string) => { return each?.replace(/[]\//g, '') })
+  const rankedClean = rankedRaw?.map((each: string) => { return each?.substring(1, each.length - 1) })
+  const splitRankedClean = rankedClean?.map((each: string) => { return each?.replace(/"/g, '').split(',') })
+  console.log(splitRankedClean)
+  // rankedRaw.forEach((each: string) => { console.log(each) })
 
   // setNewUserData(users, setDoc, doc, db)
   
