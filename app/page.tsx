@@ -4,9 +4,12 @@ import Papa from 'papaparse'
 import { getData } from './fetch.jsx'
 
 // TO DO
-// if scores aren't capped, refactor scale as percentage of leader
-// make csv data relevant
+// if scores aren't capped, refactor scale as percentage of leader ?
 // check csv data for change, if change, write to db
+// make first step non-eased
+// fix bug with leader coloration
+// fix new bug with mobile animu
+// componentize data parsing
 
 export default async function Home() {
   

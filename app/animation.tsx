@@ -53,16 +53,15 @@ export function checkAndSetWinner(chartData: any, chart: any, currentArr: any) {
 }
 
 // pads each history to be the same length
-const padHistoryArrays = (history: any, length: any) => {
-  return history.concat(Array(length).fill(0)).slice(0, length)
-}
-
 export function historyStabilizer(labels: any, userData: any) {
 
   let historyArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].history)
   const historyLengths = historyArr.map((each: any[]) => { return each.length })
   const greatestHistoryLength = Math.max(...historyLengths)
-  historyArr = historyArr.map((each: any) => { return padHistoryArrays(each, greatestHistoryLength) })
+  historyArr = historyArr.map((each: any) => { 
+    let array = Array(greatestHistoryLength - each.length).fill(0)
+    return array.concat(each)
+  })
   return historyArr
 }
 

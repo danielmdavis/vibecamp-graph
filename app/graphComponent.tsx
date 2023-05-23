@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
 import Papa from 'papaparse'
-import { getAllUserData, postNewUsers } from './fetch'
+import { getAllUserData, postNewUsers, updateScores } from './fetch'
 import { calcDataOffsetSequence, calcMobileDataOffsetSequence, calcAllDOS, animateAll, isMobile, whichDOS, historyStabilizer } from './animation'
 import { chartConfig } from './chartConfig'
 
@@ -64,7 +64,6 @@ export default function Graph(props: { data: any }) {
   // api get, parse user list, selections, scores, push new to db
   useEffect(() => {
 
-
     setData(props.data)
     const rankedChoice = parseRankedChoice()
     const parsedUsers =  parseUsers(rankedChoice)
@@ -73,11 +72,12 @@ export default function Graph(props: { data: any }) {
     const currentMap = new Map([...currentScore.entries()].sort((a: any, b: any) => b[1] - a[1]))
 
     postNewUsers(currentMap, users, setDoc, doc, db)
+    updateScores(currentMap, users, setDoc, doc, db)
 
   },[props.data])
   
 
-  // extensive parsing of incoming fresh data
+  // parsing for incoming api data
 
   const parseRankedChoice = () => {
 
@@ -108,11 +108,6 @@ export default function Graph(props: { data: any }) {
     return new Map(Object.entries(currentScore))
   }
 
-
- 
-
-
-
   // //
   //
   // all things chart
@@ -132,9 +127,8 @@ export default function Graph(props: { data: any }) {
   const splitLabels = userData.map((item: any) => item.name.split(' '))
 
   const historyArr = historyStabilizer(labels, userData)
-  console.log(historyArr)
   const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
-
+  console.log(historyArr)
 
   // console.log()
   // const newUserData = currentMap?.sort((a: any, b: any) => a.current - b.current)

@@ -25,18 +25,18 @@ export function checkDataForChange(getData, stateData) {
 export async function getAllUserData(collection, getDocs, setState) {
   const usersCollection = collection
   const query = await getDocs(usersCollection)
-  const usersList = query.docs.map((doc) => doc.data())
+  const usersList = query.docs.map(doc => doc.data())
   setState(usersList)
 }
 
 export async function postNewUsers(newUsers, users, setDoc, doc, db) {
 
-  const oldNames = users.map((each) => {
+  const oldNames = users.map(each => {
     return each.name
   })
-
   newUsers.forEach((value, nomen) => {
-    if (!oldNames.includes(nomen)) {
+    if (!oldNames.includes(nomen) && oldNames.length !== 0) {
+      console.log(nomen)
       setDoc(doc(db, 'users', nomen), {
         name: nomen,
         current: value,
@@ -44,6 +44,14 @@ export async function postNewUsers(newUsers, users, setDoc, doc, db) {
       })
     }
   })
-  console.log()
+}
 
+export async function updateScores(newData, users, setDoc, doc, db) {
+
+  const oldCurrent = users.map(each => {
+    return each.current
+  })
+  const newCurrent = Array.from(newData.values()).sort()
+  // console.log(oldCurrent)
+  // console.log(newCurrent)
 }
