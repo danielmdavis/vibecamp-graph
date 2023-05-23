@@ -34,7 +34,6 @@ export async function postNewUsers(newUsers, users, setDoc, doc, db) {
   const oldNames = users.map((each) => {
     return each.name
   })
-  console.log(oldNames)
 
   newUsers.forEach((value, nomen) => {
     if (!oldNames.includes(nomen)) {

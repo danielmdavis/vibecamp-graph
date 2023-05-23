@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Papa from 'papaparse'
 import { getAllUserData, postNewUsers } from './fetch'
-import { calcDataOffsetSequence, calcMobileDataOffsetSequence, calcAllDOS, animateAll, isMobile, whichDOS } from './animation'
+import { calcDataOffsetSequence, calcMobileDataOffsetSequence, calcAllDOS, animateAll, isMobile, whichDOS, historyStabilizer } from './animation'
 import { chartConfig } from './chartConfig'
 
 import {
@@ -109,12 +109,7 @@ export default function Graph(props: { data: any }) {
   }
 
 
-  // 
-
-  
-  
-
-
+ 
 
 
 
@@ -136,7 +131,8 @@ export default function Graph(props: { data: any }) {
   const labels = userData.map((item: any) => item.name)
   const splitLabels = userData.map((item: any) => item.name.split(' '))
 
-  const historyArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].history)
+  const historyArr = historyStabilizer(labels, userData)
+  console.log(historyArr)
   const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
 
 
