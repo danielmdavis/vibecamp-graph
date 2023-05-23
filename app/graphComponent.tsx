@@ -38,6 +38,7 @@ export default function Graph(props: { data: any }) {
   let [users, setUsers]: any[] = useState([])
   let [running, setRunning]: any = useState(false)
   let [data, setData]: any[] = useState([])
+  let [current, setCurrent]: any = useState({})
 
   const firebaseApp = initializeApp({
     apiKey: "AIzaSyD7iFzuRFa_ZKqw3OYSe5U7Q7APmTffv7s",
@@ -60,24 +61,71 @@ export default function Graph(props: { data: any }) {
     pink: 'rgb(233,102,170)'
   }
 
-  // api get
+  // api get, parse user list, selections, scores, push new to db
   useEffect(() => {
-    setData(Papa.parse(props.data, {
-      header: true
-    }))
+
+
+    setData(props.data)
+    const rankedChoice = parseRankedChoice()
+    const parsedUsers =  parseUsers(rankedChoice)
+    const currentScore = parseVotes(rankedChoice, parsedUsers)
+    setCurrent(currentScore)
+    const currentMap = new Map([...currentScore.entries()].sort((a: any, b: any) => b[1] - a[1]))
+
+    setNewUserData(currentMap, setDoc, doc, db)
+
   },[props.data])
   
-  const rankedRaw = data.data?.map((each: any) => { return each.out_itemsInSelectedOrder })
-  console.log(rankedRaw)
 
-  // const rankedClean = rankedRaw?.map((each: string) => { return each?.replace(/[]\//g, '') })
-  const rankedClean = rankedRaw?.map((each: string) => { return each?.substring(1, each.length - 1) })
-  const splitRankedClean = rankedClean?.map((each: string) => { return each?.replace(/"/g, '').split(',') })
-  console.log(splitRankedClean)
-  // rankedRaw.forEach((each: string) => { console.log(each) })
+  // extensive parsing of incoming fresh data
 
-  // setNewUserData(users, setDoc, doc, db)
+  const parseRankedChoice = () => {
+
+    const rankedRaw = props.data.data?.map((each: any) => { return each.out_itemsInSelectedOrder })
+    const rankedClean = rankedRaw?.map((each: string) => { return each?.substring(1, each.length - 1) })
+    return rankedClean?.map((each: string) => { return each?.replace(/"/g, '').split(',') })
+  }
+
+  const parseUsers = (rankedChoice: any) => {
+
+    let uniqueUsers = new Set()
+    rankedChoice?.forEach((each: string[]) => {each?.forEach((each: string) => { uniqueUsers.add(each) })})
+    uniqueUsers.delete('')
+    return uniqueUsers
+  }
+
+  const parseVotes = (lists: string[], users: any) => {
+
+    let currentScore: any = Object.fromEntries(Array?.from(users)?.map((nomen: string) => [nomen, 0]))
+    lists?.forEach((curr: any) => { 
+      for (let i = 0; i < curr?.length;) {
+        const value = curr.length
+        const current = curr.shift()
+        currentScore[current] += value
+      }
+    })
+    delete currentScore['']
+    return new Map(Object.entries(currentScore))
+  }
+
+  const setNewUserData = (currentMap: any, setDoc: any, doc: any, db: any) => {
+
+    console.log(users)
+    console.log(currentMap)
+
+  }
   
+
+
+
+
+
+  // //
+  //
+  // all things chart
+  //
+  // //
+
   const options: any = chartConfig
 
   // db get
@@ -92,6 +140,15 @@ export default function Graph(props: { data: any }) {
 
   const historyArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].history)
   const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
+
+
+  // console.log()
+  // const newUserData = currentMap?.sort((a: any, b: any) => a.current - b.current)
+  // console.log(newUserData)
+  // const labels = userData.map((item: any) => item.name)
+  // const splitLabels = userData.map((item: any) => item.name.split(' '))
+
+  // const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
 
   // mapped chart config
   const componentData = {
