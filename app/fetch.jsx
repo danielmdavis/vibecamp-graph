@@ -29,14 +29,22 @@ export async function getAllUserData(collection, getDocs, setState) {
   setState(usersList)
 }
 
-export async function setNewUserData(userData, setDoc, doc, db) {
-  const fetchIt = 69
-  userData.forEach((user) => {
-      user.history = user.history.push(user.current)
-      setDoc(doc(db, 'names'), {
-      name: user.name,
-      history: user.history,
-      current: fetchIt
-      })
+export async function postNewUsers(newUsers, users, setDoc, doc, db) {
+
+  const oldNames = users.map((each) => {
+    return each.name
   })
+  console.log(oldNames)
+
+  newUsers.forEach((value, nomen) => {
+    if (!oldNames.includes(nomen)) {
+      setDoc(doc(db, 'users', nomen), {
+        name: nomen,
+        current: value,
+        history: []
+      })
+    }
+  })
+  console.log()
+
 }

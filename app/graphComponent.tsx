@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
 import Papa from 'papaparse'
-import { getAllUserData, setNewUserData } from './fetch'
+import { getAllUserData, postNewUsers } from './fetch'
 import { calcDataOffsetSequence, calcMobileDataOffsetSequence, calcAllDOS, animateAll, isMobile, whichDOS } from './animation'
 import { chartConfig } from './chartConfig'
 
@@ -72,7 +72,7 @@ export default function Graph(props: { data: any }) {
     setCurrent(currentScore)
     const currentMap = new Map([...currentScore.entries()].sort((a: any, b: any) => b[1] - a[1]))
 
-    setNewUserData(currentMap, setDoc, doc, db)
+    postNewUsers(currentMap, users, setDoc, doc, db)
 
   },[props.data])
   
@@ -108,12 +108,10 @@ export default function Graph(props: { data: any }) {
     return new Map(Object.entries(currentScore))
   }
 
-  const setNewUserData = (currentMap: any, setDoc: any, doc: any, db: any) => {
 
-    console.log(users)
-    console.log(currentMap)
+  // 
 
-  }
+  
   
 
 
