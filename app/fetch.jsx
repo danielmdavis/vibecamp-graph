@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+import _ from 'lodash'
 
 // csv api getter
 export function getData() {
@@ -29,20 +30,41 @@ export async function getAllUserData(collection, getDocs, setState) {
   setState(usersList)
 }
 
-export async function postNewUsers(newUsers, users, setDoc, doc, db) {
+const postNewUsers = (newUsers, users, setDoc, doc, db) => {
 
   const oldNames = users.map(each => {
     return each.name
   })
   newUsers.forEach((value, nomen) => {
     if (!oldNames.includes(nomen) && oldNames.length !== 0) {
-      console.log(nomen)
       setDoc(doc(db, 'users', nomen), {
         name: nomen,
         current: value,
         history: []
       })
+    } else if (oldNames.length !== 0) { // pushes a new current to each extant entry to keep generations in sync
+      stepScore(newUsers.get(nomen), users.filter(current => { 
+        return current.name === nomen 
+      }), setDoc, doc, db)
     }
+  })
+}
+
+const postNewScores = (newData, users, setDoc, doc, db) => {
+
+  users.forEach(current => {
+    stepScore(newData.get(current.name), current, setDoc, doc, db)
+  })
+}
+
+const stepScore = (newCurrent, user, setDoc, doc, db) => {
+
+  let history = user.history
+  history.push(user.current)
+  setDoc(doc(db, 'users', user.name), {
+    name: user.name,
+    current: newCurrent,
+    history: history
   })
 }
 
@@ -52,6 +74,10 @@ export async function updateScores(newData, users, setDoc, doc, db) {
     return each.current
   })
   const newCurrent = Array.from(newData.values()).sort()
-  // console.log(oldCurrent)
-  // console.log(newCurrent)
+  
+  if (oldCurrent.length !== newCurrent.length) {
+    postNewUsers(newData, users, setDoc, doc, db)
+  } else if (!_.isEqual(oldCurrent, newCurrent)) {
+    postNewScores(newData, users, setDoc, doc, db)
+  }
 }
