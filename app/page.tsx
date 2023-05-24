@@ -5,7 +5,6 @@ import { getData } from './fetch.jsx'
 
 // TO DO
 // if scores aren't capped, refactor scale as percentage of leader ?
-// check csv data for change, if change, write to db
 // make first step non-eased
 // fix bug with leader coloration
 // fix new bug with mobile animu
@@ -13,38 +12,6 @@ import { getData } from './fetch.jsx'
 
 export default async function Home() {
   
-  const parseRankedChoice = () => {
-
-    const rankedRaw = data.data?.map((each: any) => { return each.out_itemsInSelectedOrder })
-    const rankedClean = rankedRaw?.map((each: string) => { return each?.substring(1, each.length - 1) })
-    const splitRankedClean = rankedClean?.map((each: string) => { return each?.replace(/"/g, '').split(',') })
-    return splitRankedClean
-  }
-
-  const parseUsers = (rankedChoice: any) => {
-
-    let uniqueUsers = new Set()
-    rankedChoice?.forEach((each: string[]) => {each?.forEach((each: string) => { uniqueUsers.add(each) })})
-    uniqueUsers.delete('')
-    return uniqueUsers
-  }
-
-  const parseVotes = (lists: string[], users: any) => {
-
-    let currentScore = Object.fromEntries(Array?.from(users)?.map((nomen: string) => [nomen, 0]))
-
-    lists?.forEach((curr: any) => { 
-      for (let i = 0; i < curr?.length;) {
-        const value = curr?.length
-        const current = curr.shift()
-        currentScore[current] += value
-      }
-    })
-
-    console.log(currentScore)
-
-  }
-
 
   let data: any
   do {
@@ -61,8 +28,6 @@ export default async function Home() {
   
     // }
   } while (data === undefined) 
-
-
 
 
   return (

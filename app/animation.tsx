@@ -66,8 +66,9 @@ export function historyStabilizer(labels: any, userData: any) {
 }
 
 // sequence runners
-export function adjustDataOneStep(currentArr: any, stepArr: any, chart: any) {
+export function adjustDataOneStep(currentArr: any, stepArr: any, chart: any, speed: any) {
   for (let i = 0; i < chart.data.datasets[0].data.length; i += 1) {
+    chart.options.animation.duration = speed
     chart.data.datasets[0].data[i] += stepArr[i]
     chart.update()
   }
@@ -89,12 +90,13 @@ export function isRunning(delayOffset: number, delayCount: number, historyArr: a
 }
 
 export function animateAll(currentArr: any, DOSArrs: any, chart: any, historyArr: any, setState: any) {
-  let delayOffset = 250
+  let delayOffset = 100
   isRunning(delayOffset, DOSArrs[0].length, historyArr, setState)
   for (let i = 0; i < DOSArrs[0].length; i += 1) {
+    const speed = i === 0 ? 0 : undefined
     setTimeout(() => {
       const step = DOSArrs.map((n: any) => n = n[i])
-      adjustDataOneStep(currentArr, step, chart)
+      adjustDataOneStep(currentArr, step, chart, speed)
       currentArr = currentArr.map((n: number, j: number) => n += step[j])
       if (i === DOSArrs[0].length - 1) {
         const colorArr = new Array(currentArr.length - 1).fill(colors.pink)
