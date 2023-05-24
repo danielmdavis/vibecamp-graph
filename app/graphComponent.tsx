@@ -77,7 +77,6 @@ export default function Graph(props: { data: any }) {
   
 
   // parsing for incoming api data
-
   const parseRankedChoice = () => {
 
     const rankedRaw = props.data.data?.map((each: any) => { return each.out_itemsInSelectedOrder })
@@ -107,6 +106,7 @@ export default function Graph(props: { data: any }) {
     return new Map(Object.entries(currentScore))
   }
 
+
   // //
   //
   // all things chart
@@ -128,7 +128,6 @@ export default function Graph(props: { data: any }) {
   const historyArr = historyStabilizer(labels, userData)
   const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
   // console.log(historyArr)
-
   
   // mapped chart config
   const componentData = {
@@ -152,7 +151,8 @@ export default function Graph(props: { data: any }) {
 
   // animation sequences
   const allDOS = calcAllDOS(calcDataOffsetSequence, currentArr, historyArr)
-  const allMobileDOS = calcAllDOS(calcMobileDataOffsetSequence, currentArr, historyArr)
+  // const allMobileDOS = calcAllDOS(calcMobileDataOffsetSequence, currentArr, historyArr)
+  const allMobileDOS = allDOS // the bug self-resolved, making workaround superfluous. keeping paralell structure in place.
   
   let dataOption: any = componentData
   const chartRef: any = useRef<ChartJS>(null)
