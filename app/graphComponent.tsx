@@ -157,6 +157,14 @@ export default function Graph(props: { data: any }) {
   let dataOption: any = componentData
   const chartRef: any = useRef<ChartJS>(null)
   
+  // sets 
+  const multiplesOfLeader = 1.2
+  const chart: any = chartRef.current
+  const newX = Math.floor(Math.max(...currentArr) * multiplesOfLeader)
+  if (chart !== null && newX !== -Infinity) {
+    chart.config.options.scales.x.max = newX
+  }
+
   const onClick = (event: any) => {
     const chart: any = chartRef.current
     if (running === false) {
