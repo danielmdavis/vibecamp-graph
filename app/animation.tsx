@@ -66,6 +66,17 @@ export function historyStabilizer(labels: any, userData: any) {
 }
 
 // sequence runners
+export function dateSetter(chartRef: any, dateData?: any) {
+  const chart: any = chartRef.current
+  const date = new Date()
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  const dateString = `${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()}`
+  if (dateData === undefined && chart !== null) {
+    chart.options.plugins.title.text = dateString
+    console.log(chart)
+  }
+}
+
 export function adjustDataOneStep(currentArr: any, stepArr: any, chart: any, speed: any) {
   for (let i = 0; i < chart.data.datasets[0].data.length; i += 1) {
     chart.options.animation.duration = speed
@@ -75,9 +86,10 @@ export function adjustDataOneStep(currentArr: any, stepArr: any, chart: any, spe
   checkAndSetWinner(chart.data.datasets[0].data, chart, currentArr)
 }
 
+
 export function calcAnimationSpeed(historyArr: any) {
   const stepCount = historyArr[0].length + 1
-  const timePerStep = 4500 / stepCount
+  const timePerStep = 5500 / stepCount
   return timePerStep
 }
 
@@ -90,7 +102,7 @@ export function isRunning(delayOffset: number, delayCount: number, historyArr: a
 }
 
 export function animateAll(currentArr: any, DOSArrs: any, chart: any, historyArr: any, setState: any) {
-  let delayOffset = 100
+  let delayOffset = 250
   isRunning(delayOffset, DOSArrs[0].length, historyArr, setState)
   for (let i = 0; i < DOSArrs[0].length; i += 1) {
     const speed = i === 0 ? 0 : undefined

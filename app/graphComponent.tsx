@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Papa from 'papaparse'
 import { getAllUserData, updateScores } from './fetch'
-import { calcDataOffsetSequence, calcMobileDataOffsetSequence, calcAllDOS, animateAll, isMobile, whichDOS, historyStabilizer } from './animation'
+import { calcDataOffsetSequence, calcMobileDataOffsetSequence, calcAllDOS, animateAll, isMobile, whichDOS, historyStabilizer, dateSetter } from './animation'
 import { chartConfig } from './chartConfig'
 
 import {
@@ -124,6 +124,7 @@ export default function Graph(props: { data: any }) {
   const userData = users.sort((a: any, b: any) => a.current - b.current)
   const labels = userData.map((item: any) => item.name)
   const splitLabels = userData.map((item: any) => item.name.split(' '))
+  const paddedLabels = userData.map((item: any) => `    ${item.name}`)
 
   const historyArr = historyStabilizer(labels, userData)
   const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
@@ -131,7 +132,7 @@ export default function Graph(props: { data: any }) {
   
   // mapped chart config
   const componentData = {
-    labels: splitLabels,
+    labels: paddedLabels,
     datasets: [
       {
         // label: 'today',
@@ -143,11 +144,13 @@ export default function Graph(props: { data: any }) {
         shadowBlur: 3,
         shadowOffsetX: 3,
         shadowOffsetY: 10,
-        borderWidth: 1.25,
+        borderWidth: 3,
         borderColor: colors.blue2
       }
     ]
   }
+
+
 
   // animation sequences
   const allDOS = calcAllDOS(calcDataOffsetSequence, currentArr, historyArr)
@@ -164,6 +167,7 @@ export default function Graph(props: { data: any }) {
   if (chart !== null && newX !== -Infinity) {
     chart.config.options.scales.x.max = newX
   }
+  dateSetter(chartRef)
 
   const onClick = (event: any) => {
     const chart: any = chartRef.current
@@ -176,7 +180,7 @@ export default function Graph(props: { data: any }) {
   
   return (
     <main>
-      <div style={{ height: '100vh', width: '99vw' }}>
+      <div className='grid-box'>
         <div className='header'>LoveBot 3000</div>
         <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
       </div>

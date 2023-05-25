@@ -16,24 +16,26 @@ export const chartConfig = {
         beginAtZero: true,
         font: {
           family: 'Space Grotesk',
-          size: 14
+          size: 30
         },
-        maxRotation: 22.5,
-        minRotation: 22.5,
-        color: 'rgb(46,36,37)'
+        // maxRotation: 22.5,
+        // minRotation: 22.5,
+        color: 'rgb(46,36,37)',
+        mirror: true,
+        z: 2
       },
       grid: {
-        color: 'rgb(75,182,203)'
+        color: 'rgba(75,182,203,0)'
       },
     },
     x: {
-      max: 100,
+      // max: 100,
       ticks: {
         display: false,
-        color: 'rgb(230,227,120)'
+        color: 'rgb(230,227,120)',
       },
       grid: {
-        color: 'rgb(75,182,203)'
+        color: 'rgba(75,182,203,0)'
       }
     }
   },
