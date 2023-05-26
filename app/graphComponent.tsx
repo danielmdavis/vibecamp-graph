@@ -54,11 +54,12 @@ export default function Graph(props: { data: any }) {
   const colors = {
     orange: 'rgb(239,103,69)',
     green: 'rgb(53,124,94)',
-    blue1: 'rgb(16,84,164)',
-    blue2: 'rgb(75,182,203)',
+    blue1: 'rgb(66,174,239)',
+    blue2: 'rgb(188,239,246)',
     black: 'rgb(46,36,37)',
-    yellow: 'rgb(230,227,120)',
-    pink: 'rgb(233,102,170)'
+    yellow: 'rgb(250,210,85)',
+    pink: 'rgb(233,102,170)',
+    purple: 'rgb(86,27,90)'
   }
 
   // api get, parse user list, selections, scores, push new to db
@@ -106,6 +107,14 @@ export default function Graph(props: { data: any }) {
     return new Map(Object.entries(currentScore))
   }
 
+  const parseDates = () => {
+
+    let datesArray = new Set()
+    datesArray = props.data.data.map((each: any) => { return each['Time Finished (UTC)']})
+    console.log(datesArray)
+  }
+  parseDates()
+
 
   // //
   //
@@ -139,13 +148,13 @@ export default function Graph(props: { data: any }) {
         // color: 'yellow',
         data: currentArr,
         pointStyle: 'rectRounded',
-        backgroundColor: colors.pink,
+        backgroundColor: colors.blue1,
         backgroundShadowColor: colors.black,
         shadowBlur: 3,
         shadowOffsetX: 3,
         shadowOffsetY: 10,
         borderWidth: 3,
-        borderColor: colors.blue2
+        // borderColor: colors.blue2
       }
     ]
   }
@@ -181,7 +190,7 @@ export default function Graph(props: { data: any }) {
   return (
     <main>
       <div className='grid-box'>
-        <div className='header'>LoveBot 3000</div>
+        <div className='header'>Dating Show to Save the World</div>
         <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
       </div>
     </main>

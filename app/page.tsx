@@ -4,13 +4,12 @@ import Papa from 'papaparse'
 import { getData } from './fetch.jsx'
 
 // TO DO
-// componentize data parsing
-// score on bars ?
-// scalar score assignment?
-// general reform to use of space
+// score in bubble to left of bars
 // dates for history / current
+// big restyle
 // explanatory tooltip - somewhere. maybe outside the computer
-// why is the animation being mildly screwy -_-
+// scalar score assignment?
+// componentize data parsing
 
 export default async function Home() {
   

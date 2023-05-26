@@ -2,11 +2,12 @@
 const colors = {
   orange: 'rgb(239,103,69)',
   green: 'rgb(53,124,94)',
-  blue1: 'rgb(16,84,164)',
-  blue2: 'rgb(75,182,203)',
+  blue1: 'rgb(66,174,239)',
+  blue2: 'rgb(188,239,246)',
   black: 'rgb(46,36,37)',
-  yellow: 'rgb(230,227,120)',
-  pink: 'rgb(233,102,170)'
+  yellow: 'rgb(250,210,85)',
+  pink: 'rgb(233,102,170)',
+  purple: 'rgb(86,27,90)'
 }
 
 // sequence builders
@@ -45,7 +46,7 @@ export function checkAndSetWinner(chartData: any, chart: any, currentArr: any) {
     if (chartData[i] > chartData[currentArr.length - 1]) {
       colorArr[i] = colors.green
     } else {
-      colorArr[i] = colors.orange
+      colorArr[i] = colors.pink
     }
   }
   chart.data.datasets[0].backgroundColor = colorArr
@@ -73,7 +74,6 @@ export function dateSetter(chartRef: any, dateData?: any) {
   const dateString = `${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()}`
   if (dateData === undefined && chart !== null) {
     chart.options.plugins.title.text = dateString
-    console.log(chart)
   }
 }
 
@@ -111,7 +111,7 @@ export function animateAll(currentArr: any, DOSArrs: any, chart: any, historyArr
       adjustDataOneStep(currentArr, step, chart, speed)
       currentArr = currentArr.map((n: number, j: number) => n += step[j])
       if (i === DOSArrs[0].length - 1) {
-        const colorArr = new Array(currentArr.length - 1).fill(colors.pink)
+        const colorArr = new Array(currentArr.length - 1).fill(colors.blue1)
         chart.data.datasets[0].backgroundColor = colorArr
         chart.update()
       }

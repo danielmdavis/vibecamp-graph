@@ -81,3 +81,11 @@ export async function updateScores(newData, users, setDoc, doc, db) {
     postNewScores(newData, users, setDoc, doc, db)
   }
 }
+
+export async function updateDates(dates, newDate, setDoc, doc, db) {
+
+  const dateArray = dates.push(newDate)
+  setDoc(doc(db, 'dates', 0)), {
+    dates: dateArray
+  }
+}
