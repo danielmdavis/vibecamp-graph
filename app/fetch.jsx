@@ -51,10 +51,11 @@ const postNewUsers = (newUsers, users, setDoc, doc, db) => {
 }
 
 const postNewScores = (newData, users, setDoc, doc, db) => {
-
+  console.log(newData)
   users.forEach(current => {
     stepScore(newData.get(current.name), current, setDoc, doc, db)
   })
+
 }
 
 const stepScore = (newCurrent, user, setDoc, doc, db) => {
@@ -68,7 +69,7 @@ const stepScore = (newCurrent, user, setDoc, doc, db) => {
   })
 }
 
-export async function updateScores(newData, users, setDoc, doc, db) {
+export async function updateScores(newData, newDate, users, setDoc, doc, db) {
 
   const oldCurrent = users.map(each => {
     return each.current
@@ -80,12 +81,13 @@ export async function updateScores(newData, users, setDoc, doc, db) {
   } else if (!_.isEqual(oldCurrent, newCurrent)) {
     postNewScores(newData, users, setDoc, doc, db)
   }
+
+  postNewDate(newDate, setDoc, doc, db)
 }
 
-export async function updateDates(dates, newDate, setDoc, doc, db) {
+export async function postNewDate(newDate, setDoc, doc, db) {
 
-  const dateArray = dates.push(newDate)
-  setDoc(doc(db, 'dates', 0)), {
-    dates: dateArray
+  setDoc(doc(db, 'dates', newDate)), {
+    date: newDate
   }
 }

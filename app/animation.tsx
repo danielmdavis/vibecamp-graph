@@ -67,12 +67,15 @@ export function historyStabilizer(labels: any, userData: any) {
 }
 
 // sequence runners
-export function dateSetter(chartRef: any, dateData?: any) {
-  const chart: any = chartRef.current
-  const date = new Date()
+export function dateSetter(chart: any, dateData?: any) {
+  const date = new Date(dateData + 'T00:00')
+  const today = new Date()
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   const dateString = `${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()}`
+  const todayString = `${months[today.getMonth()]} ${today.getDate()} ${today.getFullYear()}`
   if (dateData === undefined && chart !== null) {
+    chart.options.plugins.title.text = todayString
+  } else if (dateData !== undefined && chart !== null) {
     chart.options.plugins.title.text = dateString
   }
 }
@@ -101,14 +104,16 @@ export function isRunning(delayOffset: number, delayCount: number, historyArr: a
   }, disableDuration)
 }
 
-export function animateAll(currentArr: any, DOSArrs: any, chart: any, historyArr: any, setState: any) {
+export function animateAll(currentArr: any, DOSArrs: any, chart: any, historyArr: any, setState: any, dateData: any) {
   let delayOffset = 250
   isRunning(delayOffset, DOSArrs[0].length, historyArr, setState)
+  const dates = dateData?.sort()
   for (let i = 0; i < DOSArrs[0].length; i += 1) {
     const speed = i === 0 ? 0 : undefined
     setTimeout(() => {
       const step = DOSArrs.map((n: any) => n = n[i])
       adjustDataOneStep(currentArr, step, chart, speed)
+      dateSetter(chart, dates[i])
       currentArr = currentArr.map((n: number, j: number) => n += step[j])
       if (i === DOSArrs[0].length - 1) {
         const colorArr = new Array(currentArr.length - 1).fill(colors.blue1)

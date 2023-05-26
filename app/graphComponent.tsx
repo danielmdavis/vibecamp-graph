@@ -36,6 +36,7 @@ export default function Graph(props: { data: any }) {
 
 
   let [users, setUsers]: any[] = useState([])
+  let [dates, setDates]: any[] = useState([])
   let [running, setRunning]: any = useState(false)
   let [data, setData]: any[] = useState([])
   let [current, setCurrent]: any = useState({})
@@ -72,7 +73,7 @@ export default function Graph(props: { data: any }) {
     setCurrent(currentScore)
     const currentMap = new Map([...currentScore.entries()].sort((a: any, b: any) => b[1] - a[1]))
 
-    updateScores(currentMap, users, setDoc, doc, db)
+    updateScores(currentMap, getLatestDate(), users, setDoc, doc, db)
 
   },[props.data])
   
@@ -108,12 +109,12 @@ export default function Graph(props: { data: any }) {
   }
 
   const parseDates = () => {
-
-    let datesArray = new Set()
-    datesArray = props.data.data.map((each: any) => { return each['Time Finished (UTC)']})
-    console.log(datesArray)
+    return props.data.data.map((each: any) => { return each['Time Finished (UTC)']?.slice(0, 10) })
   }
-  parseDates()
+
+  const getLatestDate = () => {
+    return parseDates()[parseDates.length - 1]
+  }
 
 
   // //
@@ -127,6 +128,7 @@ export default function Graph(props: { data: any }) {
   // db get
   useEffect(() => {
     getAllUserData(collection(db, 'users'), getDocs, setUsers)
+    getAllUserData(collection(db, 'dates'), getDocs, setDates)
   }, [])
 
   // parses for mapping
@@ -137,7 +139,6 @@ export default function Graph(props: { data: any }) {
 
   const historyArr = historyStabilizer(labels, userData)
   const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
-  // console.log(historyArr)
   
   // mapped chart config
   const componentData = {
@@ -176,12 +177,13 @@ export default function Graph(props: { data: any }) {
   if (chart !== null && newX !== -Infinity) {
     chart.config.options.scales.x.max = newX
   }
-  dateSetter(chartRef)
+  dateSetter(chart)
 
   const onClick = (event: any) => {
     const chart: any = chartRef.current
+    const justDates = dates.map((date: any) => { return date.date })
     if (running === false) {
-      animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning)
+      animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, justDates)
     }
     chart.clear()
     chart.update()

@@ -6,6 +6,8 @@ import { getData } from './fetch.jsx'
 // TO DO
 // score in bubble to left of bars
 // dates for history / current
+// formatting for mobile
+// green leader fix
 // big restyle
 // explanatory tooltip - somewhere. maybe outside the computer
 // scalar score assignment?
