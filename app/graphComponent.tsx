@@ -157,6 +157,20 @@ export default function Graph(props: { data: any }) {
         borderRadius: 100
         // borderWidth: 3,
         // borderColor: colors.blue2
+      },
+      {
+        // label: 'today',
+        // color: 'yellow',
+        data: [-4, -4, -4, -4],
+        pointStyle: 'rectRounded',
+        backgroundColor: colors.blue1,
+        backgroundShadowColor: colors.black,
+        shadowBlur: 3,
+        shadowOffsetX: 3,
+        shadowOffsetY: 10,
+        borderRadius: 100
+        // borderWidth: 3,
+        // borderColor: colors.blue2
       }
     ]
   }

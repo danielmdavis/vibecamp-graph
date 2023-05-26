@@ -12,6 +12,7 @@ export const chartConfig = {
   },
   scales: {
     y: {
+      stacked: true,
       ticks: {
         beginAtZero: true,
         font: {
@@ -21,6 +22,7 @@ export const chartConfig = {
         // maxRotation: 22.5,
         // minRotation: 22.5,
         color: 'rgb(188,239,246)',
+
         mirror: true,
         z: 2
       },
@@ -29,10 +31,11 @@ export const chartConfig = {
       },
     },
     x: {
-      // max: 100,
+      stacked: true,
       ticks: {
         display: false,
         color: 'rgb(230,227,120)',
+
       },
       grid: {
         color: 'rgba(75,182,203,0)'
