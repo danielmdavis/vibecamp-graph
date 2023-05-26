@@ -41,12 +41,13 @@ export function calcAllDOS(sequence: any, current: any, history: any) {
 
 // colors current winner at t
 export function checkAndSetWinner(chartData: any, chart: any, currentArr: any) {
-  let colorArr = new Array(currentArr.length - 1).fill(colors.orange)
+
+  let colorArr = new Array(currentArr.length - 1).fill(colors.blue1)
   for (let i = 0; i < chartData.length; i += 1) {
-    if (chartData[i] > chartData[currentArr.length - 1]) {
-      colorArr[i] = colors.green
-    } else {
+    if (chartData[i] === Math.max(...chartData)) {
       colorArr[i] = colors.pink
+    } else {
+      colorArr[i] = colors.blue1
     }
   }
   chart.data.datasets[0].backgroundColor = colorArr
@@ -59,7 +60,7 @@ export function historyStabilizer(labels: any, userData: any) {
   let historyArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].history)
   const historyLengths = historyArr.map((each: any[]) => { return each.length })
   const greatestHistoryLength = Math.max(...historyLengths)
-  historyArr = historyArr.map((each: any) => { 
+  historyArr = historyArr.map((each: any) => {
     let array = Array(greatestHistoryLength - each.length).fill(0)
     return array.concat(each)
   })
@@ -67,7 +68,7 @@ export function historyStabilizer(labels: any, userData: any) {
 }
 
 // sequence runners
-export function dateSetter(chart: any, dateData?: any) {
+export function setDate(chart: any, dateData?: any) {
   const date = new Date(dateData + 'T00:00')
   const today = new Date()
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -88,7 +89,6 @@ export function adjustDataOneStep(currentArr: any, stepArr: any, chart: any, spe
   }
   checkAndSetWinner(chart.data.datasets[0].data, chart, currentArr)
 }
-
 
 export function calcAnimationSpeed(historyArr: any) {
   const stepCount = historyArr[0].length + 1
@@ -113,7 +113,7 @@ export function animateAll(currentArr: any, DOSArrs: any, chart: any, historyArr
     setTimeout(() => {
       const step = DOSArrs.map((n: any) => n = n[i])
       adjustDataOneStep(currentArr, step, chart, speed)
-      dateSetter(chart, dates[i])
+      setDate(chart, dates[i])
       currentArr = currentArr.map((n: number, j: number) => n += step[j])
       if (i === DOSArrs[0].length - 1) {
         const colorArr = new Array(currentArr.length - 1).fill(colors.blue1)

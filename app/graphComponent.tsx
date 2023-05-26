@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Papa from 'papaparse'
 import { getAllUserData, updateScores } from './fetch'
-import { calcDataOffsetSequence, calcMobileDataOffsetSequence, calcAllDOS, animateAll, isMobile, whichDOS, historyStabilizer, dateSetter } from './animation'
+import { calcDataOffsetSequence, calcMobileDataOffsetSequence, calcAllDOS, animateAll, isMobile, whichDOS, historyStabilizer, setDate } from './animation'
 import { chartConfig } from './chartConfig'
 
 import {
@@ -177,7 +177,7 @@ export default function Graph(props: { data: any }) {
   if (chart !== null && newX !== -Infinity) {
     chart.config.options.scales.x.max = newX
   }
-  dateSetter(chart)
+  setDate(chart)
 
   const onClick = (event: any) => {
     const chart: any = chartRef.current
