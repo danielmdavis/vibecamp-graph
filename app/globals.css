@@ -8,6 +8,12 @@
   /* font-weight: 400; */
 }
 
+@font-face {
+  font-family: 'Cooper Black';
+  src: url('./Cooper Black Regular.ttf');
+  /* font-weight: 400; */
+}
+
 :root {
   --blue1: rgb(66,174,239);
   --blue2: rgb(188,239,246);
@@ -22,14 +28,16 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  background-color: var(--purple);
-  color: var(--black) !important;
 }
 
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  background-color: var(--purple);
+  background-image: url('2.png');
+  background-size: cover;
+  color: var(--black) !important;
 }
 
 body {
@@ -37,8 +45,9 @@ body {
 }
 
 .bar {
-  height: 90vh !important;
+  height: 87.5vh !important;
   bottom: 0px !important;
+  border: none !important
 }
 
 .grid-box {
@@ -50,10 +59,10 @@ body {
 }
 
 .header, .loading-header {
-  font-family: 'Tan Buster';
+  font-family: 'Cooper Black';
   text-align: center;
-  margin-bottom: -8px;
-  font-size: 3em;
+  margin-bottom: -5px;
+  font-size: 3.75em;
   color: var(--yellow) !important;
   /* -webkit-text-stroke-width: 3px;
   -webkit-text-stroke-color: var(--green); */

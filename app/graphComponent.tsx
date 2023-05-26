@@ -154,7 +154,8 @@ export default function Graph(props: { data: any }) {
         shadowBlur: 3,
         shadowOffsetX: 3,
         shadowOffsetY: 10,
-        borderWidth: 3,
+        borderRadius: 100
+        // borderWidth: 3,
         // borderColor: colors.blue2
       }
     ]
