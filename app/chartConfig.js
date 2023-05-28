@@ -37,12 +37,6 @@ export const chartConfig = {
             color: 'rgba(75,182,203,0)'
           },
         },
-        // {
-        //   ticks: {
-        //     display: true
-        //   }
-        // }
-        
     x: {
       stacked: true,
       // position: {

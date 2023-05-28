@@ -136,7 +136,6 @@ export default function Graph(props: { data: any }) {
   // parses for mapping
   const userData = users.sort((a: any, b: any) => a.current - b.current)
   const labels = userData.map((item: any) => item.name)
-  console.log(labels)
   const splitLabels = userData.map((item: any) => item.name.split(' '))
   const paddedLabels = userData.map((item: any) => `    ${item.name}`)
 
@@ -153,7 +152,7 @@ export default function Graph(props: { data: any }) {
     datasets: [
       {
         datalabels: {
-          color: colors.blue1
+          color: 'rgba(0, 0, 0, 0)'
         },
         data: currentArr,
         pointStyle: 'rectRounded',
@@ -172,14 +171,15 @@ export default function Graph(props: { data: any }) {
             size: 30
           }
         },
-        data: pipArr,
+        data: pipArr, // //       find a way to set bar size to be static, so this can accurately reflect
         pointStyle: 'rectRounded',
         backgroundColor: colors.blue1,
         backgroundShadowColor: colors.black,
         shadowBlur: 3,
         shadowOffsetX: 3,
         shadowOffsetY: 10,
-        borderRadius: 100
+        borderRadius: 100,
+        max: 4
         // borderWidth: 3,
         // borderColor: colors.blue2
       }

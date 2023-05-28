@@ -4,9 +4,10 @@ import Papa from 'papaparse'
 import { getData } from './fetch.jsx'
 
 // TO DO
-// score in bubble to left of bars
-// move labels
+// get left chart to ignore dataset value
 // formatting for mobile
+// get left chart to stop flickering
+
 
 // more styling
 // explanatory tooltip - somewhere. maybe outside the computer
