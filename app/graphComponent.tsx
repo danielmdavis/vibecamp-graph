@@ -15,6 +15,7 @@ import {
   Legend
 } from 'chart.js'
 import { Bar, getElementsAtEvent } from 'react-chartjs-2'
+import ChartDataLabels from 'chartjs-plugin-datalabels'
 
 ChartJS.register(
   CategoryScale,
@@ -22,7 +23,8 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ChartDataLabels
 )
 
 import { initializeApp } from 'firebase/app'
@@ -134,19 +136,25 @@ export default function Graph(props: { data: any }) {
   // parses for mapping
   const userData = users.sort((a: any, b: any) => a.current - b.current)
   const labels = userData.map((item: any) => item.name)
+  console.log(labels)
   const splitLabels = userData.map((item: any) => item.name.split(' '))
   const paddedLabels = userData.map((item: any) => `    ${item.name}`)
 
   const historyArr = historyStabilizer(labels, userData)
   const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
+  let pipArr = []
+  if (currentArr.length > 0) {
+    pipArr = Array(currentArr.length).fill(-4)
+  }
   
   // mapped chart config
   const componentData = {
     labels: paddedLabels,
     datasets: [
       {
-        // label: 'today',
-        // color: 'yellow',
+        datalabels: {
+          color: colors.blue1
+        },
         data: currentArr,
         pointStyle: 'rectRounded',
         backgroundColor: colors.blue1,
@@ -155,13 +163,16 @@ export default function Graph(props: { data: any }) {
         shadowOffsetX: 3,
         shadowOffsetY: 10,
         borderRadius: 100
-        // borderWidth: 3,
-        // borderColor: colors.blue2
       },
       {
-        // label: 'today',
-        // color: 'yellow',
-        data: [-4, -4, -4, -4],
+        datalabels: {
+          color: colors.blue2,
+          font: {
+            family: 'Tan Buster',
+            size: 30
+          }
+        },
+        data: pipArr,
         pointStyle: 'rectRounded',
         backgroundColor: colors.blue1,
         backgroundShadowColor: colors.black,
