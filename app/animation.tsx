@@ -118,7 +118,7 @@ export function animateAll(currentArr: any, DOSArrs: any, chart: any, historyArr
   isRunning(delayOffset, DOSArrs[0].length, historyArr, setState)
   const dates = dateData?.sort()
   for (let i = 0; i < DOSArrs[0].length; i += 1) {
-    const speed = i === 0 ? 0 : undefined
+    const speed: any = i === 0 ? 0 : undefined
     setTimeout(() => {
       const step = DOSArrs.map((n: any) => n = n[i])
       adjustDataOneStep(currentArr, step, chart, speed)

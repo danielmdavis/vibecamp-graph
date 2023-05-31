@@ -42,6 +42,7 @@ export default function Graph(props: { data: any }) {
   let [running, setRunning]: any = useState(false)
   let [data, setData]: any[] = useState([])
   let [current, setCurrent]: any = useState({})
+  let [xLimit, setXLimit]: any = useState(0)
 
   const firebaseApp = initializeApp({
     apiKey: "AIzaSyD7iFzuRFa_ZKqw3OYSe5U7Q7APmTffv7s",
@@ -128,6 +129,7 @@ export default function Graph(props: { data: any }) {
 //  const options: any = chartConfig
 
  let pipCounter = -1
+ console.log(xLimit)
 
  const options = { 
    responsive: true,
@@ -140,6 +142,9 @@ export default function Graph(props: { data: any }) {
        easing: 'easeOutBounce'
      }
    },
+   layout: {
+    padding: 20
+  },
    scales: {
      y: 
          {
@@ -149,17 +154,18 @@ export default function Graph(props: { data: any }) {
              y: 1.5
            },
            ticks: {
-             // display: false,
-             beginAtZero: true,
-             font: {
-               family: 'Tan Buster',
-               size: 30
-             },
-             // maxRotation: 22.5,
-             // minRotation: 22.5,
-             color: 'rgb(188,239,246)',
-             mirror: true,
-             z: 2
+            crossAlign: 'near',
+            beginAtZero: true,
+            font: {
+              family: 'Tan Buster',
+              size: 30
+            },
+            // maxRotation: 22.5,
+            // minRotation: 22.5,
+            color: 'rgb(188,239,246)',
+            z: 2,
+            mirror: true,
+            padding: 50
            },
            grid: {
              display: false,
@@ -168,9 +174,11 @@ export default function Graph(props: { data: any }) {
          },
      x: {
        stacked: true,
-       // position: {
-       //   y: 20
-       // },
+      //  position: {
+      //    y: 20
+      //  },
+      max: xLimit,
+      min: -5,
        ticks: {
          display: false,
          color: 'rgb(230,227,120)',
@@ -262,7 +270,7 @@ export default function Graph(props: { data: any }) {
             size: 30
           }
         },
-        data: pipArr, // //       find a way to set bar size to be static, so this can accurately reflect
+        data: pipArr,
         pointStyle: 'rectRounded',
         backgroundColor: colors.blue1,
         backgroundShadowColor: colors.black,
@@ -291,6 +299,9 @@ export default function Graph(props: { data: any }) {
   const multiplesOfLeader = 1.2
   const chart: any = chartRef.current
   const newX = Math.floor(Math.max(...currentArr) * multiplesOfLeader)
+  useEffect(() => {
+    setXLimit(newX)
+  }, [])
   if (chart !== null && newX !== -Infinity) {
     chart.config.options.scales.x.max = newX
   }

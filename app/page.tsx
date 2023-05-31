@@ -4,9 +4,8 @@ import Papa from 'papaparse'
 import { getData } from './fetch.jsx'
 
 // TO DO
-// get left chart to ignore dataset value
 // formatting for mobile
-// get left chart to stop flickering
+// stop one big resize for pip
 
 
 // more styling
