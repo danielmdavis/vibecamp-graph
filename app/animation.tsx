@@ -81,6 +81,15 @@ export function setDate(chart: any, dateData?: any) {
   }
 }
 
+export function staticizePip(chart: any) {
+  if (chart !== null && chart.data.datasets[1]) {
+    chart.options.animation.duration = 0
+    chart.data.datasets[1].data.forEach((datum: any) => { // not working yet
+      datum = -4
+    })
+  }
+}
+
 export function adjustDataOneStep(currentArr: any, stepArr: any, chart: any, speed: any) {
   for (let i = 0; i < chart.data.datasets[0].data.length; i += 1) {
     chart.options.animation.duration = speed
