@@ -135,6 +135,7 @@ export default function Graph(props: { data: any }) {
    responsive: true,
    maintainAspectRatio: true,
    events: '',
+   indexAxis: 'y',
    animations: {
      tension: {
        duration: 5500,
@@ -222,8 +223,6 @@ export default function Graph(props: { data: any }) {
    }
  }  
 
-
-
   // db get
   useEffect(() => {
     getAllUserData(collection(db, 'users'), getDocs, setUsers)
@@ -298,11 +297,13 @@ export default function Graph(props: { data: any }) {
   const multiplesOfLeader = 1.2
   const chart: any = chartRef.current
   const newX = Math.floor(Math.max(...currentArr) * multiplesOfLeader)
-  useEffect(() => {
-    setXLimit(newX)
-  }, [])
   if (chart !== null && newX !== -Infinity) {
     chart.config.options.scales.x.max = newX
+    if (xLimit === 0) {
+      setXLimit(newX)
+    }
+
+    console.log(newX)
   }
 
   // console.log(setDate(chart))
