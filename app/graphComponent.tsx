@@ -131,11 +131,10 @@ export default function Graph(props: { data: any }) {
  let pipCounter = -1
  console.log(xLimit)
 
- const options = { 
+ const options: any = { 
    responsive: true,
    maintainAspectRatio: true,
    events: '',
-   indexAxis: 'y',
    animations: {
      tension: {
        duration: 5500,
