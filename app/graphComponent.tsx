@@ -140,7 +140,6 @@ export default function Graph(props: { data: any }) {
 // mobile formatting
 const fontSize = isMobile() ? 20 : 30
 const padding = isMobile() ? 0.1 : 1.75
-const nameFont = isMobile() ? 'Space Grotesk' : 'Tan Buster'
 
  let pipCounter = -1
 
@@ -170,7 +169,7 @@ const nameFont = isMobile() ? 'Space Grotesk' : 'Tan Buster'
             crossAlign: 'near',
             beginAtZero: true,
             font: {
-              family: nameFont,
+              family: 'Tan Buster',
               size: fontSize
             },
             // maxRotation: 22.5,
@@ -277,7 +276,7 @@ const nameFont = isMobile() ? 'Space Grotesk' : 'Tan Buster'
         datalabels: {
           color: colors.blue2,
           font: {
-            family: nameFont,
+            family: 'Tan Buster',
             size: fontSize
           }
         },
