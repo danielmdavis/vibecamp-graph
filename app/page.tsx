@@ -4,9 +4,9 @@ import Papa from 'papaparse'
 import { getData } from './fetch.jsx'
 
 // TO DO
-// formatting for mobile
-// stop one big resize for pip
-
+// formatting for mobile - URGENT
+// only show top n% of people
+// fonts not loading on first visit and FOUTing
 
 // more styling
 // explanatory tooltip - somewhere. maybe outside the computer

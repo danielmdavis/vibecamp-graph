@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Papa from 'papaparse'
 import { getAllUserData, updateScores } from './fetch'
-import { calcDataOffsetSequence, calcMobileDataOffsetSequence, calcAllDOS, animateAll, isMobile, whichDOS, historyStabilizer, setDate, staticizePip } from './animation'
+import { calcDataOffsetSequence, calcMobileDataOffsetSequence, calcAllDOS, animateAll, whichDOS, historyStabilizer, setDate, staticizePip } from './animation'
 import { chartConfig } from './chartConfig'
 
 import {
@@ -36,7 +36,7 @@ import { getFirestore, collection, getDocs, setDoc, doc } from 'firebase/firesto
 
 export default function Graph(props: { data: any }) {
 
-
+  let [navigator, setNavigator]: any[] = useState('')
   let [users, setUsers]: any[] = useState([])
   let [dates, setDates]: any[] = useState([])
   let [running, setRunning]: any = useState(false)
@@ -69,6 +69,7 @@ export default function Graph(props: { data: any }) {
   // api get, parse user list, selections, scores, push new to db
   useEffect(() => {
 
+    setNavigator(window.navigator)
     setData(props.data)
     const rankedChoice = parseRankedChoice()
     const parsedUsers =  parseUsers(rankedChoice)
@@ -77,9 +78,17 @@ export default function Graph(props: { data: any }) {
     const currentMap = new Map([...currentScore.entries()].sort((a: any, b: any) => b[1] - a[1]))
 
     updateScores(currentMap, getLatestDate(), users, setDoc, doc, db)
-
+    
   },[props.data])
-  
+
+  const isMobile = () => {
+    const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i]
+    if (navigator !== '') {
+      return toMatch.some((toMatchItem) => {
+          return navigator?.userAgent.match(toMatchItem);
+      })
+    }
+  }
 
   // parsing for incoming api data
   const parseRankedChoice = () => {
@@ -128,12 +137,16 @@ export default function Graph(props: { data: any }) {
 
 //  const options: any = chartConfig
 
+// mobile formatting
+const fontSize = isMobile() ? 20 : 30
+const padding = isMobile() ? 0.1 : 1.75
+const nameFont = isMobile() ? 'Space Grotesk' : 'Tan Buster'
+
  let pipCounter = -1
- console.log(xLimit)
 
  const options: any = { 
    responsive: true,
-   maintainAspectRatio: true,
+   maintainAspectRatio: false,
    events: '',
    indexAxis: 'y',
    animations: {
@@ -151,14 +164,14 @@ export default function Graph(props: { data: any }) {
            id: 'names',
            stacked: true,
            position: {
-             y: 1.5
+             y: padding
            },
            ticks: {
             crossAlign: 'near',
             beginAtZero: true,
             font: {
-              family: 'Tan Buster',
-              size: 30
+              family: nameFont,
+              size: fontSize
             },
             // maxRotation: 22.5,
             // minRotation: 22.5,
@@ -205,7 +218,7 @@ export default function Graph(props: { data: any }) {
        color: 'rgb(242,215,170)',
        font: {
          family: 'Space Grotesk',
-         size: 18
+         size: fontSize
        }, 
        position: 'bottom'
      },
@@ -258,14 +271,14 @@ export default function Graph(props: { data: any }) {
         shadowBlur: 3,
         shadowOffsetX: 3,
         shadowOffsetY: 10,
-        borderRadius: 100
+        borderRadius: 200
       },
       {
         datalabels: {
           color: colors.blue2,
           font: {
-            family: 'Tan Buster',
-            size: 30
+            family: nameFont,
+            size: fontSize
           }
         },
         data: pipArr,
@@ -296,14 +309,14 @@ export default function Graph(props: { data: any }) {
   // sets 
   const multiplesOfLeader = 1.2
   const chart: any = chartRef.current
+
+  // sets static dimensions of chart in two different places
   const newX = Math.floor(Math.max(...currentArr) * multiplesOfLeader)
   if (chart !== null && newX !== -Infinity) {
     chart.config.options.scales.x.max = newX
     if (xLimit === 0) {
       setXLimit(newX)
     }
-
-    console.log(newX)
   }
 
   // console.log(setDate(chart))
@@ -318,11 +331,13 @@ export default function Graph(props: { data: any }) {
     chart.clear()
     chart.update()
   }
+
+  const isMobileHeader = isMobile() ? 'mobile-header': 'header'
   
   return (
     <main>
       <div className='grid-box'>
-        <div className='header'>Dating Show to Save the World</div>
+        <div className={isMobileHeader}>Dating Show to Save the World</div>
         <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
       </div>
     </main>
