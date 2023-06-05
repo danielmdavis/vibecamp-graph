@@ -1,8 +1,17 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
-import Papa from 'papaparse'
 import { getAllUserData, updateScores } from './fetch'
-import { calcDataOffsetSequence, calcMobileDataOffsetSequence, calcAllDOS, animateAll, whichDOS, historyStabilizer, setDate, staticizePip } from './animation'
+import { 
+  calcDataOffsetSequence, 
+  calcMobileDataOffsetSequence, 
+  calcAllDOS, 
+  animateAll, 
+  whichDOS, 
+  historyStabilizer, 
+  setDate, 
+  setChartlessDate, 
+  staticizePip 
+} from './animation'
 import { chartConfig } from './chartConfig'
 
 import {
@@ -43,6 +52,7 @@ export default function Graph(props: { data: any }) {
   let [data, setData]: any[] = useState([])
   let [current, setCurrent]: any = useState({})
   let [xLimit, setXLimit]: any = useState(0)
+  let [currDate, setCurrDate]: any = useState('June 5 2023')
 
   const firebaseApp = initializeApp({
     apiKey: "AIzaSyD7iFzuRFa_ZKqw3OYSe5U7Q7APmTffv7s",
@@ -128,6 +138,14 @@ export default function Graph(props: { data: any }) {
     return parseDates()[parseDates.length - 1]
   }
 
+  const getVoteTotal = (current: any[]) => {
+    return current.reduce((partial: number, next: number) => partial + next, 0)
+  }
+
+  const getVoteTurnout = (current: any[], voters: number) => {
+    return Math.floor(getVoteTotal(current) / voters * 100)
+  }
+
 
   // //
   //
@@ -138,7 +156,7 @@ export default function Graph(props: { data: any }) {
 //  const options: any = chartConfig
 
 // mobile formatting
-const fontSize = isMobile() ? 20 : 30
+const fontSize = isMobile() ? 15 : 30
 const padding = isMobile() ? 0.1 : 1.75
 
  let pipCounter = -1
@@ -202,18 +220,15 @@ const padding = isMobile() ? 0.1 : 1.75
    },
    plugins: {
      legend: {
-       display: false,
-       position: 'bottom',
-       labels: {
-         color: 'rgb(230,227,120)',
-         font: {
-           family: 'Space Grotesk'
-         }, 
-       }
+       display: false
      },
      title: {
-       display: true,
-       text: 'Click to see the full history of romantic acclaim',
+       display: false,
+       align: 'start',
+       padding: {
+        left: 150
+       },
+       text: 'Click for full timeline',
        color: 'rgb(242,215,170)',
        font: {
          family: 'Space Grotesk',
@@ -322,10 +337,10 @@ const padding = isMobile() ? 0.1 : 1.75
   staticizePip(chart)
 
   const onClick = (event: any) => {
-    const chart: any = chartRef.current
     const justDates = dates.map((date: any) => { return date.date })
+    const chart: any = chartRef.current
     if (running === false) {
-      animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, justDates)
+      animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, justDates, setCurrDate)
     }
     chart.clear()
     chart.update()
@@ -336,8 +351,16 @@ const padding = isMobile() ? 0.1 : 1.75
   return (
     <main>
       <div className='grid-box'>
-        <div className={isMobileHeader}>Dating Show to Save the World</div>
+        <div className='head-box'>
+          <div className={isMobileHeader}>Dating Show to Save the World</div>
+          <div className='sub-header'>Watch them compete to win the heart of Vibecamps most elligible bachelorette</div>
+        </div>
         <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
+        <div className='foot-box'>
+            <div className='footer'>{currDate}</div>
+            <div className='footer'>{getVoteTotal(currentArr)} votes cast</div>
+            <div className='footer'>{getVoteTurnout(currentArr, 250)}% of vibecamp voted</div>
+        </div>
       </div>
     </main>
   )

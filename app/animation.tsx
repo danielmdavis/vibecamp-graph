@@ -81,6 +81,19 @@ export function setDate(chart: any, dateData?: any) {
   }
 }
 
+export function setChartlessDate(setDateState: any, dateData?: any) {
+  const date = new Date(dateData + 'T00:00')
+  const today = new Date()
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  const dateString = `${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()}`
+  const todayString = `${months[today.getMonth()]} ${today.getDate()} ${today.getFullYear()}`
+  if (dateData === undefined) {
+    setDateState(todayString)
+  } else if (dateData !== undefined ) {
+    setDateState(dateString)
+  }
+}
+
 export function staticizePip(chart: any) {
   if (chart !== null && chart.data.datasets[1]) {
     chart.options.animation.duration = 0
@@ -113,7 +126,7 @@ export function isRunning(delayOffset: number, delayCount: number, historyArr: a
   }, disableDuration)
 }
 
-export function animateAll(currentArr: any, DOSArrs: any, chart: any, historyArr: any, setState: any, dateData: any) {
+export function animateAll(currentArr: any, DOSArrs: any, chart: any, historyArr: any, setState: any, dateData: any, dateState: any) {
   let delayOffset = 250
   isRunning(delayOffset, DOSArrs[0].length, historyArr, setState)
   const dates = dateData?.sort()
@@ -122,7 +135,8 @@ export function animateAll(currentArr: any, DOSArrs: any, chart: any, historyArr
     setTimeout(() => {
       const step = DOSArrs.map((n: any) => n = n[i])
       adjustDataOneStep(currentArr, step, chart, speed)
-      setDate(chart, dates[i])
+      // setDate(chart, dates[i])
+      // setChartlessDate(dateState, dates[i])
       currentArr = currentArr.map((n: number, j: number) => n += step[j])
       if (i === DOSArrs[0].length - 1) {
         const colorArr = new Array(currentArr.length - 1).fill(colors.blue1)

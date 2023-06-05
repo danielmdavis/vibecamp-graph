@@ -4,11 +4,13 @@ import Papa from 'papaparse'
 import { getData } from './fetch.jsx'
 
 // TO DO
-// formatting for mobile - URGENT
+// formatting for mobile
+// add faces at right of bar
+// position and add logos to footers
+// fix date setter synced to animateAll
 // only show top n% of people
-// fonts not loading on first visit and FOUTing
+// fonts not loading on first visit, and FOUTing
 
-// more styling
 // explanatory tooltip - somewhere. maybe outside the computer
 // scalar score assignment?
 // componentize data parsing
