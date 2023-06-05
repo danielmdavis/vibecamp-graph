@@ -13,7 +13,6 @@ import {
   staticizePip 
 } from './animation'
 import { chartConfig } from './chartConfig'
-
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -358,8 +357,10 @@ const padding = isMobile() ? 0.1 : 1.75
         <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
         <div className='foot-box'>
             <div className='footer'>{currDate}</div>
-            <div className='footer'>{getVoteTotal(currentArr)} votes cast</div>
-            <div className='footer'>{getVoteTurnout(currentArr, 250)}% of vibecamp voted</div>
+            <div className='footer'>
+              <img src={require('./icon.png')} className='icon' /> {getVoteTotal(currentArr)} votes cast
+              </div>
+            <div className='footer'><img src={require('./icon.png')} className='icon' /> {getVoteTurnout(currentArr, 250)}% of vibecamp voted</div>
         </div>
       </div>
     </main>
