@@ -41,7 +41,7 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
   background-color: var(--purple);
-  background-image: url('2.png');
+  background-image: url('/bg.png');
   background-size: cover;
   color: var(--black) !important;
 }
@@ -101,9 +101,11 @@ body {
   font-size: 1.5em;
   margin-right: 8%;
   color: var(--white);
+  align-items: left !important;
+  /* display: flex; */
+  /* flex-direction: row; */
+  width: 350px;
   align-items: center;
-  display: flex;
-  flex-direction: row;
 }
 
 .foot-box {
@@ -115,8 +117,18 @@ body {
   align-items: center;
 }
 
+.foot-1, .foot-2 {
+  vertical-align: top;
+}
+
+.foot-2 {
+  font-size: 0.75em;
+}
+
 .icon {
-  height: 35px;
-  width: 35px;
+  height: 45px;
+  width: 45px;
   margin: 5px;
+  float: left;
+  vertical-align: middle;
 }

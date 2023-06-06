@@ -359,12 +359,18 @@ const padding = isMobile() ? 0.1 : 1.75
         <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
         <div className='foot-box'>
             <div className='footer'>
-              <img src='/icon.png' className='icon' /> {currDate}
+              <img src='/3.png' className='icon' /> {currDate}
             </div>
             <div className='footer'>
-              <img src='/icon.png' className='icon' />  {voteCount} votes cast
+              <img src='/2.png' className='icon' />  
+              <span className='foot-1'>{voteCount}</span> <br /> 
+              <span className='foot-2'>votes cast</span>
               </div>
-            <div className='footer'><img src='/icon.png' className='icon' />  {voteTurnout}% of vibecamp voted</div>
+            <div className='footer'>
+              <img src='/1.png' className='icon' />  
+              <span className='foot-1'>{voteTurnout}% </span> <br />
+              <span className='foot-2'>of vibecamp voted</span>
+            </div>
         </div>
       </div>
     </main>
