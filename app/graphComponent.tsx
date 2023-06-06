@@ -25,6 +25,8 @@ import {
 import { Bar, getElementsAtEvent } from 'react-chartjs-2'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
 
+import Image from 'next/image'
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -135,10 +137,6 @@ export default function Graph(props: { data: any }) {
 
   const getLatestDate = () => {
     return parseDates()[parseDates.length - 1]
-  }
-
-  const getVoteTotal = (current: any[]) => {
-    return current.reduce((partial: number, next: number) => partial + next, 0)
   }
 
   const getVoteTurnout = (current: any[], voters: number) => {
@@ -261,6 +259,10 @@ const padding = isMobile() ? 0.1 : 1.75
   const splitLabels = userData.map((item: any) => item.name.split(' '))
   const paddedLabels = userData.map((item: any) => `    ${item.name}`)
 
+  const voters = 45
+  const voteCount = props.data.data.length
+  const voteTurnout = Math.floor(voteCount / voters * 100)
+
   const historyArr = historyStabilizer(labels, userData)
   const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
   const staticArr = JSON.parse(JSON.stringify(currentArr))
@@ -346,21 +348,23 @@ const padding = isMobile() ? 0.1 : 1.75
   }
 
   const isMobileHeader = isMobile() ? 'mobile-header': 'header'
-  
+
   return (
     <main>
       <div className='grid-box'>
         <div className='head-box'>
           <div className={isMobileHeader}>Dating Show to Save the World</div>
-          <div className='sub-header'>Watch them compete to win the heart of Vibecamps most elligible bachelorette</div>
+          <div className='sub-header'>Who will compete to win the heart of Vibecamps most elligible bachelorette?</div>
         </div>
         <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
         <div className='foot-box'>
-            <div className='footer'>{currDate}</div>
             <div className='footer'>
-              <img src={require('./icon.png')} className='icon' /> {getVoteTotal(currentArr)} votes cast
+              <img src='/icon.png' className='icon' /> {currDate}
+            </div>
+            <div className='footer'>
+              <img src='/icon.png' className='icon' />  {voteCount} votes cast
               </div>
-            <div className='footer'><img src={require('./icon.png')} className='icon' /> {getVoteTurnout(currentArr, 250)}% of vibecamp voted</div>
+            <div className='footer'><img src='/icon.png' className='icon' />  {voteTurnout}% of vibecamp voted</div>
         </div>
       </div>
     </main>
