@@ -95,6 +95,7 @@ body {
 
 .mobile-sub-header {
   width: 99vw;
+  text-align: center !important;
 }
 .sub-header, .mobile-sub-header {
   font-family: 'Space Grotesk';
