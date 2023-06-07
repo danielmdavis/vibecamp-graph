@@ -91,6 +91,7 @@ body {
 .mobile-header {
   font-size: 2em;
   width: 99vw;
+  text-align: center !important;
 }
 
 .mobile-sub-header {
