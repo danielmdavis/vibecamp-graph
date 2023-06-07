@@ -345,12 +345,13 @@ const padding = isMobile() ? 0.1 : 1.75
   const isMobileHeader = isMobile() ? 'mobile-header': 'header'
   const isMobileSubHeader = isMobile() ? 'mobile-sub-header': 'sub-header'
   const isMobileFooter = isMobile() ? 'mobile-foot-box': 'foot-box'
+  const isMobileSpacer = isMobile() ? 'mobile-spacer' : 'spacer'
 
   return (
     <main>
       <div className='grid-box'>
         <div className='head-box'>
-        <div className='spacer'></div>
+        <div className={isMobileSpacer}></div>
           <div className={isMobileHeader}>Dating Show to Save the World</div>
           <div className={isMobileSubHeader}>Vote to send 3 campers to the dating show, where they’ll compete for the heart of vibecamp’s hottest bachelorette
 </div>

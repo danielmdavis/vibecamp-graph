@@ -97,6 +97,7 @@ body {
 .mobile-sub-header {
   width: 99vw;
   text-align: center !important;
+  font-size: 0.75em;
 }
 .sub-header, .mobile-sub-header {
   font-family: 'Space Grotesk';
@@ -160,4 +161,7 @@ body {
 
 .spacer {
   height: 65px;
+}
+.mobile-spacer {
+  height: 0px
 }
