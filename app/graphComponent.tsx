@@ -139,11 +139,6 @@ export default function Graph(props: { data: any }) {
     return parseDates()[parseDates.length - 1]
   }
 
-  const getVoteTurnout = (current: any[], voters: number) => {
-    return Math.floor(getVoteTotal(current) / voters * 100)
-  }
-
-
   // //
   //
   // all things chart
