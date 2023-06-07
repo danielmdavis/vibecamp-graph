@@ -36,18 +36,17 @@
   margin: 0;
 }
 
-html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
   background-color: var(--purple);
   background-image: url('/bg.png');
   background-repeat: no-repeat;
-  background-size: cover !important;
   color: var(--black) !important;
-}
-
-body {
+  background-size: 100% 100%;  
+  -webkit-background-size: cover; 
+  -moz-background-size: cover; 
+  -o-background-size: cover; 
 }
 
 .bar {
@@ -91,9 +90,13 @@ body {
 
 .mobile-header {
   font-size: 2em;
+  width: 99vw;
 }
 
-.sub-header {
+.mobile-sub-header {
+  width: 99vw;
+}
+.sub-header, .mobile-sub-header {
   font-family: 'Space Grotesk';
   font-size: 1.25em;
   text-align: right;
@@ -121,6 +124,9 @@ body {
   margin: auto !important;
   margin-top: -20px;
   bottom: 50px;
+}
+.mobile-foot-box {
+  display: none;
 }
 
 .foot-1, .foot-2 {

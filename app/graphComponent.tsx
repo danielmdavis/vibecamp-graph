@@ -343,6 +343,8 @@ const padding = isMobile() ? 0.1 : 1.75
   }
 
   const isMobileHeader = isMobile() ? 'mobile-header': 'header'
+  const isMobileSubHeader = isMobile() ? 'mobile-sub-header': 'sub-header'
+  const isMobileFooter = isMobile() ? 'mobile-foot-box': 'foot-box'
 
   return (
     <main>
@@ -350,10 +352,10 @@ const padding = isMobile() ? 0.1 : 1.75
         <div className='head-box'>
         <div className='spacer'></div>
           <div className={isMobileHeader}>Dating Show to Save the World</div>
-          <div className='sub-header'>Who will compete to win the heart of Vibecamps most elligible bachelorette?</div>
+          <div className={isMobileSubHeader}>Who will compete to win the heart of Vibecamps most elligible bachelorette?</div>
         </div>
         <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
-        <div className='foot-box'>
+        <div className={isMobileFooter}>
             <div className='footer-outer'>
               <div className='footer'>
                 <img src='/3.png' className='icon' /> <span className='date'>{currDate}</span>
