@@ -9,8 +9,8 @@ import { getData } from './fetch.jsx'
 // - Names in bars should be left-aligned - STUBBORN
 // - Numbers should be centered - STUBBORN
 // - keep perfecting it for mobile!
+// fonts not loading on first visit, FOUTing
 // - add faces at right of bar (officially a goal but de facto dropped)
-// fonts not loading on first visit, FOUTing (is this an issue for prod?)
 
 // LOGIC
 // - why in the hell does animating date break the chart? WHY

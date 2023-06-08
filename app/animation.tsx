@@ -90,7 +90,7 @@ export function setChartlessDate(setDateState: any, dateData?: any) {
   if (dateData === undefined) {
     setDateState(todayString)
   } else if (dateData !== undefined ) {
-    setDateState(dateString) // la problema
+    // setDateState(dateString) // la problema
   }
 }
 
