@@ -6,7 +6,6 @@ import {
   calcMobileDataOffsetSequence, 
   calcAllDOS, 
   animateAll, 
-  animateFooters,
   whichDOS, 
   historyStabilizer, 
   setChartlessDate, 
@@ -54,6 +53,8 @@ export default function Graph(props: { data: any }) {
   let [current, setCurrent]: any = useState({})
   let [xLimit, setXLimit]: any = useState(0)
   let [currDate, setCurrDate]: any = useState('June 5 2023')
+  let [voteCount, setVoteCount]: any = useState(props.data.data.length) // fix initial
+  let [scoreTotal, setScoreTotal]: any = useState(0)
 
   const firebaseApp = initializeApp({
     apiKey: "AIzaSyD7iFzuRFa_ZKqw3OYSe5U7Q7APmTffv7s",
@@ -89,6 +90,7 @@ export default function Graph(props: { data: any }) {
     const currentMap = new Map([...currentScore.entries()].sort((a: any, b: any) => b[1] - a[1]))
 
     updateScores(currentMap, getLatestDate(), users, setDoc, doc, db)
+    setScoreTotal(currentArr.reduce((total: number, curr: number) => total + curr, 0))
     
   },[props.data])
 
@@ -249,19 +251,18 @@ const padding = isMobile() ? 0.1 : 1.75
   const labels = userData.map((item: any) => item.name)
   const splitLabels = userData.map((item: any) => item.name.split(' '))
   const paddedLabels = userData.map((item: any) => `    ${item.name}`)
-
-  const voters = 45
-  const voteCount = props.data.data.length
-  const voteTurnout = Math.floor(voteCount / voters * 100)
-
+  
   const historyArr = historyStabilizer(labels, userData)
   const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
-  const scoreTotal = currentArr.reduce((total: number, curr: number) => total + curr, 0)
   const staticArr = JSON.parse(JSON.stringify(currentArr))
   let pipArr = []
   if (currentArr.length > 0) {
     pipArr = Array(currentArr.length).fill(-4)
   }
+  
+  // footer parsing
+  const voters = 45
+  const voteTurnout = Math.floor(voteCount / voters * 100)
   
   // mapped chart config
   const componentData = {
@@ -333,8 +334,7 @@ const padding = isMobile() ? 0.1 : 1.75
     const justDates = dates.map((date: any) => { return date.date })
     const chart: any = chartRef.current
     if (running === false) {
-      animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, justDates, setCurrDate)
-      // animateFooters(currentArr, allDOS, historyArr, setRunning, justDates, setCurrDate)
+      animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, justDates, setCurrDate, setVoteCount, setScoreTotal)
     }
     chart.clear()
     chart.update()
@@ -344,7 +344,6 @@ const padding = isMobile() ? 0.1 : 1.75
   const isMobileHeader = isMobile() ? 'mobile-header': 'header'
   const isMobileSubHeader = isMobile() ? 'mobile-sub-header': 'sub-header'
   const isMobileSpacer = isMobile() ? 'mobile-spacer' : 'spacer'
-  // const isMobileFooter = isMobile() ? 'mobile-foot-box': 'foot-box'
   const isMobileFooter = isMobile() 
   ? 
   <div className='mobile-foot-box'>

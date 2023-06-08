@@ -8,17 +8,16 @@ import { getData } from './fetch.jsx'
 // UI 
 // - Names in bars should be left-aligned - STUBBORN
 // - Numbers should be centered - STUBBORN
-// - work footer into mobile
-// - keep perfecting it for mobile!
-// - fonts not loading on first visit, FOUTing
-// - add faces at right of bar (officially a goal but de facto dropped)
+// - fonts not loading on first visit - STUBBORN
+// - fix bg on mobile
+// - add faces at right of bar (de facto not happening)
 
 // LOGIC
 // - why in the hell does animating date break the chart? WHY. WHY!!?
 // - number of votes should also change during animation
 
 // - Try to show all contestants and stress-test with data 
-// componentize data parsing (can be for posterity / after event)
+// componentize data parsing (can be after event / for posterity)
 
 
 export default async function Home() {

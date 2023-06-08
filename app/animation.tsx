@@ -77,8 +77,13 @@ export function setChartlessDate(setDateState: any, dateData?: any) {
   if (dateData === undefined) {
     setDateState(todayString)
   } else if (dateData !== undefined ) {
-    setDateState(dateString) // la problema
+    setDateState(dateString) // el PROBLEMA
   }
+}
+
+export function setVoteAndScore(setVoteCount: any, setScoreTotal: any, currentArr: any, currentVotes: any) {
+  setVoteCount(currentVotes)
+  setScoreTotal(currentArr.reduce((total: number, curr: number) => total + curr, 0))
 }
 
 export function staticizePip(chart: any) {
@@ -113,38 +118,41 @@ export function isRunning(delayOffset: number, delayCount: number, historyArr: a
   }, disableDuration)
 }
 
-export function animateAll(currentArr: any[], DOSArrs: any[], chart: any, historyArr: any[], setState: any, dateData: any, setDateState: any) {
+export function animateAll(currentArr: any[], DOSArrs: any[], chart: any, historyArr: any[], setState: any, dateData: any, setDateState: any, setVoteCount: any, setScoreTotal: any) {
   let delayOffset = 250
   isRunning(delayOffset, DOSArrs[0].length, historyArr, setState)
   const dates = dateData?.sort()
+  let currentVotes = 1
   for (let i = 0; i < DOSArrs[0].length; i += 1) {
     const speed: any = i === 0 ? 0 : undefined
     setTimeout(() => {
       const step = DOSArrs.map((n: any) => n = n[i])
       adjustDataOneStep(currentArr, step, chart, speed)
-      setChartlessDate(setDateState, dates[i])
+      // setChartlessDate(setDateState, dates[i])
+      // setVoteAndScore(setVoteCount, setScoreTotal, currentArr, currentVotes)
       currentArr = currentArr.map((n: number, j: number) => n += step[j])
       if (i === DOSArrs[0].length - 1) {
         const colorArr = new Array(currentArr.length - 1).fill(colors.blue1)
         chart.data.datasets[0].backgroundColor = colorArr
         chart.update()
       }
+      currentVotes += 1
     }, delayOffset)
     delayOffset += calcAnimationSpeed(historyArr)
   }
 }
 
-export function animateFooters(currentArr: any[], DOSArrs: any[], historyArr: any[], setState: any, dateData: any[], setDateState: any) {
-  let delayOffset = 250
-  isRunning(delayOffset, DOSArrs[0].length, historyArr, setState)
-  const dates = dateData?.sort()
-  for (let i = 0; i < DOSArrs[0].length; i += 1) {
-    setTimeout(() => {
-      setChartlessDate(setDateState, dates[i])
-    }, delayOffset)
-    delayOffset += calcAnimationSpeed(historyArr)
-  }
-}
+// export function animateFooters(currentArr: any[], DOSArrs: any[], historyArr: any[], setState: any, dateData: any[], setDateState: any) {
+//   let delayOffset = 250
+//   isRunning(delayOffset, DOSArrs[0].length, historyArr, setState)
+//   const dates = dateData?.sort()
+//   for (let i = 0; i < DOSArrs[0].length; i += 1) {
+//     setTimeout(() => {
+//       setChartlessDate(setDateState, dates[i])
+//     }, delayOffset)
+//     delayOffset += calcAnimationSpeed(historyArr)
+//   }
+// }
 
  // checks mobility, halves offset to correct bug
  export function isMobile() {
