@@ -68,19 +68,6 @@ export function historyStabilizer(labels: any, userData: any) {
 }
 
 // sequence runners
-export function setDate(chart: any, dateData?: any) {
-  const date = new Date(dateData + 'T00:00')
-  const today = new Date()
-  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-  const dateString = `${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()}`
-  const todayString = `${months[today.getMonth()]} ${today.getDate()} ${today.getFullYear()}`
-  if (dateData === undefined && chart !== null) {
-    chart.options.plugins.title.text = todayString
-  } else if (dateData !== undefined && chart !== null) {
-    chart.options.plugins.title.text = dateString
-  }
-}
-
 export function setChartlessDate(setDateState: any, dateData?: any) {
   const date = new Date(dateData + 'T00:00')
   const today = new Date()
@@ -90,7 +77,7 @@ export function setChartlessDate(setDateState: any, dateData?: any) {
   if (dateData === undefined) {
     setDateState(todayString)
   } else if (dateData !== undefined ) {
-    // setDateState(dateString) // la problema
+    setDateState(dateString) // la problema
   }
 }
 
@@ -126,7 +113,7 @@ export function isRunning(delayOffset: number, delayCount: number, historyArr: a
   }, disableDuration)
 }
 
-export function animateAll(currentArr: any, DOSArrs: any, chart: any, historyArr: any, setState: any, dateData: any, setDateState: any) {
+export function animateAll(currentArr: any[], DOSArrs: any[], chart: any, historyArr: any[], setState: any, dateData: any, setDateState: any) {
   let delayOffset = 250
   isRunning(delayOffset, DOSArrs[0].length, historyArr, setState)
   const dates = dateData?.sort()
@@ -142,6 +129,18 @@ export function animateAll(currentArr: any, DOSArrs: any, chart: any, historyArr
         chart.data.datasets[0].backgroundColor = colorArr
         chart.update()
       }
+    }, delayOffset)
+    delayOffset += calcAnimationSpeed(historyArr)
+  }
+}
+
+export function animateFooters(currentArr: any[], DOSArrs: any[], historyArr: any[], setState: any, dateData: any[], setDateState: any) {
+  let delayOffset = 250
+  isRunning(delayOffset, DOSArrs[0].length, historyArr, setState)
+  const dates = dateData?.sort()
+  for (let i = 0; i < DOSArrs[0].length; i += 1) {
+    setTimeout(() => {
+      setChartlessDate(setDateState, dates[i])
     }, delayOffset)
     delayOffset += calcAnimationSpeed(historyArr)
   }

@@ -6,6 +6,7 @@ import {
   calcMobileDataOffsetSequence, 
   calcAllDOS, 
   animateAll, 
+  animateFooters,
   whichDOS, 
   historyStabilizer, 
   setDate, 
@@ -256,6 +257,7 @@ const padding = isMobile() ? 0.1 : 1.75
 
   const historyArr = historyStabilizer(labels, userData)
   const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
+  const scoreTotal = currentArr.reduce((total: number, curr: number) => total + curr, 0)
   const staticArr = JSON.parse(JSON.stringify(currentArr))
   let pipArr = []
   if (currentArr.length > 0) {
@@ -333,47 +335,64 @@ const padding = isMobile() ? 0.1 : 1.75
     const chart: any = chartRef.current
     if (running === false) {
       animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, justDates, setCurrDate)
+      // animateFooters(currentArr, allDOS, historyArr, setRunning, justDates, setCurrDate)
     }
     chart.clear()
     chart.update()
   }
 
+  const isMobileBody = isMobile() ? 'mobile-grid-box' : 'grid-box'
   const isMobileHeader = isMobile() ? 'mobile-header': 'header'
   const isMobileSubHeader = isMobile() ? 'mobile-sub-header': 'sub-header'
-  const isMobileFooter = isMobile() ? 'mobile-foot-box': 'foot-box'
   const isMobileSpacer = isMobile() ? 'mobile-spacer' : 'spacer'
+  // const isMobileFooter = isMobile() ? 'mobile-foot-box': 'foot-box'
+  const isMobileFooter = isMobile() 
+  ? 
+  <div className='mobile-foot-box'>
+    <span className='mobile-footer'>
+      <img src='/3.png' className='icon' /> <span>{currDate}</span>
+    </span>
+    <span className='mobile-footer'>
+      <img src='/2.png' className='icon' /> <span>{voteCount} votes <br /> ({scoreTotal} pts)</span>
+    </span>
+    <span className='mobile-footer'>
+      <img src='/1.png' className='icon' /> <span>{voteTurnout}% <br /> voted </span>
+    </span>
+  </div>
+  :
+  <div className='foot-box'>
+    <div className='footer-outer'>
+      <div className='footer'>
+        <img src='/3.png' className='icon' /> <span className='date'>{currDate}</span>
+      </div>
+    </div>
+    <div className='footer-outer'>
+      <div className='footer'>
+        <img src='/2.png' className='ascender-icon' />  
+        <span className='foot-1'>{voteCount}</span> <br /> 
+        <span className='foot-2'>votes cast ({scoreTotal} pts)</span>
+      </div>
+    </div>        
+    <div className='footer-outer'>
+      <div className='footer'>
+        <img src='/1.png' className='icon' />  
+        <span className='foot-1'>{voteTurnout}% </span> <br />
+        <span className='foot-2'>of vibecamp voted</span>
+      </div>
+    </div>
+  </div>
 
   return (
     <main>
-      <div className='grid-box'>
+      <div className={isMobileBody}>
         <div className='head-box'>
         <div className={isMobileSpacer}></div>
           <div className={isMobileHeader}>Dating Show to Save the World</div>
-          <div className={isMobileSubHeader}>Vote to send 3 campers to the dating show, where they’ll compete for the heart of vibecamp’s hottest bachelorette
+          <div className={isMobileSubHeader}>Vote to send three campers to the dating show, where they’ll compete for the heart of vibecamp’s hottest bachelorette
         </div>
         </div>
         <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
-        <div className={isMobileFooter}>
-            <div className='footer-outer'>
-              <div className='footer'>
-                <img src='/3.png' className='icon' /> <span className='date'>{currDate}</span>
-              </div>
-            </div>
-            <div className='footer-outer'>
-              <div className='footer'>
-                <img src='/2.png' className='ascender-icon' />  
-                <span className='foot-1'>{voteCount}</span> <br /> 
-                <span className='foot-2'>votes cast</span>
-              </div>
-            </div>        
-            <div className='footer-outer'>
-              <div className='footer'>
-                <img src='/1.png' className='icon' />  
-                <span className='foot-1'>{voteTurnout}% </span> <br />
-                <span className='foot-2'>of vibecamp voted</span>
-              </div>
-            </div>
-        </div>
+        {isMobileFooter}
       </div>
     </main>
   )
