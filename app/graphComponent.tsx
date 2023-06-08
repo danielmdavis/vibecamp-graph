@@ -165,7 +165,7 @@ const padding = isMobile() ? 0.1 : 1.75
      }
    },
    layout: {
-    padding: 20
+    padding: 15
   },
    scales: {
      y: 
@@ -176,17 +176,16 @@ const padding = isMobile() ? 0.1 : 1.75
              y: padding
            },
            ticks: {
+             beginAtZero: true,
             crossAlign: 'near',
-            beginAtZero: true,
+            align: 'center',
             font: {
               family: 'Tan Buster',
               size: fontSize
             },
-            // maxRotation: 22.5,
-            // minRotation: 22.5,
             color: 'rgb(188,239,246)',
             z: 2,
-            mirror: true,
+            // mirror: true,
             padding: 50
            },
            grid: {
@@ -196,11 +195,8 @@ const padding = isMobile() ? 0.1 : 1.75
          },
      x: {
        stacked: true,
-      //  position: {
-      //    y: 20
-      //  },
       max: xLimit,
-      min: -5,
+      min: -4.5,
        ticks: {
          display: false,
          color: 'rgb(230,227,120)',
@@ -229,7 +225,7 @@ const padding = isMobile() ? 0.1 : 1.75
        position: 'bottom'
      },
      datalabels: {
-       formatter: (item: any) => {  // staticize pip score display as current
+      formatter: (item: any) => {  // staticize pip score but display as current
         if (pipCounter === currentArr.length - 1) {
           pipCounter = -1
         }
@@ -237,9 +233,9 @@ const padding = isMobile() ? 0.1 : 1.75
           pipCounter += 1
         }
         return staticArr[pipCounter]
-       }
-     }
-   }
+      }
+    }
+  }
  }  
 
   // db get

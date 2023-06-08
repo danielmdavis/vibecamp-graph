@@ -6,21 +6,18 @@ import { getData } from './fetch.jsx'
 // TO DO
 
 // UI 
-// - Names in bars should be left-aligned 
-// - Numbers should be centered 
-// - “Vote to send 3 vibecampers to the dating show, where they’ll compete for the heart of vibecamp’s hottest bachelorette.”
+// - Names in bars should be left-aligned - STUBBORN
+// - Numbers should be centered - STUBBORN
+// - keep perfecting it for mobile!
+// - add faces at right of bar (officially a goal but de facto dropped)
+// fonts not loading on first visit, FOUTing (is this an issue for prod?)
 
 // LOGIC
+// - why in the hell does animating date break the chart? WHY
+// - number of votes of votes should also change during animation
+// - Change “99 votes cast” to “12 votes cast (99 points total)” (how does this work visually?)
 // - Try to show all contestants and stress-test with data 
-// - Dates and # of votes should change as the historical animation progresses 
-// - Change “99 votes cast” to “12 votes cast (99 points total)”
-
-// clean it up for mobile!
-
-// add faces at right of bar
-// fonts not loading on first visit, and FOUTing
-
-// componentize data parsing
+// componentize data parsing (can be for posterity / after event)
 
 
 export default async function Home() {
