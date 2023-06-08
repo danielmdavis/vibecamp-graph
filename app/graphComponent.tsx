@@ -9,7 +9,6 @@ import {
   animateFooters,
   whichDOS, 
   historyStabilizer, 
-  setDate, 
   setChartlessDate, 
   staticizePip 
 } from './animation'
