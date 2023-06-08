@@ -90,7 +90,7 @@ export function setChartlessDate(setDateState: any, dateData?: any) {
   if (dateData === undefined) {
     setDateState(todayString)
   } else if (dateData !== undefined ) {
-    setDateState(dateString)
+    setDateState(dateString) // la problema
   }
 }
 
@@ -126,7 +126,7 @@ export function isRunning(delayOffset: number, delayCount: number, historyArr: a
   }, disableDuration)
 }
 
-export function animateAll(currentArr: any, DOSArrs: any, chart: any, historyArr: any, setState: any, dateData: any, dateState: any) {
+export function animateAll(currentArr: any, DOSArrs: any, chart: any, historyArr: any, setState: any, dateData: any, setDateState: any) {
   let delayOffset = 250
   isRunning(delayOffset, DOSArrs[0].length, historyArr, setState)
   const dates = dateData?.sort()
@@ -135,8 +135,7 @@ export function animateAll(currentArr: any, DOSArrs: any, chart: any, historyArr
     setTimeout(() => {
       const step = DOSArrs.map((n: any) => n = n[i])
       adjustDataOneStep(currentArr, step, chart, speed)
-      // setDate(chart, dates[i])
-      // setChartlessDate(dateState, dates[i])
+      setChartlessDate(setDateState, dates[i])
       currentArr = currentArr.map((n: number, j: number) => n += step[j])
       if (i === DOSArrs[0].length - 1) {
         const colorArr = new Array(currentArr.length - 1).fill(colors.blue1)

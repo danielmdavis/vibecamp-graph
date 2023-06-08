@@ -354,7 +354,7 @@ const padding = isMobile() ? 0.1 : 1.75
         <div className={isMobileSpacer}></div>
           <div className={isMobileHeader}>Dating Show to Save the World</div>
           <div className={isMobileSubHeader}>Vote to send 3 campers to the dating show, where they’ll compete for the heart of vibecamp’s hottest bachelorette
-</div>
+        </div>
         </div>
         <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
         <div className={isMobileFooter}>
