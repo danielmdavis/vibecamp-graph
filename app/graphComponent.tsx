@@ -52,9 +52,11 @@ export default function Graph(props: { data: any }) {
   let [data, setData]: any[] = useState([])
   let [current, setCurrent]: any = useState({})
   let [xLimit, setXLimit]: any = useState(0)
-  let [currDate, setCurrDate]: any = useState('June 5 2023')
-  let [voteCount, setVoteCount]: any = useState(props.data.data.length) // fix initial
+  let [currDate, setCurrDate]: any = useState('June 9 2023')
+  let [voteCount, setVoteCount]: any = useState(0) // fix initial
   let [scoreTotal, setScoreTotal]: any = useState(0)
+
+  // let [visiblePipArr, setVisiblePipArr]: any = useState([0,0,0,0])
 
   const firebaseApp = initializeApp({
     apiKey: "AIzaSyD7iFzuRFa_ZKqw3OYSe5U7Q7APmTffv7s",
@@ -141,6 +143,13 @@ export default function Graph(props: { data: any }) {
     return parseDates()[parseDates.length - 1]
   }
 
+  const updatePipTotals = (visiblePipArr: any, currentArr: any) => {
+    const newVisiblePipArr = visiblePipArr.map((each: number, i: number) => {
+      each += currentArr[i]
+    })
+    setVisiblePipArr(newVisiblePipArr)
+  }
+
   // //
   //
   // all things chart
@@ -148,6 +157,8 @@ export default function Graph(props: { data: any }) {
   // //
 
 //  const options: any = chartConfig
+
+// console.log(props.data.data)
 
 // mobile formatting
 const fontSize = isMobile() ? 15 : 30
@@ -234,7 +245,7 @@ const padding = isMobile() ? 0.1 : 1.75
         if (item === -4) {
           pipCounter += 1
         }
-        return staticArr[pipCounter]
+        return visiblePipArr[pipCounter]
       }
     }
   }
@@ -254,15 +265,15 @@ const padding = isMobile() ? 0.1 : 1.75
   
   const historyArr = historyStabilizer(labels, userData)
   const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
-  const staticArr = JSON.parse(JSON.stringify(currentArr))
+  const visiblePipArr = JSON.parse(JSON.stringify(currentArr)) // wip
   let pipArr = []
   if (currentArr.length > 0) {
     pipArr = Array(currentArr.length).fill(-4)
   }
   
   // footer parsing
-  const voters = 45
-  const voteTurnout = Math.floor(voteCount / voters * 100)
+  const voters = 770
+  const voteTurnout = Math.round(voteCount / voters)
   
   // mapped chart config
   const componentData = {
@@ -304,8 +315,6 @@ const padding = isMobile() ? 0.1 : 1.75
     ]
   }
 
-
-
   // animation sequences
   const allDOS = calcAllDOS(calcDataOffsetSequence, currentArr, historyArr)
   // const allMobileDOS = calcAllDOS(calcMobileDataOffsetSequence, currentArr, historyArr)
@@ -327,17 +336,16 @@ const padding = isMobile() ? 0.1 : 1.75
     }
   }
 
-  // console.log(setDate(chart))
   staticizePip(chart)
 
   const onClick = (event: any) => {
     const justDates = dates.map((date: any) => { return date.date })
     const chart: any = chartRef.current
     if (running === false) {
-      animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, justDates, setCurrDate, setVoteCount, setScoreTotal)
+      animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, justDates, voters, updatePipTotals, visiblePipArr)
     }
-    chart.clear()
-    chart.update()
+    // chart.clear()
+    // chart.update()
   }
 
   const isMobileBody = isMobile() ? 'mobile-grid-box' : 'grid-box'
@@ -348,33 +356,33 @@ const padding = isMobile() ? 0.1 : 1.75
   ? 
   <div className='mobile-foot-box'>
     <span className='mobile-footer'>
-      <img src='/3.png' className='icon' /> <span>{currDate}</span>
+      <img src='/3.png' className='icon' /> <span id='date'>{currDate}</span>
     </span>
     <span className='mobile-footer'>
-      <img src='/2.png' className='icon' /> <span>{voteCount} votes <br /> ({scoreTotal} pts)</span>
+      <img src='/2.png' className='icon' /> <span id='votes'>{voteCount} votes <br /> </span><span id='points'>({scoreTotal} pts)</span>
     </span>
     <span className='mobile-footer'>
-      <img src='/1.png' className='icon' /> <span>{voteTurnout}% <br /> voted </span>
+      <img src='/1.png' className='icon' /> <span id='turnout'>{voteTurnout}% <br /> voted </span>
     </span>
   </div>
   :
   <div className='foot-box'>
     <div className='footer-outer'>
       <div className='footer'>
-        <img src='/3.png' className='icon' /> <span className='date'>{currDate}</span>
+        <img src='/3.png' className='icon' /> <span id='date' className='date'>{currDate}</span>
       </div>
     </div>
     <div className='footer-outer'>
       <div className='footer'>
         <img src='/2.png' className='ascender-icon' />  
-        <span className='foot-1'>{voteCount}</span> <br /> 
-        <span className='foot-2'>votes cast ({scoreTotal} pts)</span>
+        <span id='votes' className='foot-1'>{voteCount}</span> <br /> 
+        <span id='points' className='foot-2'>votes cast ({scoreTotal} pts)</span>
       </div>
     </div>        
     <div className='footer-outer'>
       <div className='footer'>
         <img src='/1.png' className='icon' />  
-        <span className='foot-1'>{voteTurnout}% </span> <br />
+        <span className='foot-1' id='turnout'>{voteTurnout}% </span> <br />
         <span className='foot-2'>of vibecamp voted</span>
       </div>
     </div>
