@@ -9,7 +9,7 @@ import {
   whichDOS, 
   historyStabilizer, 
   staticizePip,
-  adjustFooterOneStep
+  setChartlessDate
 } from './animation'
 import { chartConfig } from './chartConfig'
 import {
@@ -141,6 +141,29 @@ export default function Graph(props: { data: any }) {
 
   const getLatestDate = () => {
     return parseDates()[parseDates.length - 1]
+  }
+
+  const adjustFooterOneStep = (currentVotes: any, currentArr: any, voters: any, dateData?: any) => {
+    const date = document.getElementById('date')
+    const votes = document.getElementById('votes')
+    const points = document.getElementById('points')
+    const turnout = document.getElementById('turnout')
+  
+    const totalVotes = currentArr.reduce((total: number, curr: number) => total + curr, 0)
+    if (date !== null) { 
+      date.textContent = setChartlessDate(dateData)
+    }
+    if ( votes !== null) {
+      votes.textContent = currentVotes
+    }
+    if ( points !== null) {
+      points.textContent = `votes cast (${totalVotes})`
+    }
+    if ( turnout !== null && totalVotes / voters < 3) {
+      turnout.textContent = (totalVotes / voters).toFixed(1)
+    } else if (turnout !== null) {
+      turnout.textContent = Math.round(totalVotes / voters).toString()
+    }
   }
 
   // //
@@ -337,7 +360,7 @@ const padding = isMobile() ? 0.1 : 1.75
     const justDates = dates.map((date: any) => { return date.date })
     const chart: any = chartRef.current
     if (running === false) {
-      animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, justDates, voters, visiblePipArr)
+      animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, adjustFooterOneStep, justDates, voters, visiblePipArr)
     }
     // chart.clear()
     // chart.update()

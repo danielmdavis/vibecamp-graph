@@ -109,28 +109,28 @@ export function calcAnimationSpeed(historyArr: any) {
   return timePerStep
 }
 
-export function adjustFooterOneStep(currentVotes: any, currentArr: any, voters: any, dateData?: any) {
-  const date = document.getElementById('date')
-  const votes = document.getElementById('votes')
-  const points = document.getElementById('points')
-  const turnout = document.getElementById('turnout')
+// export function adjustFooterOneStep(currentVotes: any, currentArr: any, voters: any, dateData?: any) {
+//   const date = document.getElementById('date')
+//   const votes = document.getElementById('votes')
+//   const points = document.getElementById('points')
+//   const turnout = document.getElementById('turnout')
 
-  const totalVotes = currentArr.reduce((total: number, curr: number) => total + curr, 0)
-  if (date !== null) { 
-    date.textContent = setChartlessDate(dateData)
-  }
-  if ( votes !== null) {
-    votes.textContent = currentVotes
-  }
-  if ( points !== null) {
-    points.textContent = `votes cast (${totalVotes})`
-  }
-  if ( turnout !== null && totalVotes / voters < 3) {
-    turnout.textContent = (totalVotes / voters).toFixed(1)
-  } else if (turnout !== null) {
-    turnout.textContent = Math.round(totalVotes / voters).toString()
-  }
-}
+//   const totalVotes = currentArr.reduce((total: number, curr: number) => total + curr, 0)
+//   if (date !== null) { 
+//     date.textContent = setChartlessDate(dateData)
+//   }
+//   if ( votes !== null) {
+//     votes.textContent = currentVotes
+//   }
+//   if ( points !== null) {
+//     points.textContent = `votes cast (${totalVotes})`
+//   }
+//   if ( turnout !== null && totalVotes / voters < 3) {
+//     turnout.textContent = (totalVotes / voters).toFixed(1)
+//   } else if (turnout !== null) {
+//     turnout.textContent = Math.round(totalVotes / voters).toString()
+//   }
+// }
 
 export function isRunning(delayOffset: number, delayCount: number, historyArr: any, setState: any) {
   setState(true)
@@ -140,7 +140,7 @@ export function isRunning(delayOffset: number, delayCount: number, historyArr: a
   }, disableDuration)
 }
 
-export function animateAll(currentArr: any[], DOSArrs: any[], chart: any, historyArr: any[], setState: any, dateData: any, voters: number, visiblePipArr: any) {
+export function animateAll(currentArr: any[], DOSArrs: any[], chart: any, historyArr: any[], setState: any, adjustFooterOneStep: any, dateData: any, voters: number, visiblePipArr: any) {
   let delayOffset = 250
   isRunning(delayOffset, DOSArrs[0].length, historyArr, setState)
   const dates = dateData?.sort()
