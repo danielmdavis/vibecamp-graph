@@ -133,7 +133,7 @@ export function isRunning(delayOffset: number, delayCount: number, historyArr: a
   }, disableDuration)
 }
 
-export function animateAll(currentArr: any[], DOSArrs: any[], chart: any, historyArr: any[], setState: any, dateData: any, voters: number, updatePipTotals: any, visiblePipArr: any) {
+export function animateAll(currentArr: any[], DOSArrs: any[], chart: any, historyArr: any[], setState: any, dateData: any, voters: number, visiblePipArr: any) {
   console.log(chart._plugins._cache[3].plugin.defaults)
   let delayOffset = 250
   isRunning(delayOffset, DOSArrs[0].length, historyArr, setState)
@@ -145,15 +145,12 @@ export function animateAll(currentArr: any[], DOSArrs: any[], chart: any, histor
       const step = DOSArrs.map((n: any) => n = n[i])
       adjustDataOneStep(currentArr, step, chart, speed)
       adjustFooterOneStep(dates[i], currentVotes, currentArr, voters)
-      // updatePipTotals(visiblePipArr, currentArr)
       currentArr = currentArr.map((n: number, j: number) => n += step[j])
       if (i === DOSArrs[0].length - 1) { // when complete, reset all to blue
         const colorArr = new Array(currentArr.length - 1).fill(colors.blue1)
         chart.data.datasets[0].backgroundColor = colorArr
       }
       chart.update()
-      // setVoteAndScore(setVoteCount, setScoreTotal, currentArr, currentVotes)   // troublemaker
-      // setChartlessDate(setDateState, dates[i])                                 // troublemaker
       currentVotes += 1
     }, delayOffset)
     delayOffset += calcAnimationSpeed(historyArr)

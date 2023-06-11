@@ -143,13 +143,6 @@ export default function Graph(props: { data: any }) {
     return parseDates()[parseDates.length - 1]
   }
 
-  const updatePipTotals = (visiblePipArr: any, currentArr: any) => {
-    const newVisiblePipArr = visiblePipArr.map((each: number, i: number) => {
-      each += currentArr[i]
-    })
-    setVisiblePipArr(newVisiblePipArr)
-  }
-
   // //
   //
   // all things chart
@@ -342,7 +335,7 @@ const padding = isMobile() ? 0.1 : 1.75
     const justDates = dates.map((date: any) => { return date.date })
     const chart: any = chartRef.current
     if (running === false) {
-      animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, justDates, voters, updatePipTotals, visiblePipArr)
+      animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, justDates, voters, visiblePipArr)
     }
     // chart.clear()
     // chart.update()
