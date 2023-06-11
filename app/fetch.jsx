@@ -51,7 +51,6 @@ const postNewUsers = (newUsers, users, setDoc, doc, db) => {
 }
 
 const postNewScores = (newData, users, setDoc, doc, db) => {
-  console.log(newData)
   users.forEach(current => {
     stepScore(newData.get(current.name), current, setDoc, doc, db)
   })

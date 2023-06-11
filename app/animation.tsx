@@ -67,7 +67,6 @@ export function historyStabilizer(labels: any, userData: any) {
 }
 
 // sequence runners
-// export function setChartlessDate(setDateState: any, dateData?: any) {
 export function setChartlessDate(dateData?: any) {
   const date = new Date(dateData + 'T00:00')
   const today = new Date()
@@ -75,10 +74,8 @@ export function setChartlessDate(dateData?: any) {
   const dateString = `${months[date.getMonth()]} ${date.getDate()} ${date.getFullYear()}`
   const todayString = `${months[today.getMonth()]} ${today.getDate()} ${today.getFullYear()}`
   if (dateData === undefined) {
-    // setDateState(todayString)
     return todayString
   } else if (dateData !== undefined ) {
-    // setDateState(dateString) // el PROBLEMA
     return dateString
   }
 }
@@ -112,17 +109,27 @@ export function calcAnimationSpeed(historyArr: any) {
   return timePerStep
 }
 
-const adjustFooterOneStep = (dateData: any, currentVotes: any, currentArr: any, voters: any) => {
+export function adjustFooterOneStep(currentVotes: any, currentArr: any, voters: any, dateData?: any) {
   const date = document.getElementById('date')
   const votes = document.getElementById('votes')
   const points = document.getElementById('points')
   const turnout = document.getElementById('turnout')
 
   const totalVotes = currentArr.reduce((total: number, curr: number) => total + curr, 0)
-  date.textContent = setChartlessDate(dateData)
-  votes.textContent = currentVotes
-  points.textContent = `votes cast (${totalVotes})`
-  turnout.textContent = Math.round(totalVotes / voters).toString()
+  if (date !== null) { 
+    date.textContent = setChartlessDate(dateData)
+  }
+  if ( votes !== null) {
+    votes.textContent = currentVotes
+  }
+  if ( points !== null) {
+    points.textContent = `votes cast (${totalVotes})`
+  }
+  if ( turnout !== null && totalVotes / voters < 3) {
+    turnout.textContent = (totalVotes / voters).toFixed(1)
+  } else if (turnout !== null) {
+    turnout.textContent = Math.round(totalVotes / voters).toString()
+  }
 }
 
 export function isRunning(delayOffset: number, delayCount: number, historyArr: any, setState: any) {
@@ -134,19 +141,18 @@ export function isRunning(delayOffset: number, delayCount: number, historyArr: a
 }
 
 export function animateAll(currentArr: any[], DOSArrs: any[], chart: any, historyArr: any[], setState: any, dateData: any, voters: number, visiblePipArr: any) {
-  console.log(chart._plugins._cache[3].plugin.defaults)
   let delayOffset = 250
   isRunning(delayOffset, DOSArrs[0].length, historyArr, setState)
   const dates = dateData?.sort()
   let currentVotes = 1
-  for (let i = 0; i < DOSArrs[0].length; i += 1) {
+  for (let i = 0; i < DOSArrs[0].length - 1; i += 1) {
     const speed: any = i === 0 ? 0 : undefined
     setTimeout(() => {
       const step = DOSArrs.map((n: any) => n = n[i])
       adjustDataOneStep(currentArr, step, chart, speed)
-      adjustFooterOneStep(dates[i], currentVotes, currentArr, voters)
+      adjustFooterOneStep(currentVotes, currentArr, voters, dates[i])
       currentArr = currentArr.map((n: number, j: number) => n += step[j])
-      if (i === DOSArrs[0].length - 1) { // when complete, reset all to blue
+      if (i === DOSArrs[0].length - 2) { // when complete, reset all to blue
         const colorArr = new Array(currentArr.length - 1).fill(colors.blue1)
         chart.data.datasets[0].backgroundColor = colorArr
       }

@@ -8,8 +8,8 @@ import {
   animateAll, 
   whichDOS, 
   historyStabilizer, 
-  setChartlessDate, 
-  staticizePip 
+  staticizePip,
+  adjustFooterOneStep
 } from './animation'
 import { chartConfig } from './chartConfig'
 import {
@@ -21,7 +21,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js'
-import { Bar, getElementsAtEvent } from 'react-chartjs-2'
+import { Bar } from 'react-chartjs-2'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
 
 import Image from 'next/image'
@@ -267,6 +267,8 @@ const padding = isMobile() ? 0.1 : 1.75
   // footer parsing
   const voters = 770
   const voteTurnout = Math.round(voteCount / voters)
+
+  adjustFooterOneStep(historyArr[0]?.length, currentArr, voters)
   
   // mapped chart config
   const componentData = {
