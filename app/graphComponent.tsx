@@ -290,8 +290,9 @@ const padding = isMobile() ? 0.1 : 1.75
   // footer parsing
   const voters = 770
   const voteTurnout = Math.round(voteCount / voters)
-
-  adjustFooterOneStep(historyArr[0]?.length, currentArr, voters)
+  useEffect(() => {
+    adjustFooterOneStep(historyArr[0]?.length, currentArr, voters)
+  })
   
   // mapped chart config
   const componentData = {
