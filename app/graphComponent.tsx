@@ -379,6 +379,7 @@ const padding = isMobile() ? 0.1 : 1.75
   const isMobileFooter = isMobile() 
   ? 
   <div className='mobile-foot-box'>
+    <div className='mobile-background'></div>
     <span className='mobile-footer'>
       <img src='/3.png' className='icon' /> <span id='date'>{currDate}</span>
     </span>

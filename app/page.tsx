@@ -7,7 +7,6 @@ import { getData } from './fetch.jsx'
 
 // UI 
 
-// - fix bg on mobile
 // - STUBBORN - update score total up to that point in pips during animation
 // - STUBBORN - Names in bars should be left-aligned
 // - STUBBORN - Numbers should be centered
