@@ -351,7 +351,7 @@ const options: any = {
   const chartRef: any = useRef<ChartJS>(null)
   
   // sets 
-  const multiplesOfLeader = 1.2
+  const multiplesOfLeader = isMobile() ? 1.08 : 1.2
   const chart: any = chartRef.current
 
   // sets static dimensions of chart in two different places

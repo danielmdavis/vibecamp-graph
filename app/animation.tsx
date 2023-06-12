@@ -109,29 +109,6 @@ export function calcAnimationSpeed(historyArr: any) {
   return timePerStep
 }
 
-// export function adjustFooterOneStep(currentVotes: any, currentArr: any, voters: any, dateData?: any) {
-//   const date = document.getElementById('date')
-//   const votes = document.getElementById('votes')
-//   const points = document.getElementById('points')
-//   const turnout = document.getElementById('turnout')
-
-//   const totalVotes = currentArr.reduce((total: number, curr: number) => total + curr, 0)
-//   if (date !== null) { 
-//     date.textContent = setChartlessDate(dateData)
-//   }
-//   if ( votes !== null) {
-//     votes.textContent = currentVotes
-//   }
-//   if ( points !== null) {
-//     points.textContent = `votes cast (${totalVotes})`
-//   }
-//   if ( turnout !== null && totalVotes / voters < 3) {
-//     turnout.textContent = (totalVotes / voters).toFixed(1)
-//   } else if (turnout !== null) {
-//     turnout.textContent = Math.round(totalVotes / voters).toString()
-//   }
-// }
-
 export function isRunning(delayOffset: number, delayCount: number, historyArr: any, setState: any) {
   setState(true)
   const disableDuration = delayOffset + calcAnimationSpeed(historyArr) * (delayCount + 0.5)
