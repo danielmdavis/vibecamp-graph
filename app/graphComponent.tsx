@@ -183,7 +183,7 @@ export default function Graph(props: { data: any }) {
 
 // mobile formatting
 const fontSize = isMobile() ? 15 : 30
-const padding = isMobile() ? 0.1 : 1.75
+const padding = isMobile() ? 0.33 : 2
 const pipSize = isMobile() ? -6 : -4
 const pipPad = pipSize - 0.5
 
@@ -427,6 +427,7 @@ const options: any = {
         </div>
         <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
         {isMobileFooter}
+        <div className={isMobileSubHeader} style={{ textAlign: 'center' }}>Click to view a timeline of romantic acclaim</div>
       </div>
     </main>
   )

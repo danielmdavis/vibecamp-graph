@@ -7,12 +7,11 @@ import { getData } from './fetch.jsx'
 
 // UI 
 
-// - fix pip shape on mobile
+// - STUBBORN - fonts not loading on first visit
+// - STUBBORN - remove the near-invisible line separating footer from body
 // - STUBBORN - update score total up to that point in pips during animation
 // - STUBBORN - Names in bars should be left-aligned
 // - STUBBORN - Numbers should be centered
-// - STUBBORN - fonts not loading on first visit
-// - STUBBORN - remove the near-invisible line separating footer from body
 // - (de facto scrapped) - add faces at right of bar
 
 // LOGIC
