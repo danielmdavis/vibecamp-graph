@@ -47,7 +47,6 @@ body {
   background-image: url('/bg.png');
   background-repeat: no-repeat;
   color: var(--black) !important;
-  background-size: 100% 100%;  
   -webkit-background-size: cover; 
   -moz-background-size: cover; 
   -o-background-size: cover; 
@@ -72,11 +71,12 @@ body {
 .mobile-grid-box {
   position: absolute;
   top: 158px; 
-  width: 99vw;
+  width: 99vw !important;
   height: 74vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  background-size: auto 100% !important;
 }
 
 .head-box {

@@ -12,7 +12,7 @@ export function getData() {
     redirect: 'follow',
     cache: 'no-store'
   }
-  return fetch("https://www.guidedtrack.com/programs/22568/csv", requestOptions)
+  return fetch('https://www.guidedtrack.com/programs/l0zgv3r/csv', requestOptions)
     .then(response => response.text())
     .then(result => { return result })
     .catch(error => console.log('error', error))

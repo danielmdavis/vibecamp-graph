@@ -7,21 +7,19 @@ import { getData } from './fetch.jsx'
 
 // UI 
 
-// - Names in bars should be left-aligned - STUBBORN
-// - Numbers should be centered - STUBBORN
-// - fonts not loading on first visit - STUBBORN
-// - update score total up to that point in pips during animation - uhoh
 // - fix bg on mobile
-// - remove the near-invisible line separating footer from body 
-// - add faces at right of bar (de facto not happening)
+// - STUBBORN - update score total up to that point in pips during animation
+// - STUBBORN - Names in bars should be left-aligned
+// - STUBBORN - Numbers should be centered
+// - STUBBORN - fonts not loading on first visit
+// - STUBBORN - remove the near-invisible line separating footer from body
+// - (de facto scrapped) - add faces at right of bar
 
 // LOGIC
 
-// - modify footer elements directly through vanilla js, bypass react
-
 // - Try to show all contestants and stress-test with data 
-// componentize data parsing (can be after event / for posterity)
-// oppsec
+// - componentize data parsing (can be after event / for posterity)
+// - oppsec
 
 
 export default async function Home() {

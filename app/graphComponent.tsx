@@ -93,6 +93,7 @@ export default function Graph(props: { data: any }) {
 
     updateScores(currentMap, getLatestDate(), users, setDoc, doc, db)
     setScoreTotal(currentArr.reduce((total: number, curr: number) => total + curr, 0))
+    console.log(props)
     
   },[props.data])
 
@@ -154,15 +155,19 @@ export default function Graph(props: { data: any }) {
       date.textContent = setChartlessDate(dateData)
     }
     if ( votes !== null) {
-      votes.textContent = currentVotes
+      votes.textContent = `${currentVotes}`
     }
     if ( points !== null) {
-      points.textContent = `votes cast (${totalVotes})`
+      if (isMobile()) {
+        points.textContent = `\u00A0votes (${totalVotes})`
+      } else {
+        points.textContent = `votes cast (${totalVotes} pts)`
+      }
     }
     if ( turnout !== null && totalVotes / voters < 3) {
-      turnout.textContent = (totalVotes / voters).toFixed(1)
+      turnout.textContent = `${(totalVotes / voters).toFixed(1)} turnout`
     } else if (turnout !== null) {
-      turnout.textContent = Math.round(totalVotes / voters).toString()
+      turnout.textContent = `${Math.round(totalVotes / voters).toString()} turnout`
     }
   }
 
@@ -378,7 +383,7 @@ const padding = isMobile() ? 0.1 : 1.75
       <img src='/3.png' className='icon' /> <span id='date'>{currDate}</span>
     </span>
     <span className='mobile-footer'>
-      <img src='/2.png' className='icon' /> <span id='votes'>{voteCount} votes <br /> </span><span id='points'>({scoreTotal} pts)</span>
+      <img src='/2.png' className='icon' /> <span id='votes'>{voteCount} votes <br /> </span><span id='points'>({scoreTotal})</span>
     </span>
     <span className='mobile-footer'>
       <img src='/1.png' className='icon' /> <span id='turnout'>{voteTurnout}% <br /> voted </span>
