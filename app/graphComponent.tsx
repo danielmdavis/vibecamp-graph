@@ -167,7 +167,7 @@ export default function Graph(props: { data: any }) {
     if ( turnout !== null && totalVotes / voters < 3) {
       turnout.textContent = `${(totalVotes / voters).toFixed(1)} turnout`
     } else if (turnout !== null) {
-      turnout.textContent = `${Math.round(totalVotes / voters).toString()} turnout`
+      turnout.textContent = `${Math.round(totalVotes / voters).toString()}%`
     }
   }
 
