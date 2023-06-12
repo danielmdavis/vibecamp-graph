@@ -85,11 +85,11 @@ export function setVoteAndScore(setVoteCount: any, setScoreTotal: any, currentAr
   setScoreTotal(currentArr.reduce((total: number, curr: number) => total + curr, 0))
 }
 
-export function staticizePip(chart: any) {
+export function staticizePip(chart: any, pipSize: any) {
   if (chart !== null && chart.data.datasets[1]) {
     chart.options.animation.duration = 0
-    chart.data.datasets[1].data.forEach((datum: any) => { // not working yet
-      datum = -4
+    chart.data.datasets[1].data.forEach((datum: any) => {
+      datum = pipSize
     })
   }
 }

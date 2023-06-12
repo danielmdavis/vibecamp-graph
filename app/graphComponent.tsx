@@ -184,10 +184,13 @@ export default function Graph(props: { data: any }) {
 // mobile formatting
 const fontSize = isMobile() ? 15 : 30
 const padding = isMobile() ? 0.1 : 1.75
+const pipSize = isMobile() ? -6 : -4
+const pipPad = pipSize - 0.5
 
- let pipCounter = -1
+let pipCounter = -1
 
- const options: any = { 
+
+const options: any = { 
    responsive: true,
    maintainAspectRatio: false,
    events: '',
@@ -230,7 +233,7 @@ const padding = isMobile() ? 0.1 : 1.75
      x: {
        stacked: true,
       max: xLimit,
-      min: -4.5,
+      min: pipPad,
        ticks: {
          display: false,
          color: 'rgb(230,227,120)',
@@ -270,7 +273,7 @@ const padding = isMobile() ? 0.1 : 1.75
       }
     }
   }
- }  
+}  
 
   // db get
   useEffect(() => {
@@ -289,7 +292,7 @@ const padding = isMobile() ? 0.1 : 1.75
   const visiblePipArr = JSON.parse(JSON.stringify(currentArr)) // wip
   let pipArr = []
   if (currentArr.length > 0) {
-    pipArr = Array(currentArr.length).fill(-4)
+    pipArr = Array(currentArr.length).fill(pipSize)
   }
   
   // footer parsing
@@ -360,7 +363,7 @@ const padding = isMobile() ? 0.1 : 1.75
     }
   }
 
-  staticizePip(chart)
+  staticizePip(chart, pipSize)
 
   const onClick = (event: any) => {
     const justDates = dates.map((date: any) => { return date.date })
