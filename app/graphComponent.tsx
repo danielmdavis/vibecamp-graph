@@ -266,7 +266,7 @@ const options: any = {
         if (pipCounter === currentArr.length - 1) {
           pipCounter = -1
         }
-        if (item === -4) {
+        if (item === pipSize) {
           pipCounter += 1
         }
         return visiblePipArr[pipCounter]
