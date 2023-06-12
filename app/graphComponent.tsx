@@ -52,7 +52,7 @@ export default function Graph(props: { data: any }) {
   let [data, setData]: any[] = useState([])
   let [current, setCurrent]: any = useState({})
   let [xLimit, setXLimit]: any = useState(0)
-  let [currDate, setCurrDate]: any = useState('June 9 2023')
+  let [currDate, setCurrDate]: any = useState('')
   let [voteCount, setVoteCount]: any = useState(0) // fix initial
   let [scoreTotal, setScoreTotal]: any = useState(0)
 
@@ -93,9 +93,9 @@ export default function Graph(props: { data: any }) {
 
     updateScores(currentMap, getLatestDate(), users, setDoc, doc, db)
     setScoreTotal(currentArr.reduce((total: number, curr: number) => total + curr, 0))
-    console.log(props)
     
   },[props.data])
+
 
   const isMobile = () => {
     const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i]
@@ -108,14 +108,12 @@ export default function Graph(props: { data: any }) {
 
   // parsing for incoming api data
   const parseRankedChoice = () => {
-
     const rankedRaw = props.data.data?.map((each: any) => { return each.out_itemsInSelectedOrder })
     const rankedClean = rankedRaw?.map((each: string) => { return each?.substring(1, each.length - 1) })
     return rankedClean?.map((each: string) => { return each?.replace(/"/g, '').split(',') })
   }
 
   const parseUsers = (rankedChoice: any) => {
-
     let uniqueUsers = new Set()
     rankedChoice?.forEach((each: string[]) => {each?.forEach((each: string) => { uniqueUsers.add(each) })})
     uniqueUsers.delete('')
@@ -123,7 +121,6 @@ export default function Graph(props: { data: any }) {
   }
 
   const parseVotes = (lists: string[], users: any) => {
-
     let currentScore: any = Object.fromEntries(Array?.from(users)?.map((nomen: string) => [nomen, 0]))
     lists?.forEach((curr: any) => { 
       for (let i = 0; i < curr?.length;) {
@@ -150,7 +147,8 @@ export default function Graph(props: { data: any }) {
     const points = document.getElementById('points')
     const turnout = document.getElementById('turnout')
   
-    const totalVotes = currentArr.reduce((total: number, curr: number) => total + curr, 0)
+    const totalPoints = currentArr.reduce((total: number, curr: number) => total + curr, 0)
+    const totalPointsDisplay = totalPoints === undefined ? 0 : totalPoints
     if (date !== null) { 
       date.textContent = setChartlessDate(dateData)
     }
@@ -159,15 +157,15 @@ export default function Graph(props: { data: any }) {
     }
     if ( points !== null) {
       if (isMobile()) {
-        points.textContent = `\u00A0votes (${totalVotes})`
+        points.textContent = `\u00A0votes (${totalPointsDisplay})`
       } else {
-        points.textContent = `votes cast (${totalVotes} pts)`
+        points.textContent = `votes cast (${totalPointsDisplay} pts)`
       }
     }
-    if ( turnout !== null && totalVotes / voters < 3) {
-      turnout.textContent = `${(totalVotes / voters).toFixed(1)}%`
+    if ( turnout !== null && currentVotes / voters * 100 < 3) {
+      turnout.textContent = `${(currentVotes / voters * 100).toFixed(1)}%`
     } else if (turnout !== null) {
-      turnout.textContent = `${Math.round(totalVotes / voters).toString()}%`
+      turnout.textContent = `${Math.round(currentVotes / voters * 100).toString()}%`
     }
   }
 
@@ -295,9 +293,8 @@ const options: any = {
     pipArr = Array(currentArr.length).fill(pipSize)
   }
   
-  // footer parsing
+  // footer parsing - direct append
   const voters = 770
-  const voteTurnout = Math.round(voteCount / voters)
   useEffect(() => {
     adjustFooterOneStep(historyArr[0]?.length, currentArr, voters)
   })
@@ -336,8 +333,6 @@ const options: any = {
         shadowOffsetY: 10,
         borderRadius: 100,
         max: 4
-        // borderWidth: 3,
-        // borderColor: colors.blue2
       }
     ]
   }
@@ -350,8 +345,7 @@ const options: any = {
   let dataOption: any = componentData
   const chartRef: any = useRef<ChartJS>(null)
   
-  // sets 
-  const multiplesOfLeader = isMobile() ? 1.08 : 1.2
+  const multiplesOfLeader = isMobile() ? 1 : 1.2
   const chart: any = chartRef.current
 
   // sets static dimensions of chart in two different places
@@ -371,8 +365,6 @@ const options: any = {
     if (running === false) {
       animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, adjustFooterOneStep, justDates, voters, visiblePipArr)
     }
-    // chart.clear()
-    // chart.update()
   }
 
   const isMobileBody = isMobile() ? 'mobile-grid-box' : 'grid-box'
@@ -387,10 +379,10 @@ const options: any = {
       <img src='/3.png' className='icon' /> <span id='date'>{currDate}</span>
     </span>
     <span className='mobile-footer'>
-      <img src='/2.png' className='icon' /> <span id='votes'>{voteCount} votes <br /> </span><span id='points'>({scoreTotal})</span>
+      <img src='/2.png' className='icon' /> <span id='votes'>0 votes <br /> </span><span id='points'>({scoreTotal})</span>
     </span>
     <span className='mobile-footer'>
-      <img src='/1.png' className='icon' /> <span id='turnout'>{voteTurnout}% <br /> voted </span>
+      <img src='/1.png' className='icon' /> <span id='turnout'>0% <br /> voted </span>
     </span>
   </div>
   :
@@ -410,7 +402,7 @@ const options: any = {
     <div className='footer-outer'>
       <div className='footer'>
         <img src='/1.png' className='icon' />  
-        <span className='foot-1' id='turnout'>{voteTurnout}% </span> <br />
+        <span className='foot-1' id='turnout'>0% </span> <br />
         <span className='foot-2'>of vibecamp voted</span>
       </div>
     </div>
@@ -419,6 +411,7 @@ const options: any = {
   return (
     <main>
       <div className={isMobileBody}>
+        <span className='font-preloader'></span>
         <div className='head-box'>
         <div className={isMobileSpacer}></div>
           <div className={isMobileHeader}>Dating Show to Save the World</div>

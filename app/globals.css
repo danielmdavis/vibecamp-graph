@@ -204,3 +204,10 @@ body {
 .mobile-spacer {
   height: -100px
 }
+
+.font-preloader{
+  font-family: 'Tan Buster';
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+}

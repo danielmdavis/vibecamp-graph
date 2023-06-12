@@ -80,11 +80,6 @@ export function setChartlessDate(dateData?: any) {
   }
 }
 
-export function setVoteAndScore(setVoteCount: any, setScoreTotal: any, currentArr: any, currentVotes: any) {
-  setVoteCount(currentVotes)
-  setScoreTotal(currentArr.reduce((total: number, curr: number) => total + curr, 0))
-}
-
 export function staticizePip(chart: any, pipSize: any) {
   if (chart !== null && chart.data.datasets[1]) {
     chart.options.animation.duration = 0
