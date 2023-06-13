@@ -61,13 +61,13 @@ const stepScore = (newCurrent, user, setDoc, doc, db) => {
 
   let history = user.history
   history?.push(user.current)
-  // console.log(newCurrent)
-  // console.log(history)
-  setDoc(doc(db, 'users', user.name), {
-    name: user.name,
-    current: newCurrent,
-    history: history
-  })
+  if (newCurrent > history) {
+    setDoc(doc(db, 'users', user.name), {
+      name: user.name,
+      current: newCurrent,
+      history: history
+    })
+  }
 }
 
 export async function updateScores(newData, newDate, users, setDoc, doc, db) {
