@@ -61,6 +61,7 @@ const stepScore = (newCurrent, user, setDoc, doc, db) => {
 
   let history = user.history
   history?.push(user.current)
+
   if (newCurrent > history[history.length - 1]) {
     setDoc(doc(db, 'users', user.name), {
       name: user.name,
