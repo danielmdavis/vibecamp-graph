@@ -120,9 +120,10 @@ export function animateAll(currentArr: any[], DOSArrs: any[], chart: any, histor
   for (let i = 0; i < DOSArrs[0].length - 1; i += 1) {
     const speed: any = i === 0 ? 0 : undefined
     setTimeout(() => {
+      const historicalScore = historyArr.map((date: any) => { return date[i] })
       const step = DOSArrs.map((n: any) => n = n[i])
       adjustDataOneStep(currentArr, step, chart, speed)
-      adjustFooterOneStep(currentVotes, currentArr, voters, dates[i])
+      adjustFooterOneStep(currentVotes, currentArr, voters, historicalScore,  dates[i])
       currentArr = currentArr.map((n: number, j: number) => n += step[j])
       if (i === DOSArrs[0].length - 2) { // when complete, reset all to blue
         const colorArr = new Array(currentArr.length - 1).fill(colors.blue1)

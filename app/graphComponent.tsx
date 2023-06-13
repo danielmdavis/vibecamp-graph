@@ -156,14 +156,15 @@ export default function Graph(props: { data: any }) {
     return parseDates()[parseDates().length - 1]
   }
 
-  const adjustFooterOneStep = (currentVotes: any, currentArr: any, voters: any, dateData?: any) => {
+  const adjustFooterOneStep = (currentVotes: any, currentArr: any, voters: any, historicalScore: any, dateData?: any) => {
     const date = document.getElementById('date')
     const votes = document.getElementById('votes')
     const points = document.getElementById('points')
     const turnout = document.getElementById('turnout')
   
-    const totalPoints = currentArr.reduce((total: number, curr: number) => total + curr, 0)
-    const totalPointsDisplay = totalPoints === undefined ? 0 : totalPoints
+
+    console.log(historicalScore)
+    const totalPoints = historicalScore.reduce((total: number, curr: number) => total + curr, 0)
     if (date !== null) { 
       date.textContent = setChartlessDate(dateData)
     }
@@ -172,9 +173,9 @@ export default function Graph(props: { data: any }) {
     }
     if ( points !== null) {
       if (isMobile()) {
-        points.textContent = `\u00A0votes (${totalPointsDisplay})`
+        points.textContent = `\u00A0votes (${totalPoints})`
       } else {
-        points.textContent = `votes cast (${totalPointsDisplay} pts)`
+        points.textContent = `votes cast (${totalPoints} pts)`
       }
     }
     if ( turnout !== null && currentVotes / voters * 100 < 3) {
@@ -211,7 +212,7 @@ const visiblePipArr = JSON.parse(JSON.stringify(currentArr)) // wip
 
 // mobile formatting
 const fontSize = isMobile() ? 15 : 20
-const padding = isMobile() ? 3 : 8
+const padding = isMobile() ? 3 : 4
 let pipSize = 0
 let pipArr = []
 let pipPad = 0
@@ -240,6 +241,7 @@ const options: any = {
    scales: {
      y: 
          {
+           labelPlacement: 'inside',
            id: 'names',
            stacked: true,
            position: {
@@ -248,9 +250,8 @@ const options: any = {
            ticks: {
              beginAtZero: true,
             crossAlign: 'near',
-            align: 'center',
             font: {
-              family: 'Space Grotesk', // put bad font back here if desired
+              family: 'Space Grotesk',
               size: fontSize
             },
             color: 'rgb(188,239,246)',
@@ -310,8 +311,9 @@ const options: any = {
 
   // footer parsing - direct append
   const voters = 770
+
   useEffect(() => {
-    adjustFooterOneStep(historyArr[0]?.length + 1, currentArr, voters)
+    adjustFooterOneStep(historyArr[0]?.length + 1, currentArr, voters, currentArr)
   })
   
   // mapped chart config
@@ -426,7 +428,6 @@ const options: any = {
       </div>
     </div>
   </div>
-
 
   return (
     <main>

@@ -28,6 +28,7 @@ export async function getAllUserData(collection, getDocs, setState) {
   return usersList
 }
 
+
 const postNewUsers = (newUsers, users, setDoc, doc, db) => {
 
   const oldNames = users.map(each => {
@@ -60,6 +61,8 @@ const stepScore = (newCurrent, user, setDoc, doc, db) => {
 
   let history = user.history
   history?.push(user.current)
+  // console.log(newCurrent)
+  // console.log(history)
   setDoc(doc(db, 'users', user.name), {
     name: user.name,
     current: newCurrent,
