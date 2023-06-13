@@ -9,10 +9,9 @@ import { getData } from './fetch.jsx'
 
 // - phone animation controlled by button rather than full screen
 // - compress phone view vertically
-// - remove rainbow bg on phone
-// - *** - scale pip size with total score!
 
 // - STUBBORN - fonts not loading on first visit
+
 // - STUBBORN - remove the near-invisible line separating footer from body
 // - STUBBORN - update score total up to that point in pips during animation
 // - STUBBORN - Names in bars should be left-aligned
@@ -21,13 +20,11 @@ import { getData } from './fetch.jsx'
 
 // LOGIC
 
-// - DATES NOT POSTING. see firebase error saying data is undefined
-// - fix short history having poor animation timing!
+// - fix short history having poor animation timing! (or not- will resolve with history)
 // - Try to show all contestants and stress-test with data 
 
 // - componentize data parsing (can be after event / for posterity)
 // - oppsec
-
 
 export default async function Home() {
   

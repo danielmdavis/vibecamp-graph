@@ -7,11 +7,6 @@
   src: url('./TAN-BUSTER.otf');
 }
 
-/* @font-face {
-  font-family: 'Tan Buster';
-  src: url('./tan-buster-webfont.woff');
-} */
-
 @font-face {
   font-family: 'Cooper Black';
   src: url('./Cooper Black Regular.ttf');
@@ -73,20 +68,10 @@ body {
   position: absolute;
   top: 158px; 
   width: 99vw !important;
-  height: 74vh;
+  height: 70vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-}
-.mobile-background {
-  position: fixed;
-  top: 0px;
-  z-index: -1;
-  height: 100%;
-  width: 100%;
-  background-image: url('/bg.png') !important;
-  background-repeat: no-repeat;
-  background-size: 100vw 100vh !important;
 }
 
 .head-box {
@@ -114,12 +99,14 @@ body {
   font-size: 2em;
   width: 95vw;
   text-align: center !important;
+  padding: 5px;
 }
 
 .mobile-sub-header {
   width: 99vw;
   text-align: center !important;
   font-size: 0.75em !important;
+  padding: 3px;
 }
 .sub-header, .mobile-sub-header {
   font-family: 'Space Grotesk';
@@ -203,11 +190,4 @@ body {
 }
 .mobile-spacer {
   height: -100px
-}
-
-.font-preloader{
-  font-family: 'Tan Buster';
-  position: fixed;
-  top: -9999px;
-  left: -9999px;
 }

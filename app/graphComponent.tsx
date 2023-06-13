@@ -94,6 +94,7 @@ export default function Graph(props: { data: any }) {
 
     const usersReturn: any = getAllUserData(collection(db, 'users'), getDocs, setUsers)
     usersReturn.then((response: any) => { // awaits user data
+      setUsers(response)
 
       updateScores(currentMap, getLatestDate(), response, setDoc, doc, db)
 
@@ -191,36 +192,35 @@ export default function Graph(props: { data: any }) {
 
 //  const options: any = chartConfig
 
-  // db get
-  useEffect(() => {
-    getAllUserData(collection(db, 'dates'), getDocs, setDates)
-  }, [])
+// db get
+useEffect(() => {
+  getAllUserData(collection(db, 'dates'), getDocs, setDates)
+}, [])
 
-  // parses for mapping
-  const userData = users.sort((a: any, b: any) => a.current - b.current)
-  const labels = userData.map((item: any) => item.name)
-  const splitLabels = userData.map((item: any) => item.name.split(' '))
-  const paddedLabels = userData.map((item: any) => `    ${item.name}`)
-  
-  const historyArr = historyStabilizer(labels, userData)
-  const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
-  const visiblePipArr = JSON.parse(JSON.stringify(currentArr)) // wip
+// parses for mapping
+const userData = users.sort((a: any, b: any) => a.current - b.current)
+const labels = userData.map((item: any) => item.name)
+const splitLabels = userData.map((item: any) => item.name.split(' '))
+const paddedLabels = userData.map((item: any) => `    ${item.name}`)
 
-  const fontSize = isMobile() ? 15 : 30
-  const padding = isMobile() ? 3 : 8
-  
-  const pipSize = isMobile() ? -6 : currentArr[currentArr.length - 1] * -0.04
-  console.log(currentArr)
-  const pipPad = pipSize - 0.5
+const historyArr = historyStabilizer(labels, userData)
+const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
+const visiblePipArr = JSON.parse(JSON.stringify(currentArr)) // wip
 
-  let pipArr = []
-  if (currentArr.length > 0) {
-    pipArr = Array(currentArr.length).fill(pipSize)
-  }
-  
+
 
 // mobile formatting
-
+const fontSize = isMobile() ? 15 : 20
+const padding = isMobile() ? 3 : 8
+let pipSize = 0
+let pipArr = []
+let pipPad = 0
+if (currentArr.length > 0) {
+  pipSize = isMobile() ? -6 : currentArr[currentArr.length - 1] * -0.1
+  pipPad = pipSize - 0.5
+  pipArr = Array(currentArr.length).fill(pipSize)
+}
+  
 let pipCounter = -1
 
 const options: any = { 
@@ -250,7 +250,7 @@ const options: any = {
             crossAlign: 'near',
             align: 'center',
             font: {
-              family: 'Tan Buster',
+              family: 'Space Grotesk', // put bad font back here if desired
               size: fontSize
             },
             color: 'rgb(188,239,246)',
@@ -335,7 +335,7 @@ const options: any = {
         datalabels: {
           color: colors.blue2,
           font: {
-            family: 'Tan Buster',
+            family: 'Space Grotesk', // Tan Buster
             size: fontSize
           }
         },
@@ -390,7 +390,6 @@ const options: any = {
   const isMobileFooter = isMobile() 
   ? 
   <div className='mobile-foot-box'>
-    <div className='mobile-background'></div>
     <span className='mobile-footer'>
       <img src='/3.png' className='icon' /> <span id='date'>{currDate}</span>
     </span>
@@ -427,7 +426,6 @@ const options: any = {
   return (
     <main>
       <div className={isMobileBody}>
-        <span className='font-preloader'></span>
         <div className='head-box'>
         <div className={isMobileSpacer}></div>
           <div className={isMobileHeader}>Dating Show to Save the World</div>
