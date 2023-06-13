@@ -93,15 +93,19 @@ export default function Graph(props: { data: any }) {
     const currentMap = new Map([...currentScore.entries()].sort((a: any, b: any) => b[1] - a[1]))
 
     const usersReturn: any = getAllUserData(collection(db, 'users'), getDocs, setUsers)
-    usersReturn.then((response: any) => {
+    usersReturn.then((response: any) => { // awaits user data
+
       updateScores(currentMap, getLatestDate(), response, setDoc, doc, db)
+
+      const userData = response.sort((a: any, b: any) => a.current - b.current)
+      const labels = userData.map((item: any) => item.name)
+      const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
+      setScoreTotal(currentArr.reduce((total: number, curr: number) => total + curr, 0))
     })
 
-    setScoreTotal(currentArr.reduce((total: number, curr: number) => total + curr, 0))
-    
+
   },[props.data])
   
-
   const isMobile = () => {
     const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i]
     if (navigator !== '') {
@@ -281,7 +285,6 @@ const options: any = {
 
   // db get
   useEffect(() => {
-    // const users = getAllUserData(collection(db, 'users'), getDocs, setUsers)
     getAllUserData(collection(db, 'dates'), getDocs, setDates)
   }, [])
 

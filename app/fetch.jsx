@@ -18,9 +18,6 @@ export function getData() {
     .catch(error => console.log('error', error))
 }
 
-export function checkDataForChange(getData, stateData) {
-  
-}
 
 // firebase getter / setter
 export async function getAllUserData(collection, getDocs, setState) {
@@ -44,7 +41,7 @@ const postNewUsers = (newUsers, users, setDoc, doc, db) => {
         current: value,
         history: []
       })
-    } else if (oldNames.length !== 0) { // pushes a new current to each extant entry to keep generations in sync
+    } else if (oldNames.length !== 0) { // pushes new current to each extant entry to keep generations in sync
       stepScore(newUsers.get(nomen), users.filter(current => { 
         return current.name === nomen 
       }), setDoc, doc, db)
@@ -78,6 +75,9 @@ export async function updateScores(newData, newDate, users, setDoc, doc, db) {
   oldCurrent.sort((a, b) => a - b)
   const newCurrent = Array.from(newData.values()).sort((a, b) => a - b)
 
+  // console.log(oldCurrent)
+  // console.log(newCurrent)
+
   if (oldCurrent.length !== newCurrent.length) {
     postNewUsers(newData, users, setDoc, doc, db)
   } else if (!_.isEqual(oldCurrent, newCurrent) && !_.isEqual(oldCurrent, [])) {
@@ -89,7 +89,8 @@ export async function updateScores(newData, newDate, users, setDoc, doc, db) {
 
 export async function postNewDate(newDate, setDoc, doc, db) {
 
-  setDoc(doc(db, 'dates', newDate)), {
-    date: newDate
+    await setDoc(doc(db, 'dates', newDate), 
+    {
+      date: newDate
+    })
   }
-}
