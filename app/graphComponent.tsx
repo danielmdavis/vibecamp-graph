@@ -100,6 +100,7 @@ export default function Graph(props: { data: any }) {
       const userData = response.sort((a: any, b: any) => a.current - b.current)
       const labels = userData.map((item: any) => item.name)
       const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
+      setCurrent(currentArr)
       setScoreTotal(currentArr.reduce((total: number, curr: number) => total + curr, 0))
     })
 
@@ -190,11 +191,35 @@ export default function Graph(props: { data: any }) {
 
 //  const options: any = chartConfig
 
+  // db get
+  useEffect(() => {
+    getAllUserData(collection(db, 'dates'), getDocs, setDates)
+  }, [])
+
+  // parses for mapping
+  const userData = users.sort((a: any, b: any) => a.current - b.current)
+  const labels = userData.map((item: any) => item.name)
+  const splitLabels = userData.map((item: any) => item.name.split(' '))
+  const paddedLabels = userData.map((item: any) => `    ${item.name}`)
+  
+  const historyArr = historyStabilizer(labels, userData)
+  const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
+  const visiblePipArr = JSON.parse(JSON.stringify(currentArr)) // wip
+
+  const fontSize = isMobile() ? 15 : 30
+  const padding = isMobile() ? 3 : 8
+  
+  const pipSize = isMobile() ? -6 : currentArr[currentArr.length - 1] * -0.04
+  console.log(currentArr)
+  const pipPad = pipSize - 0.5
+
+  let pipArr = []
+  if (currentArr.length > 0) {
+    pipArr = Array(currentArr.length).fill(pipSize)
+  }
+  
+
 // mobile formatting
-const fontSize = isMobile() ? 15 : 30
-const padding = isMobile() ? 3 : 8
-const pipSize = isMobile() ? -6 : -4
-const pipPad = pipSize - 0.5
 
 let pipCounter = -1
 
@@ -283,29 +308,10 @@ const options: any = {
   }
 }  
 
-  // db get
-  useEffect(() => {
-    getAllUserData(collection(db, 'dates'), getDocs, setDates)
-  }, [])
-
-  // parses for mapping
-  const userData = users.sort((a: any, b: any) => a.current - b.current)
-  const labels = userData.map((item: any) => item.name)
-  const splitLabels = userData.map((item: any) => item.name.split(' '))
-  const paddedLabels = userData.map((item: any) => `    ${item.name}`)
-  
-  const historyArr = historyStabilizer(labels, userData)
-  const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
-  const visiblePipArr = JSON.parse(JSON.stringify(currentArr)) // wip
-  let pipArr = []
-  if (currentArr.length > 0) {
-    pipArr = Array(currentArr.length).fill(pipSize)
-  }
-  
   // footer parsing - direct append
   const voters = 770
   useEffect(() => {
-    adjustFooterOneStep(historyArr[0]?.length, currentArr, voters)
+    adjustFooterOneStep(historyArr[0]?.length + 1, currentArr, voters)
   })
   
   // mapped chart config
