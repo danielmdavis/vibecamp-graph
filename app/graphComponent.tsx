@@ -387,6 +387,10 @@ const options: any = {
   const isMobileHeader = isMobile() ? 'mobile-header': 'header'
   const isMobileSubHeader = isMobile() ? 'mobile-sub-header': 'sub-header'
   const isMobileSpacer = isMobile() ? 'mobile-spacer' : 'spacer'
+  const isMobileSubFooter = isMobile() ?
+  <div className='mobile-sub-footer' onMouseDown={onClick} style={{ textAlign: 'center' }}>Click here to view a timeline of romantic acclaim</div>
+  :
+  <div className={isMobileSubHeader} style={{ textAlign: 'center' }}>Click to view a timeline of romantic acclaim</div>
   const isMobileFooter = isMobile() 
   ? 
   <div className='mobile-foot-box'>
@@ -434,7 +438,7 @@ const options: any = {
         </div>
         <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
         {isMobileFooter}
-        <div className={isMobileSubHeader} style={{ textAlign: 'center' }}>Click to view a timeline of romantic acclaim</div>
+        {isMobileSubFooter}
       </div>
     </main>
   )

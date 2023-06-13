@@ -102,19 +102,25 @@ body {
   padding: 5px;
 }
 
-.mobile-sub-header {
+.mobile-sub-header, .mobile-sub-footer {
   width: 99vw;
   text-align: center !important;
   font-size: 0.75em !important;
   padding: 3px;
 }
-.sub-header, .mobile-sub-header {
+.sub-header, .mobile-sub-header, .mobile-sub-footer {
   font-family: 'Space Grotesk';
   font-size: 1.25em;
   text-align: right;
   margin-right: 8%;
   /* margin-bottom: -65px; */
   color: var(--white);
+}
+
+.mobile-sub-footer {
+  border: solid 2px var(--white);
+  width: 66% !important;
+  margin: auto;
 }
 
 .footer {
