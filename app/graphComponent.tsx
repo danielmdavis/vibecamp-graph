@@ -337,6 +337,8 @@ const options: any = {
     ]
   }
 
+  console.log(props.data)
+
   // animation sequences
   const allDOS = calcAllDOS(calcDataOffsetSequence, currentArr, historyArr)
   // const allMobileDOS = calcAllDOS(calcMobileDataOffsetSequence, currentArr, historyArr)
