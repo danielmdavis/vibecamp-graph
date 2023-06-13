@@ -22,14 +22,13 @@ export function checkDataForChange(getData, stateData) {
   
 }
 
-
-
 // firebase getter / setter
 export async function getAllUserData(collection, getDocs, setState) {
   const usersCollection = collection
   const query = await getDocs(usersCollection)
   const usersList = query.docs.map(doc => doc.data())
   setState(usersList)
+  return usersList
 }
 
 const postNewUsers = (newUsers, users, setDoc, doc, db) => {
@@ -37,6 +36,7 @@ const postNewUsers = (newUsers, users, setDoc, doc, db) => {
   const oldNames = users.map(each => {
     return each.name
   })
+
   newUsers.forEach((value, nomen) => {
     if (!oldNames.includes(nomen) && oldNames.length !== 0) {
       setDoc(doc(db, 'users', nomen), {
@@ -62,7 +62,7 @@ const postNewScores = (newData, users, setDoc, doc, db) => {
 const stepScore = (newCurrent, user, setDoc, doc, db) => {
 
   let history = user.history
-  history.push(user.current)
+  history?.push(user.current)
   setDoc(doc(db, 'users', user.name), {
     name: user.name,
     current: newCurrent,
@@ -72,14 +72,15 @@ const stepScore = (newCurrent, user, setDoc, doc, db) => {
 
 export async function updateScores(newData, newDate, users, setDoc, doc, db) {
 
-  const oldCurrent = users.map(each => {
+  let oldCurrent = users.map(each => {
     return each.current
   })
-  const newCurrent = Array.from(newData.values()).sort()
-  
+  oldCurrent.sort((a, b) => a - b)
+  const newCurrent = Array.from(newData.values()).sort((a, b) => a - b)
+
   if (oldCurrent.length !== newCurrent.length) {
     postNewUsers(newData, users, setDoc, doc, db)
-  } else if (!_.isEqual(oldCurrent, newCurrent)) {
+  } else if (!_.isEqual(oldCurrent, newCurrent) && !_.isEqual(oldCurrent, [])) {
     postNewScores(newData, users, setDoc, doc, db)
   }
 

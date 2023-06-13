@@ -1,4 +1,5 @@
 'use client'
+import _ from 'lodash'
 import React, { useState, useEffect, useRef } from 'react'
 import { getAllUserData, updateScores } from './fetch'
 import { 
@@ -91,11 +92,15 @@ export default function Graph(props: { data: any }) {
     setCurrent(currentScore)
     const currentMap = new Map([...currentScore.entries()].sort((a: any, b: any) => b[1] - a[1]))
 
-    updateScores(currentMap, getLatestDate(), users, setDoc, doc, db)
+    const usersReturn: any = getAllUserData(collection(db, 'users'), getDocs, setUsers)
+    usersReturn.then((response: any) => {
+      updateScores(currentMap, getLatestDate(), response, setDoc, doc, db)
+    })
+
     setScoreTotal(currentArr.reduce((total: number, curr: number) => total + curr, 0))
     
   },[props.data])
-
+  
 
   const isMobile = () => {
     const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i]
@@ -112,7 +117,8 @@ export default function Graph(props: { data: any }) {
     const rankedClean = rankedRaw?.map((each: string) => { return each?.substring(1, each.length - 1) })
     return rankedClean?.map((each: string) => { return each?.replace(/"/g, '').split(',') })
   }
-  console.log(parseRankedChoice())
+
+
   const parseUsers = (rankedChoice: any) => {
     let uniqueUsers = new Set()
     rankedChoice?.forEach((each: string[]) => {each?.forEach((each: string) => { uniqueUsers.add(each) })})
@@ -134,11 +140,14 @@ export default function Graph(props: { data: any }) {
   }
 
   const parseDates = () => {
-    return props.data.data.map((each: any) => { return each['Time Finished (UTC)']?.slice(0, 10) })
-  }
+    let dates = props.data.data.map((date: any) => { return date['Time Started (UTC)']?.slice(0, 10) })
 
+    const remove = dates.findIndex((date: any) => date?.run === '')
+    dates.splice(remove, 1)
+    return dates
+  }
   const getLatestDate = () => {
-    return parseDates()[parseDates.length - 1]
+    return parseDates()[parseDates().length - 1]
   }
 
   const adjustFooterOneStep = (currentVotes: any, currentArr: any, voters: any, dateData?: any) => {
@@ -177,8 +186,6 @@ export default function Graph(props: { data: any }) {
 
 //  const options: any = chartConfig
 
-// console.log(props.data.data)
-
 // mobile formatting
 const fontSize = isMobile() ? 15 : 30
 const padding = isMobile() ? 3 : 8
@@ -186,7 +193,6 @@ const pipSize = isMobile() ? -6 : -4
 const pipPad = pipSize - 0.5
 
 let pipCounter = -1
-
 
 const options: any = { 
    responsive: true,
@@ -275,7 +281,7 @@ const options: any = {
 
   // db get
   useEffect(() => {
-    getAllUserData(collection(db, 'users'), getDocs, setUsers)
+    // const users = getAllUserData(collection(db, 'users'), getDocs, setUsers)
     getAllUserData(collection(db, 'dates'), getDocs, setDates)
   }, [])
 

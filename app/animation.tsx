@@ -114,7 +114,7 @@ export function isRunning(delayOffset: number, delayCount: number, historyArr: a
 
 export function animateAll(currentArr: any[], DOSArrs: any[], chart: any, historyArr: any[], setState: any, adjustFooterOneStep: any, dateData: any, voters: number, visiblePipArr: any) {
   let delayOffset = 250
-  isRunning(delayOffset, DOSArrs[0].length, historyArr, setState)
+  isRunning(delayOffset, DOSArrs[0]?.length, historyArr, setState)
   const dates = dateData?.sort()
   let currentVotes = 1
   for (let i = 0; i < DOSArrs[0].length - 1; i += 1) {
