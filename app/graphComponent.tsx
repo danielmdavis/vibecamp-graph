@@ -112,7 +112,7 @@ export default function Graph(props: { data: any }) {
     const rankedClean = rankedRaw?.map((each: string) => { return each?.substring(1, each.length - 1) })
     return rankedClean?.map((each: string) => { return each?.replace(/"/g, '').split(',') })
   }
-
+  console.log(parseRankedChoice())
   const parseUsers = (rankedChoice: any) => {
     let uniqueUsers = new Set()
     rankedChoice?.forEach((each: string[]) => {each?.forEach((each: string) => { uniqueUsers.add(each) })})
@@ -181,7 +181,7 @@ export default function Graph(props: { data: any }) {
 
 // mobile formatting
 const fontSize = isMobile() ? 15 : 30
-const padding = isMobile() ? 0.33 : 2
+const padding = isMobile() ? 3 : 8
 const pipSize = isMobile() ? -6 : -4
 const pipPad = pipSize - 0.5
 
@@ -337,7 +337,6 @@ const options: any = {
     ]
   }
 
-  console.log(props.data)
 
   // animation sequences
   const allDOS = calcAllDOS(calcDataOffsetSequence, currentArr, historyArr)

@@ -7,6 +7,7 @@ import { getData } from './fetch.jsx'
 
 // UI 
 
+// - *** - scale pip size with total score!
 // - STUBBORN - fonts not loading on first visit
 // - STUBBORN - remove the near-invisible line separating footer from body
 // - STUBBORN - update score total up to that point in pips during animation
@@ -16,6 +17,7 @@ import { getData } from './fetch.jsx'
 
 // LOGIC
 
+// - fix short history having poor animation timing!
 // - Try to show all contestants and stress-test with data 
 // - componentize data parsing (can be after event / for posterity)
 // - oppsec

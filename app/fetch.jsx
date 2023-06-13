@@ -22,6 +22,8 @@ export function checkDataForChange(getData, stateData) {
   
 }
 
+
+
 // firebase getter / setter
 export async function getAllUserData(collection, getDocs, setState) {
   const usersCollection = collection
