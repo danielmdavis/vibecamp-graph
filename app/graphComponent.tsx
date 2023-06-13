@@ -162,8 +162,6 @@ export default function Graph(props: { data: any }) {
     const points = document.getElementById('points')
     const turnout = document.getElementById('turnout')
   
-
-    console.log(historicalScore)
     const totalPoints = historicalScore.reduce((total: number, curr: number) => total + curr, 0)
     if (date !== null) { 
       date.textContent = setChartlessDate(dateData)

@@ -7,7 +7,7 @@ import { getData } from './fetch.jsx'
 
 // UI 
 
-// - improve animation experience
+// - why is final step in animation janky
 // - style phone button
 // - compress phone view vertically (more?)
 // - STUBBORN - Names in bars should be left-aligned

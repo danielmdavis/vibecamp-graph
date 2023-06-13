@@ -117,7 +117,7 @@ export function animateAll(currentArr: any[], DOSArrs: any[], chart: any, histor
   isRunning(delayOffset, DOSArrs[0]?.length, historyArr, setState)
   const dates = dateData?.sort()
   let currentVotes = 1
-  for (let i = 0; i < DOSArrs[0].length - 1; i += 1) {
+  for (let i = 0; i < DOSArrs[0].length; i += 1) {
     const speed: any = i === 0 ? 0 : undefined
     setTimeout(() => {
       const historicalScore = historyArr.map((date: any) => { return date[i] })
@@ -125,7 +125,7 @@ export function animateAll(currentArr: any[], DOSArrs: any[], chart: any, histor
       adjustDataOneStep(currentArr, step, chart, speed)
       adjustFooterOneStep(currentVotes, currentArr, voters, historicalScore,  dates[i])
       currentArr = currentArr.map((n: number, j: number) => n += step[j])
-      if (i === DOSArrs[0].length - 2) { // when complete, reset all to blue
+      if (i === DOSArrs[0].length - 1) { // when complete, reset all to blue
         const colorArr = new Array(currentArr.length - 1).fill(colors.blue1)
         chart.data.datasets[0].backgroundColor = colorArr
       }
