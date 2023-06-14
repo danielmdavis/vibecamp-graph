@@ -148,6 +148,8 @@ export default function Graph(props: { data: any }) {
     return parseDates()[parseDates().length - 1]
   }
 
+  const hardVoteTotal = props.data.data.length
+
   const adjustFooterOneStep = (currentVotes: any, currentArr: any, voters: any, historicalScore: any, dateData?: any) => {
     const date = document.getElementById('date')
     const votes = document.getElementById('votes')
@@ -155,16 +157,28 @@ export default function Graph(props: { data: any }) {
     const turnout = document.getElementById('turnout')
   
     let totalPoints = historicalScore.reduce((total: number, curr: number) => total + curr, 0)
-    if (Number.isNaN(totalPoints)) {
-      // still room for improvement, get latest score
+    if (Number.isNaN(totalPoints)) { // get current total if historical unavailable
       totalPoints = currentArr.reduce((total: number, curr: number) => total + curr, 0)
     }
     if (date !== null) { 
       date.textContent = setChartlessDate(dateData)
     }
-    if ( votes !== null) {
-      votes.textContent = `${currentVotes}`
+
+    // live adjust - toggle these if too divergent. this sacrifices displaying "which vote on timeline."
+    const votesToUse = currentVotes // rough iterating total
+    // const votesToUse = hardVoteTotal // absolute noniterating total
+    // console.log(currentVotes, hardVoteTotal)
+
+    if (votes !== null) { 
+      votes.textContent = votesToUse
     }
+ 
+    if ( turnout !== null && votesToUse / voters * 100 < 3) {
+      turnout.textContent = `${(votesToUse / voters * 100).toFixed(1)}%`
+    } else if (turnout !== null) {
+      turnout.textContent = `${Math.round(votesToUse / voters * 100).toString()}%`
+    }
+  
     if ( points !== null) {
       if (isMobile()) {
         points.textContent = `\u00A0votes (${totalPoints})`
@@ -172,18 +186,7 @@ export default function Graph(props: { data: any }) {
         points.textContent = `votes cast (${totalPoints} pts)`
       }
     }
-    if ( turnout !== null && currentVotes / voters * 100 < 3) {
-      turnout.textContent = `${(currentVotes / voters * 100).toFixed(1)}%`
-    } else if (turnout !== null) {
-      turnout.textContent = `${Math.round(currentVotes / voters * 100).toString()}%`
-    }
   }
-
-  // //
-  //
-  // all things chart
-  //
-  // //
 
 //  const options: any = chartConfig
 
@@ -202,15 +205,17 @@ const historyArr = historyStabilizer(labels, userData)
 const currentArr = labels.map((nomen: string) => userData.filter((item: any) => { return item.name === nomen})[0].current)
 const visiblePipArr = JSON.parse(JSON.stringify(currentArr)) // wip
 
-
-
 // mobile formatting
+
 const fontSize = isMobile() ? 15 : 20
+
+// live adjust - from bigger to smaller as points accumulate
 const padding = isMobile() ? 1.5 : 4 // smaller number moves labels left
 let pipSize = 0
 let pipArr = []
 let pipPad = 0
 if (currentArr.length > 0) {
+  // live adjust - should track but keep an eye out
   pipSize = isMobile() ? currentArr[currentArr.length - 1] * -0.15 : currentArr[currentArr.length - 1] * -0.1
   pipPad = pipSize - 0.5
   pipArr = Array(currentArr.length).fill(pipSize)
@@ -307,9 +312,7 @@ const options: any = {
     const newX = Math.floor(Math.max(...currentArr) * multiplesOfLeader)
     if (chart !== null && newX !== -Infinity) {
       chart.config.options.scales.x.max = newX
-      // if (xLimit === 0) {
       setXLimit(newX)
-      // }
     }
   })
   
@@ -356,22 +359,12 @@ const options: any = {
   // animation sequences
   const allDOS = calcAllDOS(calcDataOffsetSequence, currentArr, historyArr)
   // const allMobileDOS = calcAllDOS(calcMobileDataOffsetSequence, currentArr, historyArr)
-  const allMobileDOS = allDOS // the bug self-resolved, making workaround superfluous. keeping paralell structure in place.
+  const allMobileDOS = allDOS
   
   let dataOption: any = componentData
   const chartRef: any = useRef<ChartJS>(null)
   
-  // const multiplesOfLeader = isMobile() ? 1 : 1.2
   const chart: any = chartRef.current
-
-  // // sets static dimensions of chart in two different places
-  // const newX = Math.floor(Math.max(...currentArr) * multiplesOfLeader)
-  // if (chart !== null && newX !== -Infinity) {
-  //   chart.config.options.scales.x.max = newX
-  //   if (xLimit === 0) {
-  //     setXLimit(newX)
-  //   }
-  // }
 
   staticizePip(chart, pipSize)
 
@@ -388,6 +381,7 @@ const options: any = {
   const isMobileSubHeader = isMobile() ? 'mobile-sub-header': 'sub-header'
   const isMobileSpacer = isMobile() ? 'mobile-spacer' : 'spacer'
   const isMobileBar = isMobile() ? 'mobile-bar' : 'bar'
+  const isMobileBarClick = isMobile() ? undefined : onClick
   const isMobileSubFooter = isMobile() ?
   <div className='mobile-sub-footer' onMouseDown={onClick} style={{ textAlign: 'center' }}>View Timeline</div>
   :
@@ -437,7 +431,7 @@ const options: any = {
           <div className={isMobileSubHeader}>Vote to send three campers to the dating show, where they’ll compete for the heart of vibecamp’s hottest bachelorette
         </div>
         </div>
-        <Bar className={isMobileBar} ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
+        <Bar className={isMobileBar} ref={chartRef} options={options} data={dataOption} onMouseDown={isMobileBarClick} onTouchStart={isMobileBarClick} />
         {isMobileFooter}
         {isMobileSubFooter}
       </div>
