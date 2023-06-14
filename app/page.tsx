@@ -7,22 +7,17 @@ import { getData } from './fetch.jsx'
 
 // UI 
 
-
-
-// - history button isn't updating when the animation updates
-// - more padding everywhere on browser
-// - right now we're at 1212 points with only 1.6% of vc having voted. is that number going to get insanely huge / visually ungovernable?
 // - compress phone view vertically (more?)
+// - history button isn't updating when the animation updates (what does this mean)
+// - will score total become visually ungovernable?
 // - STUBBORN - Names in bars should be left-aligned
 
 // LOGIC
 
-// - change how total votes is calculated!
+// - change how total votes is calculated! ( or... 😈 )
 // - dates not writing to db!!! (clock is ticking)
-// - Try to show all contestants and stress-test with data 
 
 // - componentize data parsing (can be after event / for posterity)
-// - oppsec
 
 export default async function Home() {
   
