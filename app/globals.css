@@ -49,10 +49,16 @@ body {
 }
 
 .bar {
+  margin: 30px;
+}
+.bar, .mobile-bar {
   /* height: 87.5vh !important; */
   bottom: 0px !important;
   border: none !important;
   margin-bottom: -30px !important;
+}
+.mobile-bar {
+  margin-top: -20px !important;
 }
 
 .grid-box {
@@ -100,6 +106,7 @@ body {
   width: 95vw;
   text-align: center !important;
   padding: 5px;
+  margin-top: 15px;
 }
 
 .mobile-sub-header, .mobile-sub-footer {

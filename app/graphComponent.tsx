@@ -57,8 +57,6 @@ export default function Graph(props: { data: any }) {
   let [voteCount, setVoteCount]: any = useState(0) // fix initial
   let [scoreTotal, setScoreTotal]: any = useState(0)
 
-  // let [visiblePipArr, setVisiblePipArr]: any = useState([0,0,0,0])
-
   const firebaseApp = initializeApp({
     apiKey: "AIzaSyD7iFzuRFa_ZKqw3OYSe5U7Q7APmTffv7s",
     authDomain: "vibecamp-graph.firebaseapp.com",
@@ -156,6 +154,8 @@ export default function Graph(props: { data: any }) {
     return parseDates()[parseDates().length - 1]
   }
 
+  console.log(props.data.data)
+
   const adjustFooterOneStep = (currentVotes: any, currentArr: any, voters: any, historicalScore: any, dateData?: any) => {
     const date = document.getElementById('date')
     const votes = document.getElementById('votes')
@@ -214,12 +214,12 @@ const visiblePipArr = JSON.parse(JSON.stringify(currentArr)) // wip
 
 // mobile formatting
 const fontSize = isMobile() ? 15 : 20
-const padding = isMobile() ? 3 : 4
+const padding = isMobile() ? 1.5 : 4 // smaller number moves labels left
 let pipSize = 0
 let pipArr = []
 let pipPad = 0
 if (currentArr.length > 0) {
-  pipSize = isMobile() ? -6 : currentArr[currentArr.length - 1] * -0.1
+  pipSize = isMobile() ? currentArr[currentArr.length - 1] * -0.15 : currentArr[currentArr.length - 1] * -0.1
   pipPad = pipSize - 0.5
   pipArr = Array(currentArr.length).fill(pipSize)
 }
@@ -247,10 +247,10 @@ const options: any = {
            id: 'names',
            stacked: true,
            position: {
-             y: padding
+            y: padding
            },
            ticks: {
-             beginAtZero: true,
+            beginAtZero: true,
             crossAlign: 'near',
             font: {
               family: 'Space Grotesk',
@@ -327,6 +327,7 @@ const options: any = {
           color: 'rgba(0, 0, 0, 0)'
         },
         data: currentArr,
+        barPercentage: 1,
         pointStyle: 'rectRounded',
         backgroundColor: colors.blue1,
         backgroundShadowColor: colors.black,
@@ -344,6 +345,7 @@ const options: any = {
           }
         },
         data: pipArr,
+        barPercentage: 1,
         pointStyle: 'rectRounded',
         backgroundColor: colors.blue1,
         backgroundShadowColor: colors.black,
@@ -391,6 +393,7 @@ const options: any = {
   const isMobileHeader = isMobile() ? 'mobile-header': 'header'
   const isMobileSubHeader = isMobile() ? 'mobile-sub-header': 'sub-header'
   const isMobileSpacer = isMobile() ? 'mobile-spacer' : 'spacer'
+  const isMobileBar = isMobile() ? 'mobile-bar' : 'bar'
   const isMobileSubFooter = isMobile() ?
   <div className='mobile-sub-footer' onMouseDown={onClick} style={{ textAlign: 'center' }}>Click here to view a timeline of romantic acclaim</div>
   :
@@ -440,7 +443,7 @@ const options: any = {
           <div className={isMobileSubHeader}>Vote to send three campers to the dating show, where they’ll compete for the heart of vibecamp’s hottest bachelorette
         </div>
         </div>
-        <Bar className='bar' ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
+        <Bar className={isMobileBar} ref={chartRef} options={options} data={dataOption} onMouseDown={onClick} onTouchStart={onClick} />
         {isMobileFooter}
         {isMobileSubFooter}
       </div>

@@ -79,9 +79,6 @@ export async function updateScores(newData, newDate, users, setDoc, doc, db) {
   oldCurrent.sort((a, b) => a - b)
   const newCurrent = Array.from(newData.values()).sort((a, b) => a - b)
 
-  // console.log(oldCurrent)
-  // console.log(newCurrent)
-
   if (oldCurrent.length !== newCurrent.length) {
     postNewUsers(newData, users, setDoc, doc, db)
   } else if (!_.isEqual(oldCurrent, newCurrent) && !_.isEqual(oldCurrent, [])) {
