@@ -59,6 +59,7 @@ body {
 }
 .mobile-bar {
   margin-top: -20px !important;
+  margin-bottom: -50px !important;
 }
 
 .grid-box {
@@ -120,14 +121,18 @@ body {
   font-size: 1.25em;
   text-align: right;
   margin-right: 8%;
-  /* margin-bottom: -65px; */
   color: var(--white);
 }
 
 .mobile-sub-footer {
-  border: solid 2px var(--white);
+  /* font-size: 1.33em !important; */
+  background-color: var(--blue1);
+  color: var(--blue2);
   width: 66% !important;
+  margin-top: 8px !important;
   margin: auto;
+  border-radius: 20px;
+  font-family: 'Cooper Black';
 }
 
 .footer {

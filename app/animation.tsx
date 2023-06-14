@@ -99,8 +99,9 @@ export function adjustDataOneStep(currentArr: any, stepArr: any, chart: any, spe
 }
 
 export function calcAnimationSpeed(historyArr: any) {
+  const duration = 7000
   const stepCount = historyArr[0].length + 1
-  const timePerStep = 5500 / stepCount
+  const timePerStep = duration / stepCount
   return timePerStep
 }
 

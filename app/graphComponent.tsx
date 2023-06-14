@@ -154,8 +154,6 @@ export default function Graph(props: { data: any }) {
     return parseDates()[parseDates().length - 1]
   }
 
-  console.log(props.data.data)
-
   const adjustFooterOneStep = (currentVotes: any, currentArr: any, voters: any, historicalScore: any, dateData?: any) => {
     const date = document.getElementById('date')
     const votes = document.getElementById('votes')
@@ -288,14 +286,7 @@ const options: any = {
        align: 'start',
        padding: {
         left: 150
-       },
-       text: 'Click for full timeline',
-       color: 'rgb(242,215,170)',
-       font: {
-         family: 'Space Grotesk',
-         size: fontSize
-       }, 
-       position: 'bottom'
+       }
      },
      datalabels: {
       formatter: (item: any) => {  // staticize pip score but display as current
@@ -395,7 +386,7 @@ const options: any = {
   const isMobileSpacer = isMobile() ? 'mobile-spacer' : 'spacer'
   const isMobileBar = isMobile() ? 'mobile-bar' : 'bar'
   const isMobileSubFooter = isMobile() ?
-  <div className='mobile-sub-footer' onMouseDown={onClick} style={{ textAlign: 'center' }}>Click here to view a timeline of romantic acclaim</div>
+  <div className='mobile-sub-footer' onMouseDown={onClick} style={{ textAlign: 'center' }}>View Timeline</div>
   :
   <div className={isMobileSubHeader} style={{ textAlign: 'center' }}>Click to view a timeline of romantic acclaim</div>
   const isMobileFooter = isMobile() 
