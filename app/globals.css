@@ -50,6 +50,7 @@ body {
 
 .bar {
   margin: 30px;
+  margin-top: 50px !important;
 }
 .bar, .mobile-bar {
   /* height: 87.5vh !important; */
@@ -89,6 +90,7 @@ body {
 
 .header, .loading-header {
   font-size: 3.75em;
+  margin: 15px 0px;
 }
 
 .header, .loading-header, .mobile-header {

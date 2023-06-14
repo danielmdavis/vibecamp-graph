@@ -388,7 +388,7 @@ const options: any = {
   const isMobileSubFooter = isMobile() ?
   <div className='mobile-sub-footer' onMouseDown={onClick} style={{ textAlign: 'center' }}>View Timeline</div>
   :
-  <div className={isMobileSubHeader} style={{ textAlign: 'center' }}>Click to view a timeline of romantic acclaim</div>
+  <div className={isMobileSubHeader} style={{ textAlign: 'center' }}>Click to view a timeline of romantic history</div>
   const isMobileFooter = isMobile() 
   ? 
   <div className='mobile-foot-box'>
