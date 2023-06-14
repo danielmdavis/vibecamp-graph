@@ -18,7 +18,6 @@ export function getData() {
     .catch(error => console.log('error', error))
 }
 
-
 // firebase getter / setter
 export async function getAllUserData(collection, getDocs, setState) {
   const usersCollection = collection
@@ -29,7 +28,7 @@ export async function getAllUserData(collection, getDocs, setState) {
 }
 
 
-const postNewUsers = (newUsers, users, setDoc, doc, db) => {
+const postNewUsers = (newUsers, newDate, users, setDoc, doc, db) => {
 
   const oldNames = users.map(each => {
     return each.name
@@ -42,32 +41,37 @@ const postNewUsers = (newUsers, users, setDoc, doc, db) => {
         current: value,
         history: []
       })
-    } else if (oldNames.length !== 0) { // pushes new current to each extant entry to keep generations in sync
-      stepScore(newUsers.get(nomen), users.filter(current => { 
-        return current.name === nomen 
-      }), setDoc, doc, db)
-    }
+    } 
+    // unused. participants is static.
+    // else if (oldNames.length !== 0) { // pushes new current to each extant entry to keep generations in sync
+    //   stepScore(newUsers.get(nomen), newDate, users.filter(current => { 
+    //     return current.name === nomen 
+    //   }), setDoc, doc, db, first)
+    // }
   })
 }
 
-const postNewScores = (newData, users, setDoc, doc, db) => {
+const postNewScores = (newData, newDate, users, setDoc, doc, db) => {
+  const first = newData.get(users[0].name)
   users.forEach(current => {
-    stepScore(newData.get(current.name), current, setDoc, doc, db)
+    stepScore(newData.get(current.name), newDate, current, setDoc, doc, db, first)
   })
 
 }
 
-const stepScore = (newCurrent, user, setDoc, doc, db) => {
+const stepScore = (newCurrent, newDate, user, setDoc, doc, db, first) => {
 
   let history = user.history
   history?.push(user.current)
-
-  if (newCurrent > history[history.length - 1]) {
+  if (newCurrent > history[history.length - 1]) { // only adds higher scores - hacky but works
     setDoc(doc(db, 'users', user.name), {
       name: user.name,
       current: newCurrent,
       history: history
     })
+    if (newCurrent === first) { // first makes it fire just once - hacky but works
+      postNewDate(newDate, setDoc, doc, db)
+    }
   }
 }
 
@@ -80,17 +84,17 @@ export async function updateScores(newData, newDate, users, setDoc, doc, db) {
   const newCurrent = Array.from(newData.values()).sort((a, b) => a - b)
 
   if (oldCurrent.length !== newCurrent.length) {
-    postNewUsers(newData, users, setDoc, doc, db)
+    postNewUsers(newData, newDate, users, setDoc, doc, db)
   } else if (!_.isEqual(oldCurrent, newCurrent) && !_.isEqual(oldCurrent, [])) {
-    postNewScores(newData, users, setDoc, doc, db)
+    postNewScores(newData, newDate, users, setDoc, doc, db)
   }
 
-  postNewDate(newDate, setDoc, doc, db)
 }
 
 export async function postNewDate(newDate, setDoc, doc, db) {
 
-    await setDoc(doc(db, 'dates', newDate), 
+    const key = newDate + Math.floor(Math.random() * 10000)
+    await setDoc(doc(db, 'dates', key), 
     {
       date: newDate
     })

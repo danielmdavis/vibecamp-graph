@@ -8,7 +8,6 @@ import { getData } from './fetch.jsx'
 // UI 
 
 // - compress phone view vertically (more?)
-// - history button isn't updating when the animation updates (what does this mean)
 // - will score total become visually ungovernable?
 // - STUBBORN - Names in bars should be left-aligned
 

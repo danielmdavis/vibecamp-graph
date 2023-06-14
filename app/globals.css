@@ -118,7 +118,7 @@ body {
   font-size: 0.75em !important;
   padding: 3px;
 }
-.sub-header, .mobile-sub-header, .mobile-sub-footer {
+.sub-header, .mobile-sub-header, .mobile-sub-footer, .sub-footer {
   font-family: 'Space Grotesk';
   font-size: 1.25em;
   text-align: right;
@@ -126,6 +126,10 @@ body {
   color: var(--white);
 }
 
+.sub-footer {
+  font-family: 'Cooper Black';
+  font-size: 1.33em;
+}
 .mobile-sub-footer {
   /* font-size: 1.33em !important; */
   background-color: var(--blue1);

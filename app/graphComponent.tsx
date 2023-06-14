@@ -57,6 +57,7 @@ export default function Graph(props: { data: any }) {
   let [currDate, setCurrDate]: any = useState('')
   let [voteCount, setVoteCount]: any = useState(0) // fix initial
   let [scoreTotal, setScoreTotal]: any = useState(0)
+  // let [multiplesOfLeader, setMultiplesOfLeader]: any = useState()
 
   const firebaseApp = initializeApp(keys)
   const db = getFirestore(firebaseApp)
@@ -300,6 +301,16 @@ const options: any = {
 
   useEffect(() => {
     adjustFooterOneStep(historyArr[0]?.length + 1, currentArr, voters, currentArr)
+
+    // sets static dimensions of chart
+    const multiplesOfLeader = isMobile() ? 1 : 1.15
+    const newX = Math.floor(Math.max(...currentArr) * multiplesOfLeader)
+    if (chart !== null && newX !== -Infinity) {
+      chart.config.options.scales.x.max = newX
+      // if (xLimit === 0) {
+      setXLimit(newX)
+      // }
+    }
   })
   
   // mapped chart config
@@ -342,7 +353,6 @@ const options: any = {
     ]
   }
 
-
   // animation sequences
   const allDOS = calcAllDOS(calcDataOffsetSequence, currentArr, historyArr)
   // const allMobileDOS = calcAllDOS(calcMobileDataOffsetSequence, currentArr, historyArr)
@@ -351,17 +361,17 @@ const options: any = {
   let dataOption: any = componentData
   const chartRef: any = useRef<ChartJS>(null)
   
-  const multiplesOfLeader = isMobile() ? 1 : 1.2
+  // const multiplesOfLeader = isMobile() ? 1 : 1.2
   const chart: any = chartRef.current
 
-  // sets static dimensions of chart in two different places
-  const newX = Math.floor(Math.max(...currentArr) * multiplesOfLeader)
-  if (chart !== null && newX !== -Infinity) {
-    chart.config.options.scales.x.max = newX
-    if (xLimit === 0) {
-      setXLimit(newX)
-    }
-  }
+  // // sets static dimensions of chart in two different places
+  // const newX = Math.floor(Math.max(...currentArr) * multiplesOfLeader)
+  // if (chart !== null && newX !== -Infinity) {
+  //   chart.config.options.scales.x.max = newX
+  //   if (xLimit === 0) {
+  //     setXLimit(newX)
+  //   }
+  // }
 
   staticizePip(chart, pipSize)
 
@@ -381,7 +391,7 @@ const options: any = {
   const isMobileSubFooter = isMobile() ?
   <div className='mobile-sub-footer' onMouseDown={onClick} style={{ textAlign: 'center' }}>View Timeline</div>
   :
-  <div className={isMobileSubHeader} style={{ textAlign: 'center' }}>Click to view a timeline of romantic history</div>
+  <div className='sub-footer' style={{ textAlign: 'center' }}>Click to view a timeline of romantic history</div>
   const isMobileFooter = isMobile() 
   ? 
   <div className='mobile-foot-box'>
