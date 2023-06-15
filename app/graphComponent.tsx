@@ -165,6 +165,8 @@ export default function Graph(props: { data: any }) {
     }
 
     // live adjust - toggle these if too divergent. this sacrifices displaying "which vote on timeline."
+    const offset = 30 // manually correct
+    currentVotes += offset
     const votesToUse = currentVotes // rough iterating total
     // const votesToUse = hardVoteTotal // absolute noniterating total
     // console.log(currentVotes, hardVoteTotal)
