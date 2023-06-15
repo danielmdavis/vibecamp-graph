@@ -63,10 +63,13 @@ const stepScore = (newCurrent, newDate, user, setDoc, doc, db, first) => {
 
   let history = user.history
   history?.push(user.current)
-  if (newCurrent > history[history.length - 1]) { // only adds higher scores - hacky but works
+  // console.log(history, newCurrent)
+  const toWrite = user.current >= newCurrent ? user.current : newCurrent
+  if (toWrite > history[history.length - 1]) { // only adds higher scores - hacky but works
+    // console.log('inner bar')
     setDoc(doc(db, 'users', user.name), {
       name: user.name,
-      current: newCurrent,
+      current: toWrite,
       history: history
     })
     if (newCurrent === first) { // first makes it fire just once - hacky but works
@@ -92,7 +95,6 @@ export async function updateScores(newData, newDate, users, setDoc, doc, db) {
 }
 
 export async function postNewDate(newDate, setDoc, doc, db) {
-
     const key = newDate + Math.floor(Math.random() * 10000)
     await setDoc(doc(db, 'dates', key), 
     {
