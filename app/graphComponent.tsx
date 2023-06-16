@@ -149,7 +149,7 @@ export default function Graph(props: { data: any }) {
   }
 
   // const hardVoteTotal = props.data.data.length
-  // console.log(props.data.data.length)
+  // console.log(props.data.data[props.data.data.length - 1])
 
   const adjustFooterOneStep = (currentVotes: any, currentArr: any, voters: any, historicalScore: any, hardVoteTotal: any, dateData?: any) => {
     const date = document.getElementById('date')
