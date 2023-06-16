@@ -179,13 +179,13 @@ export default function Graph(props: { data: any }) {
       turnout.textContent = `${Math.round(votesToUse / voters * 100).toString()}%`
     }
   
-    // if ( points !== null) {
-    //   if (isMobile()) {
-    //     points.textContent = `\u00A0votes (${totalPoints})`
-    //   } else {
-    //     points.textContent = `votes cast (${totalPoints} pts)`
-    //   }
-    // }
+    if ( points !== null) {
+      if (isMobile()) {
+        points.textContent = `\u00A0votes (${totalPoints})`
+      } else {
+        points.textContent = `votes cast (${totalPoints} pts)`
+      }
+    }
   }
 
 //  const options: any = chartConfig
@@ -372,7 +372,7 @@ const options: any = {
     const justDates = dates.map((date: any) => { return date.date })
     const chart: any = chartRef.current
     if (running === false) {
-      animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, adjustFooterOneStep, justDates, voters, visiblePipArr)
+      animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, OneStep, justDates, voters, visiblePipArr)
     }
   }
 
