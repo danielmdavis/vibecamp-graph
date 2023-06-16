@@ -372,7 +372,7 @@ const options: any = {
     const justDates = dates.map((date: any) => { return date.date })
     const chart: any = chartRef.current
     if (running === false) {
-      animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, OneStep, justDates, voters, visiblePipArr)
+      animateAll(currentArr, whichDOS(isMobile, allMobileDOS, allDOS), chart, historyArr, setRunning, adjustFooterOneStep, justDates, voters, visiblePipArr)
     }
   }
 
