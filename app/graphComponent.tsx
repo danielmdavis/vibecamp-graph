@@ -171,7 +171,8 @@ export default function Graph(props: { data: any }) {
     // console.log(currentVotes, hardVoteTotal)
 
     if (votes !== null) { 
-      votes.textContent = votesToUse
+      // votes.textContent = votesToUse
+      setVoteCount(votesToUse)
     }
  
     if ( turnout !== null && votesToUse / voters * 100 < 3) {
@@ -394,7 +395,7 @@ const options: any = {
       <img src='/3.png' className='icon' /> <span id='date'>{currDate}</span>
     </span>
     <span className='mobile-footer'>
-      <img src='/2.png' className='icon' /> <span id='votes'>0 votes <br /> </span><span id='points'>({scoreTotal})</span>
+      <img src='/2.png' className='icon' /> <span id='votes'>{voteCount} votes <br /> </span><span id='points'>({scoreTotal})</span>
     </span>
     <span className='mobile-footer'>
       <img src='/1.png' className='icon' /> <span id='turnout'>0% <br /> voted </span>
