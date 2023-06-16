@@ -212,7 +212,7 @@ const visiblePipArr = JSON.parse(JSON.stringify(currentArr)) // wip
 const fontSize = isMobile() ? 15 : 20
 
 // live adjust - from bigger to smaller as points accumulate
-const padding = isMobile() ? 1.5 : 4 // smaller number moves labels left
+const padding = isMobile() ? 1.625 : 4.25 // smaller number moves labels left
 let pipSize = 0
 let pipArr = []
 let pipPad = 0
