@@ -63,9 +63,9 @@ const stepScore = (newCurrent, newDate, user, setDoc, doc, db, first) => {
 
   let history = user.history
   history?.push(user.current)
-  console.log(history, newCurrent, user.current)
+  // console.log(history, newCurrent, user.current)
   const toWrite = user.current >= newCurrent ? user.current : newCurrent
-  if (user.current > newCurrent && toWrite >= history[history.length - 1] || toWrite > history[history.length - 1]) { // only adds higher scores - hacky but works
+  if (toWrite > history[history.length - 1]) { // only adds higher scores - hacky but works
     console.log('inner bar')
     setDoc(doc(db, 'users', user.name), {
       name: user.name,
