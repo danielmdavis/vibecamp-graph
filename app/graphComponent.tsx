@@ -165,8 +165,8 @@ export default function Graph(props: { data: any }) {
     }
 
     // live adjust - toggle these if too divergent. this sacrifices displaying "which vote on timeline."
-    const votesToUse = currentVotes // rough iterating total
-    // const votesToUse = hardVoteTotal // absolute noniterating total
+    // const votesToUse = currentVotes // rough iterating total
+    const votesToUse = hardVoteTotal // absolute noniterating total
     // console.log(currentVotes, hardVoteTotal)
 
     if (votes !== null) { 
@@ -179,13 +179,13 @@ export default function Graph(props: { data: any }) {
       turnout.textContent = `${Math.round(votesToUse / voters * 100).toString()}%`
     }
   
-    if ( points !== null) {
-      if (isMobile()) {
-        points.textContent = `\u00A0votes (${totalPoints})`
-      } else {
-        points.textContent = `votes cast (${totalPoints} pts)`
-      }
-    }
+    // if ( points !== null) {
+    //   if (isMobile()) {
+    //     points.textContent = `\u00A0votes (${totalPoints})`
+    //   } else {
+    //     points.textContent = `votes cast (${totalPoints} pts)`
+    //   }
+    // }
   }
 
 //  const options: any = chartConfig
