@@ -148,9 +148,10 @@ export default function Graph(props: { data: any }) {
     return parseDates()[parseDates().length - 1]
   }
 
-  const hardVoteTotal = props.data.data.length
+  // const hardVoteTotal = props.data.data.length
+  // console.log(props.data.data.length)
 
-  const adjustFooterOneStep = (currentVotes: any, currentArr: any, voters: any, historicalScore: any, dateData?: any) => {
+  const adjustFooterOneStep = (currentVotes: any, currentArr: any, voters: any, historicalScore: any, hardVoteTotal: any, dateData?: any) => {
     const date = document.getElementById('date')
     const votes = document.getElementById('votes')
     const points = document.getElementById('points')
@@ -305,7 +306,7 @@ const options: any = {
   const voters = 770
 
   useEffect(() => {
-    adjustFooterOneStep(historyArr[0]?.length + 1, currentArr, voters, currentArr)
+    adjustFooterOneStep(historyArr[0]?.length + 1, currentArr, voters, currentArr, props.data.data.length)
 
     // sets static dimensions of chart
     const multiplesOfLeader = isMobile() ? 1 : 1.15
