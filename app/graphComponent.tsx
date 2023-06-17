@@ -222,7 +222,6 @@ if (currentArr.length > 0) {
   pipPad = pipSize - 0.5
   pipArr = Array(currentArr.length).fill(pipSize)
 }
-  
 
 let pipCounter = -1
 
