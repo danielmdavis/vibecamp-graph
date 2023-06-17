@@ -223,6 +223,7 @@ if (currentArr.length > 0) {
   pipArr = Array(currentArr.length).fill(pipSize)
 }
 
+
 let pipCounter = -1
 
 const options: any = { 
