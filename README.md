@@ -10,4 +10,4 @@ This leaderboard is built on Nextjs, a full-stack SSR framework for React by Ver
 
 #### Where
 
-[The event is over, but you can still see the results here](vibecamp-graph.vercel.app) Because voting has closed, the total votes cast will no longer change. However, you can still click on browser or mobile to see an animated timeline of the candidates' ranking throughout the festival!
+[The event is over, but you can still see the results here](https://vibecamp-graph.vercel.app) Because voting has closed, the total votes cast will no longer change. However, you can still click on browser or mobile to see an animated timeline of the candidates' ranking throughout the festival!
