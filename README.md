@@ -6,7 +6,7 @@ This is a live-updating ranking of candidates seeking to participate as contesta
 
 #### How
 
-This leaderboard is built on Nextjs, a full-stack SSR framework for React by Vercel. Records are stored in Firebase. The data visualization library is Chart.js as heavily modified by custom and third party plugins.u
+This leaderboard is built using TypeScript on Nextjs, a full-stack SSR framework for React by Vercel. Records are stored in Firebase. The data visualization library is Chart.js as heavily modified by custom and third party plugins.u
 
 #### Where
 
